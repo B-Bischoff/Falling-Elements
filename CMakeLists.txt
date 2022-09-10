@@ -49,6 +49,9 @@ add_executable(Falling-Elements
 	src/Application.cpp
 	src/ShaderProgram.h
 	src/ShaderProgram.cpp
+
+	src/Renderer/GridRenderer.h
+	src/Renderer/GridRenderer.cpp
 )
 target_link_libraries(Falling-Elements
 	${ALL_LIBS}

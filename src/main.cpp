@@ -2,6 +2,7 @@
 
 int main(void)
 {
-	Application app;
+	srand(time(NULL));
+	Application app(800, 600);
 	return 0;
 }
