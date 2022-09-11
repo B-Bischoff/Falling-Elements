@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 #include "../ShaderProgram.h"
+#include "../Cell/Cell.h"
 
 struct Vertex {
 	glm::vec3 Position;
@@ -17,7 +18,7 @@ struct Vertex {
 
 class GridRenderer {
 private:
-	const int WIDTH, HEIGHT;
+	const int WIDTH, HEIGHT, CELL_SIZE;
 
 	uint32_t* _indices;
 	Vertex* _vertices;
@@ -29,11 +30,12 @@ private:
 	void generateIndices();
 	void initializeVertexPositions();
 
-	void updateVerticesColor();
+	void updateVerticesColor(Cell** cells);
 
 public:
-	GridRenderer(const int& width, const int& height);
+	GridRenderer(const int& width, const int& height, const int& cellSize);
+
 	~GridRenderer();
 
-	void render(ShaderProgram& program);
+	void render(ShaderProgram& program, Cell** cells);
 };

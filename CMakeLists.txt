@@ -52,6 +52,14 @@ add_executable(Falling-Elements
 
 	src/Renderer/GridRenderer.h
 	src/Renderer/GridRenderer.cpp
+
+	src/Cell/Cell.h
+	src/Cell/Cell.cpp
+	src/Cell/MovementBehavior/IMovementBehavior.h
+	src/Cell/MovementBehavior/IMovementBehavior.cpp
+	src/Cell/MovementBehavior/SandBehavior.h
+	src/Cell/MovementBehavior/WaterBehavior.h
+
 )
 target_link_libraries(Falling-Elements
 	${ALL_LIBS}

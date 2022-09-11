@@ -6,8 +6,8 @@ GridRenderer::~GridRenderer()
 	delete [] _vertices;
 }
 
-GridRenderer::GridRenderer(const int& width, const int& height)
-	: WIDTH(width), HEIGHT(height), _indices(nullptr), _vertices(nullptr)
+GridRenderer::GridRenderer(const int& width, const int& height, const int& cellSize)
+	: WIDTH(width), HEIGHT(height), CELL_SIZE(cellSize), _indices(nullptr), _vertices(nullptr)
 {
 	initializeMemory();
 	generateIndices();
@@ -82,15 +82,15 @@ void GridRenderer::initializeOpenglObjects()
 
 void GridRenderer::initializeVertexPositions()
 {
-	const int CELL_SIZE = 2;
 	const glm::vec3 defaultColor = glm::vec3(0.2f, 0.0f, 0.2f);
 	
-	//std::cout << "--------------------------" << std::endl;
 	for (int y = 0; y < HEIGHT; y++)
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			int vertexNb = y * WIDTH + x;
+			// "(HEIGHT - 1 - y)" is used to reverse the y axis
+			// So that cells[0][0] is diplayed at the screen top left instead of screen bottom left
+			int vertexNb = (HEIGHT - 1 - y) * WIDTH + x;
 
 			Vertex v1 = {
 				glm::vec3((float)(CELL_SIZE * x), (float)(CELL_SIZE * y), 0.0f),
@@ -117,7 +117,7 @@ void GridRenderer::initializeVertexPositions()
 	}
 }
 
-void GridRenderer::updateVerticesColor()
+void GridRenderer::updateVerticesColor(Cell** _cells)
 {
 	for (int y = 0; y < HEIGHT; y++)
 	{
@@ -125,6 +125,7 @@ void GridRenderer::updateVerticesColor()
 		{
 			int vertexNb = y * WIDTH + x;
 
+/*
 			glm::vec3 randomColor = glm::vec3(
 				(float)(rand() % 101) / 100.0f,
 				(float)(rand() % 101) / 100.0f,
@@ -134,11 +135,16 @@ void GridRenderer::updateVerticesColor()
 			_vertices[vertexNb * 4 + 1].Color = randomColor;
 			_vertices[vertexNb * 4 + 2].Color = randomColor;
 			_vertices[vertexNb * 4 + 3].Color = randomColor;
+*/
+			_vertices[vertexNb * 4].Color = _cells[y][x].getColor();
+			_vertices[vertexNb * 4 + 1].Color = _cells[y][x].getColor();
+			_vertices[vertexNb * 4 + 2].Color = _cells[y][x].getColor();
+			_vertices[vertexNb * 4 + 3].Color = _cells[y][x].getColor();
 		}
 	}
 }
 
-void GridRenderer::render(ShaderProgram& program)
+void GridRenderer::render(ShaderProgram& program, Cell** cells)
 {
 	glBindVertexArray(_vao);
 
@@ -151,7 +157,7 @@ void GridRenderer::render(ShaderProgram& program)
 
 	program.setMat4("transform", glm::mat4(1.0f));
 
-	updateVerticesColor();
+	updateVerticesColor(cells);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * 4 * WIDTH * HEIGHT, _vertices);

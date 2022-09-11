@@ -16,8 +16,9 @@ Application::Application(const int& width, const int& height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 #ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
 	_window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, "Falling-Elements", NULL, NULL);
@@ -45,35 +46,108 @@ Application::Application(const int& width, const int& height)
 
 void printTime(double& previousTime, int& frameCount)
 {
-	double currentTime = glfwGetTime();
-    if ( currentTime - previousTime >= 1.0 )
-    {
-		std::cout << frameCount << std::endl;
-
-        frameCount = 0;
-        previousTime = currentTime;
-    }
 }
 
 void Application::loop()
 {
+	const int CELL_SIZE = 4;
+	const int CELL_WIDTH = WIN_WIDTH / CELL_SIZE;
+	const int CELL_HEIGHT = WIN_HEIGHT / CELL_SIZE;
+
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
 
+	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE);
+
+	_cells = new Cell* [CELL_HEIGHT];
+	for (int y = 0; y < CELL_HEIGHT; y++)
+	{
+		_cells[y] = new Cell [CELL_WIDTH];
+		for (int x = 0; x < CELL_WIDTH; x++)
+		{
+			_cells[y][x].setPosition(glm::vec2(x, y));
+			_cells[y][x].setCells(_cells);
+			_cells[y][x].setWidth(CELL_WIDTH);
+			_cells[y][x].setHeight(CELL_HEIGHT);
+			_cells[y][x].setType(CellType::Gazeous);
+		}
+	}
+
 	double previousTime = glfwGetTime();
-
+	double cycleTime = glfwGetTime();
 	int frameCount = 0;
-
-	GridRenderer renderer(WIN_WIDTH / 2, WIN_HEIGHT / 2);
 
 	while (!glfwWindowShouldClose(_window) && glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
-    	frameCount++;
-		
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		printTime(previousTime, frameCount);
-		renderer.render(program);
+		frameCount++;
+		double currentTime = glfwGetTime();
+
+
+		if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_LEFT)) {
+			double mouseX, mouseY;
+			mouseY = WIN_HEIGHT - mouseY;
+			glfwGetCursorPos(_window, &mouseX, &mouseY);
+			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
+			{
+				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
+				cell.setColor(glm::vec3(1.0f, 0.8f, 0.6f));
+				cell.setType(CellType::Solid);
+				cell.setMovementBehavior(new SandBehavior(&cell));
+			}
+		}
+		if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_RIGHT)) {
+			double mouseX, mouseY;
+			mouseY = WIN_HEIGHT - mouseY;
+			glfwGetCursorPos(_window, &mouseX, &mouseY);
+			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
+			{
+				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
+				cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
+				cell.setType(CellType::Liquid);
+				cell.setMovementBehavior(nullptr);
+				cell.setMovementBehavior(new WaterBehavior(&cell));
+			}
+		}
+
+		if (currentTime - cycleTime >= 0.0025f)
+		{
+			for (int y = 0; y < CELL_HEIGHT; y++)
+				for (int x = 0; x < CELL_WIDTH; x++)
+					_cells[y][x].update();
+			cycleTime = currentTime;
+		}
+
+		int gaz = 0;
+		int liquid = 0;
+		int solid = 0;
+		for (int y = 0; y < CELL_HEIGHT; y++)
+			for (int x = 0; x < CELL_WIDTH; x++)
+			{
+				if (_cells[y][x].getMovementBehavior())
+					_cells[y][x].getMovementBehavior()->hasMoved = false;
+
+				if (_cells[y][x].getType() == CellType::Gazeous)
+					gaz++;
+				else if (_cells[y][x].getType() == CellType::Liquid)
+					liquid++;
+				else if (_cells[y][x].getType() == CellType::Solid)
+					solid++;
+			}
+
+		//std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
+
+		if (currentTime - previousTime >= 1.0f)
+		{
+			std::cout << frameCount << std::endl;
+
+			frameCount = 0;
+			previousTime = currentTime;
+		}
+
+		renderer.render(program, _cells);
+
 
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
@@ -81,3 +155,7 @@ void Application::loop()
 	glfwTerminate();
 }
 
+Application::~Application()
+{
+	delete [] _cells;
+}

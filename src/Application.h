@@ -10,16 +10,20 @@
 
 #include "ShaderProgram.h"
 #include "Renderer/GridRenderer.h"
+#include "Cell/Cell.h"
+#include "Cell/MovementBehavior/SandBehavior.h"
+#include "Cell/MovementBehavior/WaterBehavior.h"
 
 class Application {
 private:
 	const int WIN_WIDTH, WIN_HEIGHT;
 
 	GLFWwindow* _window;
+	Cell** _cells;
 
 	void loop();
-	uint32_t* generateIndices(const int& width, const int& height);
 
 public:
 	Application(const int& width, const int& height);
+	~Application();
 };
