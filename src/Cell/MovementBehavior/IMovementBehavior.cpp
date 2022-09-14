@@ -11,6 +11,11 @@ IMovementBehavior::~IMovementBehavior()
 
 }
 
+void IMovementBehavior::update()
+{
+
+}
+
 void IMovementBehavior::setCell(Cell* cell)
 {
 	_cell = cell;

@@ -39,7 +39,6 @@ public:
 				target = &(_cells[y][x - random]);
 		}
 
-
 		if (target != nullptr)
 		{
 			IMovementBehavior* temp = _cell->getMovementBehavior();
@@ -48,17 +47,14 @@ public:
 			_cell->setColor(target->getColor());
 			_cell->setType(target->getType());
 			_cell->setMovementBehavior(target->getMovementBehavior());
-			if (_cell->getMovementBehavior())
-				_cell->getMovementBehavior()->setCell(_cell);
+			_cell->getMovementBehavior()->setCell(_cell);
 
 			// Replace target to water
 			target->setColor(glm::vec3(0.2f, 0.6f, 1.0f));
 			target->setType(CellType::Liquid);
 			target->setMovementBehavior(temp);
 			target->getMovementBehavior()->setCell(target);
-			if (target->getMovementBehavior())
-				target->getMovementBehavior()->hasMoved = true;
-
+			target->getMovementBehavior()->hasMoved = true;
 		}
 	}
 };

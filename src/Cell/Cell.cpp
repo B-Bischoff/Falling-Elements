@@ -1,5 +1,6 @@
 #include "Cell.h"
 #include "MovementBehavior/IMovementBehavior.h"
+#include "Factory/CellFactory.h"
 
 Cell::Cell()
 	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _type(CellType::Gazeous)
@@ -9,11 +10,10 @@ Cell::Cell()
 
 void Cell::update()
 {
-	if (_movementBehavior != nullptr && !_movementBehavior->hasMoved)
+	if (!_movementBehavior->hasMoved)
 	{
 		_movementBehavior->update();
-		if (_movementBehavior)
-			_movementBehavior->hasMoved = true;
+		//_movementBehavior->hasMoved = true;
 	}
 }
 
@@ -53,6 +53,7 @@ Cell& Cell::operator=(const Cell& rhs)
 	_color = rhs._color;
 	_position = rhs._position;
 	_type = rhs._type;
+	_movementBehavior = rhs._movementBehavior;
 
 	return *this;
 }

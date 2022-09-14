@@ -44,6 +44,8 @@ set(ALL_LIBS
 )
 
 add_executable(Falling-Elements
+	src/Instrumentor.h
+
 	src/main.cpp
 	src/Application.h
 	src/Application.cpp
@@ -59,6 +61,9 @@ add_executable(Falling-Elements
 	src/Cell/MovementBehavior/IMovementBehavior.cpp
 	src/Cell/MovementBehavior/SandBehavior.h
 	src/Cell/MovementBehavior/WaterBehavior.h
+
+	src/Cell/Factory/CellFactory.h
+	src/Cell/Factory/CellFactory.cpp
 
 )
 target_link_libraries(Falling-Elements

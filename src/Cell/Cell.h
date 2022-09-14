@@ -6,6 +6,7 @@
 #include <iostream>
 
 class IMovementBehavior;
+class CellFactory;
 
 enum CellType { Gazeous, Liquid, Solid};
 

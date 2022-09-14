@@ -34,22 +34,21 @@ public:
 			if (target != nullptr)
 			{
 				IMovementBehavior* temp = _cell->getMovementBehavior();
+				glm::vec3 tempColor = _cell->getColor();
 
 				// Replace current by the cell below
 				_cell->setColor(target->getColor());
 				_cell->setType(target->getType());
 				_cell->setMovementBehavior(target->getMovementBehavior());
-				if (_cell->getMovementBehavior())
-					_cell->getMovementBehavior()->setCell(_cell);
+				_cell->getMovementBehavior()->setCell(_cell);
 
 
 				// Replace target to sand
-				target->setColor(glm::vec3(1.0f, 0.8f, 0.6f));
+				target->setColor(tempColor);
 				target->setType(CellType::Solid);
 				target->setMovementBehavior(temp);
 				target->getMovementBehavior()->setCell(target);
-				if (target->getMovementBehavior())
-					target->getMovementBehavior()->hasMoved = true;
+				target->getMovementBehavior()->hasMoved = true;
 
 			}
 		}

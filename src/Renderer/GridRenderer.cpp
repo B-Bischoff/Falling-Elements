@@ -126,6 +126,9 @@ void GridRenderer::updateVerticesColor(Cell** _cells)
 			int vertexNb = y * WIDTH + x;
 
 /*
+			// Pretty blinky random colors (used for some tests and personal amusement)
+			// DO NOT TRY THIS IF YOU'RE EPILECTIC !!!
+
 			glm::vec3 randomColor = glm::vec3(
 				(float)(rand() % 101) / 100.0f,
 				(float)(rand() % 101) / 100.0f,
@@ -136,6 +139,7 @@ void GridRenderer::updateVerticesColor(Cell** _cells)
 			_vertices[vertexNb * 4 + 2].Color = randomColor;
 			_vertices[vertexNb * 4 + 3].Color = randomColor;
 */
+
 			_vertices[vertexNb * 4].Color = _cells[y][x].getColor();
 			_vertices[vertexNb * 4 + 1].Color = _cells[y][x].getColor();
 			_vertices[vertexNb * 4 + 2].Color = _cells[y][x].getColor();

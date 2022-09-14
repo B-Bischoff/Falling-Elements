@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "Instrumentor.h"
+
 Application::Application(const int& width, const int& height)
 	: WIN_WIDTH(width), WIN_HEIGHT(height)
 {
@@ -50,7 +52,7 @@ void printTime(double& previousTime, int& frameCount)
 
 void Application::loop()
 {
-	const int CELL_SIZE = 4;
+	const int CELL_SIZE = 5;
 	const int CELL_WIDTH = WIN_WIDTH / CELL_SIZE;
 	const int CELL_HEIGHT = WIN_HEIGHT / CELL_SIZE;
 
@@ -69,6 +71,7 @@ void Application::loop()
 			_cells[y][x].setWidth(CELL_WIDTH);
 			_cells[y][x].setHeight(CELL_HEIGHT);
 			_cells[y][x].setType(CellType::Gazeous);
+			_cells[y][x].setMovementBehavior(new IMovementBehavior(&(_cells[y][x])));
 		}
 	}
 
@@ -92,7 +95,13 @@ void Application::loop()
 			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
 			{
 				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
-				cell.setColor(glm::vec3(1.0f, 0.8f, 0.6f));
+
+				float r = (100 - rand() % 6) / 100.0f;
+				float g = (85 - rand() % 11) / 100.0f;
+				float b = (65 - rand() % 11) / 100.0f;
+
+				//cell.setColor(glm::vec3(1.0f, 0.8f, 0.6f));
+				cell.setColor(glm::vec3(r, g, b));
 				cell.setType(CellType::Solid);
 				cell.setMovementBehavior(new SandBehavior(&cell));
 			}
@@ -106,16 +115,19 @@ void Application::loop()
 				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
 				cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
 				cell.setType(CellType::Liquid);
-				cell.setMovementBehavior(nullptr);
+				delete cell.getMovementBehavior();
 				cell.setMovementBehavior(new WaterBehavior(&cell));
 			}
 		}
 
 		if (currentTime - cycleTime >= 0.0025f)
 		{
-			for (int y = 0; y < CELL_HEIGHT; y++)
-				for (int x = 0; x < CELL_WIDTH; x++)
-					_cells[y][x].update();
+			for (int i = 0; i < 5; i++)
+			{
+				for (int y = 0; y < CELL_HEIGHT; y++)
+					for (int x = 0; x < CELL_WIDTH; x++)
+						_cells[y][x].update();
+			}
 			cycleTime = currentTime;
 		}
 
@@ -136,7 +148,7 @@ void Application::loop()
 					solid++;
 			}
 
-		//std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
+		std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
 
 		if (currentTime - previousTime >= 1.0f)
 		{
@@ -147,7 +159,6 @@ void Application::loop()
 		}
 
 		renderer.render(program, _cells);
-
 
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
