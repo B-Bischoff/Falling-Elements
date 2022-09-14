@@ -41,6 +41,8 @@ public:
 
 		if (target != nullptr)
 		{
+			_cell->swapCell(*target);
+			/*
 			IMovementBehavior* temp = _cell->getMovementBehavior();
 
 			// Replace current cell to air
@@ -54,7 +56,7 @@ public:
 			target->setType(CellType::Liquid);
 			target->setMovementBehavior(temp);
 			target->getMovementBehavior()->setCell(target);
-			target->getMovementBehavior()->hasMoved = true;
+			*/
 		}
 	}
 };

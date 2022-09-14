@@ -25,6 +25,7 @@ public:
 	Cell();
 
 	void update();
+	void swapCell(Cell& rhs);
 
 	void setCells(Cell** cells);
 	Cell** getCells(void) const;

@@ -12,9 +12,27 @@ void Cell::update()
 {
 	if (!_movementBehavior->hasMoved)
 	{
+		_movementBehavior->hasMoved = true;
 		_movementBehavior->update();
-		//_movementBehavior->hasMoved = true;
 	}
+}
+
+void Cell::swapCell(Cell& rhs)
+{
+	Cell temp;
+	temp._color = _color;
+	temp._type = _type;
+	temp._movementBehavior = _movementBehavior;
+
+	_color = rhs._color;
+	_type = rhs._type;
+	_movementBehavior = rhs._movementBehavior;
+	_movementBehavior->setCell(this);
+
+	rhs._color = temp._color;
+	rhs._type = temp._type;
+	rhs._movementBehavior = temp._movementBehavior;
+	rhs._movementBehavior->setCell(&rhs);
 }
 
 void Cell::setCells(Cell** cells) { _cells = cells; }

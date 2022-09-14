@@ -148,11 +148,11 @@ void Application::loop()
 					solid++;
 			}
 
-		std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
 
 		if (currentTime - previousTime >= 1.0f)
 		{
 			std::cout << frameCount << std::endl;
+			std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
 
 			frameCount = 0;
 			previousTime = currentTime;
