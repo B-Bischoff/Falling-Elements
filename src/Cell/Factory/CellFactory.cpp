@@ -1,5 +1,18 @@
 #include "CellFactory.h"
 
+void CellFactory::configureCell(Cell& cell, const int& index)
+{
+	switch (index)
+	{
+	case 0: configureAirCell(cell); break;
+	case 1: configureSandCell(cell); break;
+	case 2: configureWaterCell(cell); break;
+	case 3: configureRockCell(cell); break;
+	
+	default: break;
+	}
+}
+
 void CellFactory::configureSandCell(Cell& cell)
 {
 	float r = (100 - rand() % 6) / 100.0f;
@@ -35,4 +48,15 @@ void CellFactory::configureRockCell(Cell& cell)
 		delete cell.getMovementBehavior();
 
 	cell.setMovementBehavior(new StaticBehavior(&cell));
+}
+
+void CellFactory::configureAirCell(Cell& cell)
+{
+	cell.setColor(glm::vec3(0.2f, 0.0f, 0.2f));
+	cell.setType(CellType::Gazeous);
+	
+	if (cell.getMovementBehavior() != nullptr)
+		delete cell.getMovementBehavior();
+
+	cell.setMovementBehavior(new IMovementBehavior(&cell));
 }

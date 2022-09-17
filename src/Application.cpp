@@ -52,13 +52,11 @@ void printTime(double& previousTime, int& frameCount)
 
 void Application::loop()
 {
-	const int CELL_SIZE = 5;
-	const int CELL_WIDTH = WIN_WIDTH / CELL_SIZE;
-	const int CELL_HEIGHT = WIN_HEIGHT / CELL_SIZE;
+	_selectedElement = 1; // Sand by default
 
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
-
 	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE);
+	UserInterface ui(*_window, WIN_WIDTH, WIN_HEIGHT, _selectedElement);
 
 	_cells = new Cell* [CELL_HEIGHT];
 	for (int y = 0; y < CELL_HEIGHT; y++)
@@ -66,14 +64,15 @@ void Application::loop()
 		_cells[y] = new Cell [CELL_WIDTH];
 		for (int x = 0; x < CELL_WIDTH; x++)
 		{
-			_cells[y][x].setPosition(glm::vec2(x, y));
-			_cells[y][x].setCells(_cells);
-			_cells[y][x].setWidth(CELL_WIDTH);
-			_cells[y][x].setHeight(CELL_HEIGHT);
-			_cells[y][x].setType(CellType::Gazeous);
-			_cells[y][x].setMovementBehavior(new IMovementBehavior(&(_cells[y][x])));
+			Cell& cell = _cells[y][x];
+			cell.setPosition(glm::vec2(x, y));
+			cell.setCells(_cells);
+			cell.setWidth(CELL_WIDTH);
+			cell.setHeight(CELL_HEIGHT);
+			CellFactory::configureAirCell(cell);
 		}
 	}
+
 
 	double previousTime = glfwGetTime();
 	double cycleTime = glfwGetTime();
@@ -83,6 +82,8 @@ void Application::loop()
 	{
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		ui.createNewFrame();
 
 		frameCount++;
 		double currentTime = glfwGetTime();
@@ -94,7 +95,7 @@ void Application::loop()
 			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
 			{
 				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
-				CellFactory::configureSandCell(cell);
+				CellFactory::configureCell(cell, _selectedElement);
 			}
 		}
 		if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_RIGHT)) {
@@ -103,29 +104,17 @@ void Application::loop()
 			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
 			{
 				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
-				//CellFactory::configureWaterCell(cell);
-				CellFactory::configureRockCell(cell);
+				CellFactory::configureWaterCell(cell);
+				//CellFactory::configureRockCell(cell);
 			}
 		}
 
 		if (currentTime - cycleTime >= 0.015f)
 		{
 			for (int i = 0; i < 2; i++)
-			{
 				for (int y = 0; y < CELL_HEIGHT; y++)
-				{
-					//std::vector<int> v(CELL_WIDTH);
-					//std::iota (std::begin(v), std::end(v), 0);
 					for (int x = 0; x < CELL_WIDTH; x++)
-					{
-						//int random = rand() % v.size();
-						//_cells[y][v[random]].update();
-						//v.erase(v.begin() + random);
-
 						_cells[y][x].update();
-					}
-				}
-			}
 			cycleTime = currentTime;
 		}
 
@@ -151,20 +140,27 @@ void Application::loop()
 		{
 			std::cout << frameCount << std::endl;
 			std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
+			std::cout << "Selected element: " << _selectedElement << std::endl;
 
 			frameCount = 0;
 			previousTime = currentTime;
 		}
 
+		ui.update();
+
 		renderer.render(program, _cells);
+		ui.render();
 
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
 	}
+
+	ui.shutdown();
+
 	glfwTerminate();
 }
 
 Application::~Application()
 {
-	delete [] _cells;
+	delete _cells;
 }

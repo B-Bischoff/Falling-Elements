@@ -25,6 +25,7 @@ protected:
 
 public:
 	Cell();
+	~Cell();
 
 	void update();
 	void swapCell(Cell& rhs);

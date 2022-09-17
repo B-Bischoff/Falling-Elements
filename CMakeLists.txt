@@ -57,6 +57,9 @@ add_executable(Falling-Elements
 	src/Renderer/GridRenderer.h
 	src/Renderer/GridRenderer.cpp
 
+	src/UI/UserInterface.h
+	src/UI/UserInterface.cpp
+
 	src/Cell/Cell.h
 	src/Cell/Cell.cpp
 	src/Cell/MovementBehavior/IMovementBehavior.h
@@ -69,8 +72,21 @@ add_executable(Falling-Elements
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp
 
+	# IMGUI
+	src/vendor/imgui/imconfig.h
+	src/vendor/imgui/imgui.h
+	src/vendor/imgui/imgui.cpp
+	src/vendor/imgui/imgui_draw.cpp
+	src/vendor/imgui/imgui_impl_glfw.cpp
+	src/vendor/imgui/imgui_impl_glfw.h
+	src/vendor/imgui/imgui_impl_opengl3.cpp
+	src/vendor/imgui/imgui_impl_opengl3.h
+	src/vendor/imgui/imgui_impl_opengl3_loader.h
+	src/vendor/imgui/imgui_internal.h
+	src/vendor/imgui/imgui_tables.cpp
+	src/vendor/imgui/imgui_widgets.cpp
+
 )
 target_link_libraries(Falling-Elements
 	${ALL_LIBS}
 )
-

@@ -6,7 +6,10 @@ Cell::Cell()
 	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _type(CellType::Gazeous),
 		_velocity(0.0f)
 {
-	
+}
+
+Cell::~Cell()
+{
 }
 
 void Cell::update()
