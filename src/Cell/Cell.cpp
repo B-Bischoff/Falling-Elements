@@ -3,7 +3,8 @@
 #include "Factory/CellFactory.h"
 
 Cell::Cell()
-	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _type(CellType::Gazeous)
+	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _type(CellType::Gazeous),
+		_velocity(0.0f)
 {
 	
 }
@@ -23,16 +24,19 @@ void Cell::swapCell(Cell& rhs)
 	temp._color = _color;
 	temp._type = _type;
 	temp._movementBehavior = _movementBehavior;
+	temp._velocity = _velocity;
 
 	_color = rhs._color;
 	_type = rhs._type;
 	_movementBehavior = rhs._movementBehavior;
 	_movementBehavior->setCell(this);
+	_velocity = rhs._velocity;
 
 	rhs._color = temp._color;
 	rhs._type = temp._type;
 	rhs._movementBehavior = temp._movementBehavior;
 	rhs._movementBehavior->setCell(&rhs);
+	rhs._velocity = temp._velocity;
 }
 
 void Cell::setCells(Cell** cells) { _cells = cells; }
@@ -62,6 +66,10 @@ IMovementBehavior* Cell::getMovementBehavior(void) const { return _movementBehav
 void Cell::setType(const CellType& type) { _type = type; }
 
 const CellType& Cell::getType(void) const { return _type; }
+
+void Cell::setVelocity(const glm::vec2 velocity) { _velocity = velocity; }
+
+const glm::vec2& Cell::getVelocity() const { return _velocity; }
 
 Cell& Cell::operator=(const Cell& rhs)
 {

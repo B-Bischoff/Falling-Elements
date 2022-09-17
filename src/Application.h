@@ -7,12 +7,12 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include <iostream>
+#include <numeric>
 
 #include "ShaderProgram.h"
 #include "Renderer/GridRenderer.h"
 #include "Cell/Cell.h"
-#include "Cell/MovementBehavior/SandBehavior.h"
-#include "Cell/MovementBehavior/WaterBehavior.h"
+#include "Cell/Factory/CellFactory.h"
 
 class Application {
 private:

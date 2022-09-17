@@ -21,6 +21,8 @@ protected:
 
 	IMovementBehavior* _movementBehavior;
 
+	glm::vec2 _velocity;
+
 public:
 	Cell();
 
@@ -41,6 +43,8 @@ public:
 	IMovementBehavior* getMovementBehavior(void) const;
 	void setType(const CellType& type);
 	const CellType& getType(void) const;
+	void setVelocity(const glm::vec2 velocity);
+	const glm::vec2& getVelocity() const;
 
 	Cell& operator=(const Cell& rhs);
 };

@@ -3,6 +3,8 @@ project(Falling-Elements)
 
 find_package(OpenGL REQUIRED)
 
+set (CMAKE_CXX_STANDARD 11)
+
 # Compile external dependencies 
 add_subdirectory (external)
 
@@ -61,6 +63,8 @@ add_executable(Falling-Elements
 	src/Cell/MovementBehavior/IMovementBehavior.cpp
 	src/Cell/MovementBehavior/SandBehavior.h
 	src/Cell/MovementBehavior/WaterBehavior.h
+	src/Cell/MovementBehavior/StaticBehavior.h
+	src/Cell/MovementBehavior/ParticleBehavior.h
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp

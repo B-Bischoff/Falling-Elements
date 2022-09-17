@@ -17,5 +17,5 @@ public:
 	void setCell(Cell* cell);
 	Cell* getCell(void) const;
 
-	bool hasMoved = false;
+	bool hasMoved;
 };

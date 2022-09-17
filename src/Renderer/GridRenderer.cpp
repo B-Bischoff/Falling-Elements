@@ -69,10 +69,10 @@ void GridRenderer::initializeOpenglObjects()
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4 * WIDTH * HEIGHT, nullptr, GL_DYNAMIC_DRAW);
 
-	glEnableVertexArrayAttrib(_vbo, 0);
+	glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Position));
 
-	glEnableVertexArrayAttrib(_vbo, 1);
+	glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Color));
 
 	glGenBuffers(1, &_ibo);

@@ -2,7 +2,7 @@
 #include "../Cell.h"
 
 IMovementBehavior::IMovementBehavior(Cell* cell)
-	: _cell(cell), _cells(cell->getCells())
+	: _cell(cell), _cells(cell->getCells()), hasMoved(false)
 {
 }
 

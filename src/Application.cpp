@@ -90,43 +90,41 @@ void Application::loop()
 
 		if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_LEFT)) {
 			double mouseX, mouseY;
-			mouseY = WIN_HEIGHT - mouseY;
 			glfwGetCursorPos(_window, &mouseX, &mouseY);
 			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
 			{
 				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
-
-				float r = (100 - rand() % 6) / 100.0f;
-				float g = (85 - rand() % 11) / 100.0f;
-				float b = (65 - rand() % 11) / 100.0f;
-
-				//cell.setColor(glm::vec3(1.0f, 0.8f, 0.6f));
-				cell.setColor(glm::vec3(r, g, b));
-				cell.setType(CellType::Solid);
-				cell.setMovementBehavior(new SandBehavior(&cell));
+				CellFactory::configureSandCell(cell);
 			}
 		}
 		if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_RIGHT)) {
 			double mouseX, mouseY;
-			mouseY = WIN_HEIGHT - mouseY;
 			glfwGetCursorPos(_window, &mouseX, &mouseY);
 			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
 			{
 				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
-				cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
-				cell.setType(CellType::Liquid);
-				delete cell.getMovementBehavior();
-				cell.setMovementBehavior(new WaterBehavior(&cell));
+				//CellFactory::configureWaterCell(cell);
+				CellFactory::configureRockCell(cell);
 			}
 		}
 
-		if (currentTime - cycleTime >= 0.0025f)
+		if (currentTime - cycleTime >= 0.015f)
 		{
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				for (int y = 0; y < CELL_HEIGHT; y++)
+				{
+					//std::vector<int> v(CELL_WIDTH);
+					//std::iota (std::begin(v), std::end(v), 0);
 					for (int x = 0; x < CELL_WIDTH; x++)
+					{
+						//int random = rand() % v.size();
+						//_cells[y][v[random]].update();
+						//v.erase(v.begin() + random);
+
 						_cells[y][x].update();
+					}
+				}
 			}
 			cycleTime = currentTime;
 		}
