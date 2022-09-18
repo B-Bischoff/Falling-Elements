@@ -46,17 +46,9 @@ Application::Application(const int& width, const int& height)
 	loop();
 }
 
-void printTime(double& previousTime, int& frameCount)
-{
-}
-
 void Application::loop()
 {
 	_selectedElement = 1; // Sand by default
-
-	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
-	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE);
-	UserInterface ui(*_window, WIN_WIDTH, WIN_HEIGHT, _selectedElement);
 
 	_cells = new Cell* [CELL_HEIGHT];
 	for (int y = 0; y < CELL_HEIGHT; y++)
@@ -73,6 +65,10 @@ void Application::loop()
 		}
 	}
 
+	InputManager input(_cells, *_window, WIN_WIDTH, WIN_HEIGHT, CELL_SIZE, _selectedElement);
+	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
+	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE);
+	UserInterface ui(*_window, WIN_WIDTH, WIN_HEIGHT, _selectedElement);
 
 	double previousTime = glfwGetTime();
 	double cycleTime = glfwGetTime();
@@ -88,30 +84,11 @@ void Application::loop()
 		frameCount++;
 		double currentTime = glfwGetTime();
 
-
-		if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_LEFT)) {
-			double mouseX, mouseY;
-			glfwGetCursorPos(_window, &mouseX, &mouseY);
-			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
-			{
-				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
-				CellFactory::configureCell(cell, _selectedElement);
-			}
-		}
-		if (glfwGetMouseButton(_window, GLFW_MOUSE_BUTTON_RIGHT)) {
-			double mouseX, mouseY;
-			glfwGetCursorPos(_window, &mouseX, &mouseY);
-			if (mouseX >= 0 && mouseX < WIN_WIDTH && mouseY >= 0 && mouseY < WIN_HEIGHT)
-			{
-				Cell& cell = _cells[(int)(mouseY / CELL_SIZE)][(int)(mouseX / CELL_SIZE)];
-				CellFactory::configureWaterCell(cell);
-				//CellFactory::configureRockCell(cell);
-			}
-		}
+		input.update();
 
 		if (currentTime - cycleTime >= 0.015f)
 		{
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 5; i++)
 				for (int y = 0; y < CELL_HEIGHT; y++)
 					for (int x = 0; x < CELL_WIDTH; x++)
 						_cells[y][x].update();
@@ -134,7 +111,6 @@ void Application::loop()
 				else if (_cells[y][x].getType() == CellType::Solid)
 					solid++;
 			}
-
 
 		if (currentTime - previousTime >= 1.0f)
 		{
