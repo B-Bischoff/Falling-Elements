@@ -81,6 +81,9 @@ public:
 				_cell->setVelocity(glm::vec2(0.0f, _cell->getVelocity().y));
 		}
 
+		if (_cell->getVelocity().y < 0.0f)
+			_cell->setVelocity(glm::vec2(0.0f, _cell->getVelocity().x));
+
 
 		if (_cell->getVelocity() == glm::vec2(0.0f)) // If no velocity left, set originalBehavior on the cell
 		{

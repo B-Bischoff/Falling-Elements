@@ -60,6 +60,9 @@ add_executable(Falling-Elements
 	src/UI/UserInterface.h
 	src/UI/UserInterface.cpp
 
+	src/InputManager/InputManager.h
+	src/InputManager/InputManager.cpp
+
 	src/Cell/Cell.h
 	src/Cell/Cell.cpp
 	src/Cell/MovementBehavior/IMovementBehavior.h

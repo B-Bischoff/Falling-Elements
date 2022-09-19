@@ -25,11 +25,11 @@ void InputManager::putCells()
 		int cellX = _mouseX / CELL_SIZE;
 		int cellY = _mouseY / CELL_SIZE;
 
-		/*if (isInCellsBoundaries(cellX, cellY))
+		if (isInCellsBoundaries(cellX, cellY))
 		{
 			Cell& cell = _cells[cellY][cellX];
 			CellFactory::configureCell(cell, _selectedElement);
-		}*/
+		}
 
 		/*
 		// Classic paint brush
@@ -46,22 +46,6 @@ void InputManager::putCells()
 			}
 		}
 		*/
-		// Classic round paint brush
-		const int BRUSH_SIZE = 10;
-		for (int y = cellY - BRUSH_SIZE / 2.0f; y < cellY + BRUSH_SIZE / 2.0f - 1; y++)
-		{
-			for (int x = cellX - BRUSH_SIZE / 2.0f; x < cellX + BRUSH_SIZE / 2.0f - 1; x++)
-			{
-				if (isInCellsBoundaries(x, y))
-				{
-					if (x*x+y*y <= (BRUSH_SIZE / 2.0f) * (BRUSH_SIZE / 2.0f))
-					{
-						Cell& cell = _cells[y][x];
-						CellFactory::configureCell(cell, _selectedElement);
-					}
-				}
-			}
-		}
 	}
 }
 
