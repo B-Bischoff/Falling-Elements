@@ -19,7 +19,7 @@
 class Application {
 private:
 	const int WIN_WIDTH, WIN_HEIGHT;
-	const int CELL_SIZE = 2;
+	const int CELL_SIZE = 4;
 	const int CELL_WIDTH = WIN_WIDTH / CELL_SIZE;
 	const int CELL_HEIGHT = WIN_HEIGHT / CELL_SIZE;
 
