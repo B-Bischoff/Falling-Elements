@@ -12,9 +12,11 @@ UserInterface::UserInterface(GLFWwindow& window, const int& winWidth, const int&
 #endif
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags = 1 << 5; // Prevent ImGui to draw cursor
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(&_window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
+
 }
 
 void UserInterface::createNewFrame()

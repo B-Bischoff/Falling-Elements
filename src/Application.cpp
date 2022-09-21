@@ -48,6 +48,42 @@ Application::Application(const int& width, const int& height)
 
 void Application::loop()
 {
+
+	{
+		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		unsigned char pixels[16 * 16 * 4];
+
+		for (int y = 0; y < 16 * 4; y += 4)
+		{
+			for (int x = 0; x < 16 * 4; x += 4)
+			{
+				if (x == 0 || y == 0 || x == 16 * 4 - 4 || y == 16 * 4 - 4)
+				{
+					pixels[16 * y + x] = 0xff;
+					pixels[16 * y + x + 1] = 0xff;
+					pixels[16 * y + x + 2] = 0xff;
+					pixels[16 * y + x + 3] = 0xff;
+				}
+				else
+				{
+					pixels[16 * y + x] = 0x00;
+					pixels[16 * y + x + 1] = 0x00;
+					pixels[16 * y + x + 2] = 0x00;
+					pixels[16 * y + x + 3] = 0x00;
+				}
+			}
+		}
+
+		GLFWimage image;
+		image.width = 16;
+		image.height = 16;
+		image.pixels = pixels;
+
+		GLFWcursor* cursor = glfwCreateCursor(&image, 0, 0);
+		if (cursor == nullptr)
+			std::cout << "CURSOR NULL" << std::endl;
+		glfwSetCursor(_window, cursor);
+	}
 	_selectedElement = 1; // Sand by default
 
 	_cells = new Cell* [CELL_HEIGHT];
