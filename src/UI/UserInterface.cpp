@@ -1,7 +1,7 @@
 #include "UserInterface.h"
 
-UserInterface::UserInterface(GLFWwindow& window, const int& winWidth, const int& winHeight, int& selectedElement)
-	: _window(window), WIN_WIDTH(winWidth), WIN_HEIGHT(winHeight), _selectedElement(selectedElement)
+UserInterface::UserInterface(const WindowData& windowData, int& selectedElement)
+	: _window(windowData.window), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT), _selectedElement(selectedElement)
 {
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 	const char* glsl_version = "#version 100";
@@ -16,7 +16,6 @@ UserInterface::UserInterface(GLFWwindow& window, const int& winWidth, const int&
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(&_window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
-
 }
 
 void UserInterface::createNewFrame()

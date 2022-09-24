@@ -1,11 +1,10 @@
 #include "InputManager.h"
 
-InputManager::InputManager(Cell** cells, GLFWwindow& window, const int& winWidth, const int& winHeight, const int& cellSize, int& selectedElement)
-	: _cells(cells), _window(window), WIN_WIDTH(winWidth), WIN_HEIGHT(winHeight), CELL_SIZE(cellSize), _selectedElement(selectedElement)
+InputManager::InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement)
+	: _cells(cellsArrayData.cells), CELL_SIZE(cellsArrayData.CELL_SIZE), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT), _window(windowData.window), _selectedElement(selectedElement)
 {
 
 }
-
 
 void InputManager::update()
 {

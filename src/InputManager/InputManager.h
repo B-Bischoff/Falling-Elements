@@ -8,6 +8,10 @@
 
 #include "../Cell/Cell.h"
 #include "../Cell/Factory/CellFactory.h"
+#include "../Application.h"
+
+struct WindowData;
+struct CellsArrayData;
 
 class InputManager {
 private:
@@ -29,7 +33,7 @@ private:
 	const bool isInCellsBoundaries(const double& x, const double& y) const;
 
 public:
-	InputManager(Cell** cells, GLFWwindow& window, const int& winWidth, const int& winHeight, const int& cellSize, int& selectedElement);
+	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement);
 
 	void update();
 };

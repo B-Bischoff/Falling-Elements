@@ -11,7 +11,10 @@
 
 #include <cstdio>
 
+#include "../Application.h"
 #include "../Cell/Factory/CellFactory.h"
+
+struct WindowData;
 
 class UserInterface {
 private:
@@ -21,7 +24,7 @@ private:
 	int& _selectedElement;
 
 public:
-	UserInterface(GLFWwindow& window, const int& winWidth, const int& winHeight, int& selectedElement);
+	UserInterface(const WindowData& windowData, int& selectedElement);
 
 	void createNewFrame();
 	void update();

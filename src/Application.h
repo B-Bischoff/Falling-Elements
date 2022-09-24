@@ -16,6 +16,19 @@
 #include "Cell/Cell.h"
 #include "Cell/Factory/CellFactory.h"
 
+struct WindowData {
+	GLFWwindow& window;
+	const int WIN_WIDTH;
+	const int WIN_HEIGHT;
+};
+
+struct CellsArrayData {
+	const int CELL_SIZE;
+	const int CELL_WIDTH;
+	const int CELL_HEIGHT;
+	Cell** cells;
+};
+
 class Application {
 private:
 	const int WIN_WIDTH, WIN_HEIGHT;
