@@ -33,10 +33,10 @@ void Brush::draw(const int& brushIndex, const glm::vec2& mousePos, const int& se
 
 void Brush::squareBrush(const glm::vec2& originCell)
 {
-	const int BRUSH_SIZE = 5;
-	for (int y = originCell.y - BRUSH_SIZE / 2.0f; y < originCell.y + BRUSH_SIZE / 2.0f - 1; y++)
+	const int BRUSH_SIZE = 10;
+	for (int y = originCell.y - BRUSH_SIZE / 2.0f; y <= originCell.y + BRUSH_SIZE / 2.0f - 1; y++)
 	{
-		for (int x = originCell.x - BRUSH_SIZE / 2.0f; x < originCell.x + BRUSH_SIZE / 2.0f - 1; x++)
+		for (int x = originCell.x - BRUSH_SIZE / 2.0f; x <= originCell.x + BRUSH_SIZE / 2.0f - 1; x++)
 		{
 			if (isInCellBoundaries(x, y))
 			{
@@ -66,6 +66,76 @@ void Brush::circleBrush(const glm::vec2& originCell)
 			}
 		}
 	}
+}
+
+void Brush::updateCursor(const int& brushIndex, GLFWwindow* window)
+{
+	switch (brushIndex)
+	{
+		case 0: updateSquareBrushCursor(window); break;
+		case 1: updateCircleBrushCursor(window); break;
+		default: break;
+	}
+}
+
+void Brush::updateSquareBrushCursor(GLFWwindow* window)
+{
+	const int N = 20;
+	unsigned char pixels[N * N * 4];
+
+	for (int y = 0; y < N * 4; y += 4)
+	{
+		for (int x = 0; x < N * 4; x += 4)
+		{
+			if (x == 0 || y == 0 || x == N * 4 - 4 || y == N * 4 - 4)
+				setCursorPixelColor(&(pixels[N * y + x]), 0xff, 0xff, 0xff, 0xff);
+			else
+				setCursorPixelColor(&(pixels[N * y + x]), 0x00f, 0x00f, 0x00f, 0x00f);
+		}
+	}
+
+	applyCursor(glm::vec2(N, N), pixels, window);
+}
+
+void Brush::updateCircleBrushCursor(GLFWwindow* window)
+{
+	const int N = 15;
+	unsigned char pixels[N * N * 4];
+
+	for (int y = 0; y < N * 4; y += 4)
+	{
+		for (int x = 0; x < N * 4; x += 4)
+		{
+			if (x == 0 || y == 0 || x == N * 4 - 4 || y == N * 4 - 4)
+				setCursorPixelColor(&(pixels[N * y + x]), 0xff, 0xff, 0xff, 0xff);
+			else
+				setCursorPixelColor(&(pixels[N * y + x]), 0x00f, 0x00f, 0x00f, 0x00f);
+		}
+	}
+
+	applyCursor(glm::vec2(N, N), pixels, window);
+}
+
+void Brush::setCursorPixelColor(unsigned char* pixel, int r, int g, int b, int a)
+{
+	pixel[0] = r;
+	pixel[1] = g;
+	pixel[2] = b;
+	pixel[3] = a;
+}
+
+void Brush::applyCursor(const glm::vec2& cursorDimensions, unsigned char* pixels, GLFWwindow* window)
+{
+	GLFWimage image;
+	image.width = cursorDimensions.x;
+	image.height = cursorDimensions.y;
+	image.pixels = pixels;
+
+	GLFWcursor* cursor = glfwCreateCursor(&image, 11, 11);
+	if (cursor != nullptr)
+		glfwSetCursor(window, cursor);
+	else
+		std::cerr << "Cursor creation failed." << std::endl;
 }
 
 const bool Brush::isInCellBoundaries(const double& x, const double& y)

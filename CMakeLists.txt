@@ -62,6 +62,8 @@ add_executable(Falling-Elements
 
 	src/InputManager/InputManager.h
 	src/InputManager/InputManager.cpp
+	src/InputManager/Brush.h
+	src/InputManager/Brush.cpp
 
 	src/Cell/Cell.h
 	src/Cell/Cell.cpp

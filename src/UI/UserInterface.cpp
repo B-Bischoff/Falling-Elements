@@ -63,9 +63,15 @@ void UserInterface::updateBrushSelection()
 {
 	ImGui::Text("\nBrush selection");
 	if (ImGui::Selectable("Square brush", _selectedBrush == 0))
+	{
 		_selectedBrush = 0;
+		Brush::updateCursor(0, &_window);
+	}
 	if (ImGui::Selectable("Circle brush", _selectedBrush == 1))
+	{
 		_selectedBrush = 1;
+		Brush::updateCursor(1, &_window);
+	}
 }
 
 void UserInterface::render()
