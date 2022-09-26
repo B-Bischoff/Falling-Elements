@@ -1,7 +1,8 @@
 #include "UserInterface.h"
 
-UserInterface::UserInterface(const WindowData& windowData, int& selectedElement)
-	: _window(windowData.window), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT), _selectedElement(selectedElement)
+UserInterface::UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush)
+	: _window(windowData.window), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT),
+		_selectedElement(selectedElement), _selectedBrush(selectedBrush)
 {
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 	const char* glsl_version = "#version 100";
@@ -38,8 +39,17 @@ void UserInterface::update()
 	windowFlag |= ImGuiWindowFlags_NoResize;
 	windowFlag |= ImGuiWindowFlags_NoCollapse;
 
-	ImGui::Begin("test");
+	ImGui::Begin("Main Tab");
 
+	updateElementSelection();
+	updateBrushSelection();
+
+	ImGui::End();
+}
+
+void UserInterface::updateElementSelection()
+{
+	ImGui::Text("Element selection");
 	for (int i = 0; i < 4; i++)
 	{
 		char text[32];
@@ -47,9 +57,15 @@ void UserInterface::update()
 		if (ImGui::Selectable(text, _selectedElement == i))
 			_selectedElement = i;
 	}
+}
 
-	ImGui::Text("This a test sentence");
-	ImGui::End();
+void UserInterface::updateBrushSelection()
+{
+	ImGui::Text("\nBrush selection");
+	if (ImGui::Selectable("Square brush", _selectedBrush == 0))
+		_selectedBrush = 0;
+	if (ImGui::Selectable("Circle brush", _selectedBrush == 1))
+		_selectedBrush = 1;
 }
 
 void UserInterface::render()

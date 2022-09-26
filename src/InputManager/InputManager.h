@@ -9,6 +9,7 @@
 #include "../Cell/Cell.h"
 #include "../Cell/Factory/CellFactory.h"
 #include "../Application.h"
+#include "Brush.h"
 
 struct WindowData;
 struct CellsArrayData;
@@ -24,6 +25,7 @@ private:
 
 	Cell** _cells;
 	int& _selectedElement;
+	int& _selectedBrush;
 
 	double _mouseX, _mouseY;
 
@@ -33,7 +35,7 @@ private:
 	const bool isInCellsBoundaries(const double& x, const double& y) const;
 
 public:
-	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement);
+	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement, int& selectedBrush);
 
 	void update();
 };

@@ -27,11 +27,11 @@ public:
 			_random = (rand() % 2) * 2 - 1; // 'random' can be -1 or 1
 
 			checkBelowCells();
+			if (targetFound() == false)
+				CheckAdjacentBelowCells();
 			
 			if (cellHasVelocity() == true)
 			{
-				if (targetFound() == false)
-					CheckAdjacentBelowCells();
 				if (targetFound() == false)
 					transmitVelocity();
 			}

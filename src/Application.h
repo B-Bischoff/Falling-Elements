@@ -32,11 +32,12 @@ struct CellsArrayData {
 class Application {
 private:
 	const int WIN_WIDTH, WIN_HEIGHT;
-	const int CELL_SIZE = 4;
+	const int CELL_SIZE = 2;
 	const int CELL_WIDTH = WIN_WIDTH / CELL_SIZE;
 	const int CELL_HEIGHT = WIN_HEIGHT / CELL_SIZE;
 
 	int _selectedElement;
+	int _selectedBrush;
 
 	GLFWwindow* _window;
 	Cell** _cells;

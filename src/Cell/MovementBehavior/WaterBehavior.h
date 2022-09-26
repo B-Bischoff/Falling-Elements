@@ -66,10 +66,13 @@ private:
 
 	void checkAdajacentCells()
 	{
-		if (_x + _random >= 0 && _x + _random < _cell->getWidth() && _cells[_y][_x + _random].getType() < CellType::Liquid)
-			_target = &(_cells[_y][_x + _random]);
-		if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y][_x - _random].getType() < CellType::Liquid)
-			_target = &(_cells[_y][_x - _random]);
+		for (int i = 0; i < 5; i++)
+		{
+			if (_x + _random >= 0 && _x + _random < _cell->getWidth() && _cells[_y][_x + _random].getType() < CellType::Liquid)
+				_target = &(_cells[_y][_x + _random]);
+			if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y][_x - _random].getType() < CellType::Liquid)
+				_target = &(_cells[_y][_x - _random]);
+		}
 	}
 
 	void updateVelocity()

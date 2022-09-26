@@ -22,9 +22,13 @@ private:
 	const int WIN_WIDTH, WIN_HEIGHT;
 
 	int& _selectedElement;
+	int& _selectedBrush;
+
+	void updateElementSelection();
+	void updateBrushSelection();
 
 public:
-	UserInterface(const WindowData& windowData, int& selectedElement);
+	UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush);
 
 	void createNewFrame();
 	void update();

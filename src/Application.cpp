@@ -50,7 +50,7 @@ void Application::loop()
 {
 
 	{
-		const int N = 8;
+		const int N = 40;
 		unsigned char pixels[N * N * 4];
 
 		for (int y = 0; y < N * 4; y += 4)
@@ -85,6 +85,7 @@ void Application::loop()
 		glfwSetCursor(_window, cursor);
 	}
 	_selectedElement = 1; // Sand by default
+	_selectedBrush = 0; // Square brush by default
 
 	_cells = new Cell* [CELL_HEIGHT];
 	for (int y = 0; y < CELL_HEIGHT; y++)
@@ -113,10 +114,10 @@ void Application::loop()
 		_cells
 	};
 
-	InputManager input(windowData, CellsArrayData, _selectedElement);
+	InputManager input(windowData, CellsArrayData, _selectedElement, _selectedBrush);
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE);
-	UserInterface ui(windowData, _selectedElement);
+	UserInterface ui(windowData, _selectedElement, _selectedBrush);
 
 	double previousTime = glfwGetTime();
 	double cycleTime = glfwGetTime();
