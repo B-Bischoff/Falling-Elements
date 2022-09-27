@@ -33,6 +33,7 @@ private:
 	void putCells();
 
 	const bool isInCellsBoundaries(const double& x, const double& y) const;
+	const bool isMouseOverUI() const;
 
 public:
 	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement, int& selectedBrush);

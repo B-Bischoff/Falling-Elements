@@ -20,31 +20,8 @@ void InputManager::updateMousePosition()
 
 void InputManager::putCells()
 {
-	if (glfwGetMouseButton(&_window, GLFW_MOUSE_BUTTON_LEFT))
+	if (glfwGetMouseButton(&_window, GLFW_MOUSE_BUTTON_LEFT) && isMouseOverUI() == false)
 	{
-		/*
-		int cellX = _mouseX / CELL_SIZE;
-		int cellY = _mouseY / CELL_SIZE;
-
-		if (isInCellsBoundaries(cellX, cellY))
-		{
-			Cell& cell = _cells[cellY][cellX];
-			CellFactory::configureCell(cell, _selectedElement);
-		}
-		// Classic paint brush
-		const int BRUSH_SIZE = 10;
-		for (int y = cellY - BRUSH_SIZE / 2.0f; y < cellY + BRUSH_SIZE / 2.0f - 1; y++)
-		{
-			for (int x = cellX - BRUSH_SIZE / 2.0f; x < cellX + BRUSH_SIZE / 2.0f - 1; x++)
-			{
-				if (isInCellsBoundaries(x, y))
-				{
-					Cell& cell = _cells[y][x];
-					CellFactory::configureCell(cell, _selectedElement);
-				}
-			}
-		}
-		*/
 		Brush::draw(_selectedBrush, glm::vec2(_mouseX, _mouseY), _selectedElement);
 	}
 }
@@ -52,4 +29,10 @@ void InputManager::putCells()
 const bool InputManager::isInCellsBoundaries(const double& x, const double& y) const
 {
 	return (x >= 0 && x < CELL_WIDTH) && (y >= 0 && y < CELL_HEIGHT);
+}
+
+const bool InputManager::isMouseOverUI() const
+{
+	ImGuiIO& io = ImGui::GetIO();
+	return (io.WantCaptureMouse);
 }

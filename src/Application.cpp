@@ -46,46 +46,33 @@ Application::Application(const int& width, const int& height)
 	loop();
 }
 
+void Application::generateRandomSets()
+{
+	_randomSets = new std::vector<int>[RANDOM_SETS_NB];
+	// Fill all random sets with numbers from 0 to cell_width - 1
+	for (int i = 0; i < CELL_WIDTH; i++)
+		for (int j = 0; j < RANDOM_SETS_NB; j++)
+			_randomSets[j].push_back(i);
+	
+	// Suffle numbers in sets
+	auto rng = std::default_random_engine {};
+	for (int i = 0; i < RANDOM_SETS_NB; i++)
+		std::shuffle(_randomSets[i].begin(), _randomSets[i].end(), rng);
+
+	// Print random numbers
+	/*for (int j = 0; j < RANDOM_SETS_NB; j++)
+	{
+		std::cout << std::endl;
+		for (int i = 0; i < CELL_WIDTH; i++)
+			std::cout << _randomSets[j][i] << " ";
+	}*/
+}
+
 void Application::loop()
 {
-
-	{
-		const int N = 40;
-		unsigned char pixels[N * N * 4];
-
-		for (int y = 0; y < N * 4; y += 4)
-		{
-			for (int x = 0; x < N * 4; x += 4)
-			{
-				if (x == 0 || y == 0 || x == N * 4 - 4 || y == N * 4 - 4)
-				{
-					pixels[N * y + x] = 0xff;
-					pixels[N * y + x + 1] = 0xff;
-					pixels[N * y + x + 2] = 0xff;
-					pixels[N * y + x + 3] = 0xff;
-				}
-				else
-				{
-					pixels[N * y + x] = 0x00;
-					pixels[N * y + x + 1] = 0x00;
-					pixels[N * y + x + 2] = 0x00;
-					pixels[N * y + x + 3] = 0x00;
-				}
-			}
-		}
-
-		GLFWimage image;
-		image.width = N;
-		image.height = N;
-		image.pixels = pixels;
-
-		GLFWcursor* cursor = glfwCreateCursor(&image, 0, 0);
-		if (cursor == nullptr)
-			std::cout << "CURSOR NULL" << std::endl;
-		glfwSetCursor(_window, cursor);
-	}
 	_selectedElement = 1; // Sand by default
 	_selectedBrush = 0; // Square brush by default
+	_currentRandomSet = 0;
 
 	_cells = new Cell* [CELL_HEIGHT];
 	for (int y = 0; y < CELL_HEIGHT; y++)
@@ -118,10 +105,12 @@ void Application::loop()
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE);
 	UserInterface ui(windowData, _selectedElement, _selectedBrush);
+	generateRandomSets();
 
 	double previousTime = glfwGetTime();
 	double cycleTime = glfwGetTime();
 	int frameCount = 0;
+
 
 	while (!glfwWindowShouldClose(_window) && glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
@@ -137,10 +126,17 @@ void Application::loop()
 
 		if (currentTime - cycleTime >= 0.015f)
 		{
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 2; i++)
+			{
 				for (int y = 0; y < CELL_HEIGHT; y++)
+				{
 					for (int x = 0; x < CELL_WIDTH; x++)
-						_cells[y][x].update();
+					{
+						_cells[y][_randomSets[_currentRandomSet][x]].update();
+					}
+					_currentRandomSet = (_currentRandomSet + 1) % RANDOM_SETS_NB;
+				}
+			}
 			cycleTime = currentTime;
 		}
 
@@ -187,5 +183,6 @@ void Application::loop()
 
 Application::~Application()
 {
-	delete _cells;
+	delete [] _randomSets;
+	delete [] _cells;
 }

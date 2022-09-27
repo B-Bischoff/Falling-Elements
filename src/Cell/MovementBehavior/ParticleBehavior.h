@@ -89,6 +89,7 @@ public:
 		{
 			_cell->setMovementBehavior(&_originBehavior);
 			_cell->getMovementBehavior()->setCell(_cell);
+			delete this;
 			//_cell->setColor(glm::vec3(0.0f, 1.0f, 0.0f));
 		}
 		

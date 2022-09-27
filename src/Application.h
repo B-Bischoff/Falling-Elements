@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include <numeric>
+#include <algorithm>
+#include <random>
 
 #include "ShaderProgram.h"
 #include "UI/UserInterface.h"
@@ -32,17 +34,22 @@ struct CellsArrayData {
 class Application {
 private:
 	const int WIN_WIDTH, WIN_HEIGHT;
-	const int CELL_SIZE = 2;
+	const int CELL_SIZE = 4;
 	const int CELL_WIDTH = WIN_WIDTH / CELL_SIZE;
 	const int CELL_HEIGHT = WIN_HEIGHT / CELL_SIZE;
+	const int RANDOM_SETS_NB = 100;
 
 	int _selectedElement;
 	int _selectedBrush;
+
+	std::vector<int>* _randomSets;
+	int _currentRandomSet;
 
 	GLFWwindow* _window;
 	Cell** _cells;
 
 	void loop();
+	void generateRandomSets();
 
 public:
 	Application(const int& width, const int& height);
