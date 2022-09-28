@@ -66,18 +66,37 @@ private:
 
 	void checkAdajacentCells()
 	{
+		/*
 		for (int i = 0; i < 5; i++)
 		{
 			if (_x + _random >= 0 && _x + _random < _cell->getWidth() && _cells[_y][_x + _random].getType() < CellType::Liquid)
 				_target = &(_cells[_y][_x + _random]);
 			if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y][_x - _random].getType() < CellType::Liquid)
 				_target = &(_cells[_y][_x - _random]);
+		}*/
+
+		for (int i = 1; i < 5; i++)
+		{
+			int x = _x + i * _random;
+			//std::cout << "x: " << _x << " --> " << x << std::endl;
+			if (x >= 0 && x < _cell->getWidth() && _cells[_y][x].getType() < CellType::Liquid)
+				_target = &(_cells[_y][x]);
+			else
+				break;
+		}
+		for (int i = 1; i < 5; i++)
+		{
+			int x = _x + i * -_random;
+			if (x >= 0 && x < _cell->getWidth() && _cells[_y][x].getType() < CellType::Liquid)
+				_target = &(_cells[_y][x]);
+			else
+				break;
 		}
 	}
 
 	void updateVelocity()
 	{
-		_cell->setVelocity(_cell->getVelocity() + glm::vec2(0.0f, 0.1f));
+		_cell->setVelocity(_cell->getVelocity() + glm::vec2(0.0f, 0.2f));
 	};
 
 	void releaseRemainingVelocity()

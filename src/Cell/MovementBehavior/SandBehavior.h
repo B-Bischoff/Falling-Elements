@@ -26,17 +26,13 @@ public:
 		{
 			_random = (rand() % 2) * 2 - 1; // 'random' can be -1 or 1
 
-			checkBelowCells();
+			checkBelowCell();
 			if (targetFound() == false)
 				CheckAdjacentBelowCells();
 			
-			if (cellHasVelocity() == true)
-			{
-				if (targetFound() == false)
-					transmitVelocity();
-			}
-
-			if (targetFound() == true)
+			if (targetFound() == false && cellHasVelocity() == true) 
+				transmitVelocity();
+			else if (targetFound() == true)
 			{
 				updateVelocity();
 				_cell->swapCell(*_target);
@@ -48,7 +44,7 @@ public:
 	}
 
 private:
-	void checkBelowCells()
+	void checkBelowCell()
 	{
 		for (int i = 0; i <= _cell->getVelocity().y; i++)
 		{
@@ -79,54 +75,34 @@ private:
 	{
 		const float X_FRI = 0.50f;
 		const float Y_FRI = 0.25f;
+		const glm::vec2 friction(0.5f, 0.25f);
 
-		// Transmit half the velocity to the cell below
-		if (_y < _cell->getHeight() - 1 && _cells[_y + 1][_x].getType() == CellType::Solid && _cells[_y+1][_x].getVelocity()==glm::vec2(0.0f))
-		{
-			glm::vec2 velocity = _cell->getVelocity();
-			glm::vec2 targetVelocity = _cells[_y + 1][_x].getVelocity();
-			glm::vec2 finalVelocity = targetVelocity + (velocity * Y_FRI);
-			_cells[_y + 1][_x].setVelocity(finalVelocity);
-		}
-
-		// Transmit half the velocity to the cell below left
-		if (_y < _cell->getHeight() - 1 && _x > 0 && _cells[_y + 1][_x - 1].getType() == CellType::Solid && _cells[_y+1][_x-1].getVelocity()==glm::vec2(0.0f))
-		{
-			glm::vec2 velocity = _cell->getVelocity();
-			glm::vec2 targetVelocity = _cells[_y + 1][_x - 1].getVelocity();
-			glm::vec2 finalVelocity = targetVelocity + glm::vec2(-velocity.y * X_FRI, velocity.y * Y_FRI);
-			_cells[_y + 1][_x - 1].setVelocity(finalVelocity);
-		}
-
-		// Transmit half the velocity to the cell below right
-		if (_y < _cell->getHeight() - 1 && _x < _cell->getWidth() - 1 && _cells[_y + 1][_x + 1].getType() == CellType::Solid && _cells[_y+1][_x+1].getVelocity()==glm::vec2(0.0f))
-		{
-			glm::vec2 velocity = _cell->getVelocity();
-			glm::vec2 targetVelocity = _cells[_y + 1][_x + 1].getVelocity();
-			glm::vec2 finalVelocity = targetVelocity + glm::vec2(velocity.y * X_FRI, velocity.y * Y_FRI);
-			_cells[_y + 1][_x + 1].setVelocity(finalVelocity);
-		}
-
-		// Transmit half the velocity to the cell left
-		if (_x > 0 && _cells[_y][_x - 1].getType() == CellType::Solid && _cells[_y][_x-1].getVelocity()==glm::vec2(0.0f))
-		{
-			glm::vec2 velocity = _cell->getVelocity();
-			glm::vec2 targetVelocity = _cells[_y][_x - 1].getVelocity();
-			glm::vec2 finalVelocity = targetVelocity + glm::vec2(velocity.y * X_FRI, velocity.y * Y_FRI);
-			_cells[_y][_x - 1].setVelocity(finalVelocity);
-		}
-
-		// Transmit half the velocity to the cell right
-		if (_x < _cell->getWidth() - 1 && _cells[_y][_x + 1].getType() == CellType::Solid && _cells[_y][_x+1].getVelocity()==glm::vec2(0.0f))
-		{
-			glm::vec2 velocity = _cell->getVelocity();
-			glm::vec2 targetVelocity = _cells[_y][_x + 1].getVelocity();
-			glm::vec2 finalVelocity = targetVelocity + glm::vec2(velocity.y * X_FRI, velocity.y * Y_FRI);
-			_cells[_y][_x + 1].setVelocity(finalVelocity);
-		}
+		if (_cells[_y + 1][_x].getType() == CellType::Solid && _cells[_y+1][_x].getVelocity()==glm::vec2(0.0f))
+			transmitVelocityToCell(_x+1, _y, friction);
+		if (_cells[_y + 1][_x - 1].getType() == CellType::Solid && _cells[_y+1][_x-1].getVelocity()==glm::vec2(0.0f))
+			transmitVelocityToCell(_x+1, _y-1, friction);
+		if (_cells[_y + 1][_x + 1].getType() == CellType::Solid && _cells[_y+1][_x+1].getVelocity()==glm::vec2(0.0f))
+			transmitVelocityToCell(_x+1, _y+1, friction);
+		if (_cells[_y][_x - 1].getType() == CellType::Solid && _cells[_y][_x-1].getVelocity()==glm::vec2(0.0f))
+			transmitVelocityToCell(_x, _y-1, friction);
+		if (_cells[_y][_x + 1].getType() == CellType::Solid && _cells[_y][_x+1].getVelocity()==glm::vec2(0.0f))
+			transmitVelocityToCell(_x, _y+1, friction);
 
 		float yVel = _cell->getVelocity().y;
 		_cell->setVelocity(glm::vec2(yVel * 0.50f * _random, yVel * 0.25f));
+	}
+
+	void transmitVelocityToCell(const int& x, const int& y, const glm::vec2& friction)
+	{
+		if (x >= _cell->getWidth() || x < 0) 
+			return;
+		if (y >= _cell->getHeight() || y < 0)
+			return;
+
+		glm::vec2 velocity = _cell->getVelocity();
+		glm::vec2 targetVelocity = _cells[y][x].getVelocity();
+		glm::vec2 finalVelocity = targetVelocity + glm::vec2(velocity.y * friction.x, velocity.y * friction.y);
+		_cells[y][x].setVelocity(finalVelocity);
 	}
 
 	const bool targetFound()

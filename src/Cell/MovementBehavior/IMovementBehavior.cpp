@@ -13,7 +13,7 @@ IMovementBehavior::~IMovementBehavior()
 
 void IMovementBehavior::update()
 {
-
+	_cell->setVelocity(glm::vec2(0.0f));
 }
 
 void IMovementBehavior::setCell(Cell* cell)

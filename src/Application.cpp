@@ -72,6 +72,7 @@ void Application::loop()
 {
 	_selectedElement = 1; // Sand by default
 	_selectedBrush = 0; // Square brush by default
+	_selectedFilter = 0;
 	_currentRandomSet = 0;
 
 	_cells = new Cell* [CELL_HEIGHT];
@@ -103,8 +104,8 @@ void Application::loop()
 
 	InputManager input(windowData, CellsArrayData, _selectedElement, _selectedBrush);
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
-	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE);
-	UserInterface ui(windowData, _selectedElement, _selectedBrush);
+	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE, _selectedFilter);
+	UserInterface ui(windowData, _selectedElement, _selectedBrush, _selectedFilter);
 	generateRandomSets();
 
 	double previousTime = glfwGetTime();

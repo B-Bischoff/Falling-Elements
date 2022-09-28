@@ -20,6 +20,8 @@ class GridRenderer {
 private:
 	const int WIDTH, HEIGHT, CELL_SIZE;
 
+	int& _selectedFilter;
+
 	uint32_t* _indices;
 	Vertex* _vertices;
 
@@ -30,10 +32,12 @@ private:
 	void generateIndices();
 	void initializeVertexPositions();
 
-	void updateVerticesColor(Cell** cells);
+	void updateColorFromRandom(Cell** cells); // Test method
+	void updateColorFromColor(Cell** cells);
+	void updateColorFromVelocity(Cell** cells);
 
 public:
-	GridRenderer(const int& width, const int& height, const int& cellSize);
+	GridRenderer(const int& width, const int& height, const int& cellSize, int& selectedFilter);
 
 	~GridRenderer();
 

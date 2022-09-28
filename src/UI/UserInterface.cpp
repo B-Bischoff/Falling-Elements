@@ -1,8 +1,8 @@
 #include "UserInterface.h"
 
-UserInterface::UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush)
+UserInterface::UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush, int& selectedFilter)
 	: _window(windowData.window), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT),
-		_selectedElement(selectedElement), _selectedBrush(selectedBrush)
+		_selectedElement(selectedElement), _selectedBrush(selectedBrush), _selectedFilter(selectedFilter)
 {
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 	const char* glsl_version = "#version 100";
@@ -43,6 +43,7 @@ void UserInterface::update()
 
 	updateElementSelection();
 	updateBrushSelection();
+	ImGui::Combo("Filter", &_selectedFilter, "Normal\0Velocity\0");
 
 	ImGui::End();
 }

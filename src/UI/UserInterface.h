@@ -23,12 +23,13 @@ private:
 
 	int& _selectedElement;
 	int& _selectedBrush;
+	int& _selectedFilter;
 
 	void updateElementSelection();
 	void updateBrushSelection();
 
 public:
-	UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush);
+	UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush, int& _selectedFilter);
 
 	void createNewFrame();
 	void update();

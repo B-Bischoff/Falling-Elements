@@ -6,8 +6,8 @@ GridRenderer::~GridRenderer()
 	delete [] _vertices;
 }
 
-GridRenderer::GridRenderer(const int& width, const int& height, const int& cellSize)
-	: WIDTH(width), HEIGHT(height), CELL_SIZE(cellSize), _indices(nullptr), _vertices(nullptr)
+GridRenderer::GridRenderer(const int& width, const int& height, const int& cellSize, int& selectedFilter)
+	: WIDTH(width), HEIGHT(height), CELL_SIZE(cellSize), _selectedFilter(selectedFilter), _indices(nullptr), _vertices(nullptr)
 {
 	initializeMemory();
 	generateIndices();
@@ -117,37 +117,6 @@ void GridRenderer::initializeVertexPositions()
 	}
 }
 
-void GridRenderer::updateVerticesColor(Cell** _cells)
-{
-	for (int y = 0; y < HEIGHT; y++)
-	{
-		for (int x = 0; x < WIDTH; x++)
-		{
-			int vertexNb = y * WIDTH + x;
-
-/*
-			// Pretty blinky random colors (used for some tests and personal amusement)
-			// DO NOT TRY THIS IF YOU'RE EPILECTIC !!!
-
-			glm::vec3 randomColor = glm::vec3(
-				(float)(rand() % 101) / 100.0f,
-				(float)(rand() % 101) / 100.0f,
-				(float)(rand() % 101) / 100.0f
-			);
-			_vertices[vertexNb * 4].Color = randomColor;
-			_vertices[vertexNb * 4 + 1].Color = randomColor;
-			_vertices[vertexNb * 4 + 2].Color = randomColor;
-			_vertices[vertexNb * 4 + 3].Color = randomColor;
-*/
-
-			_vertices[vertexNb * 4].Color = _cells[y][x].getColor();
-			_vertices[vertexNb * 4 + 1].Color = _cells[y][x].getColor();
-			_vertices[vertexNb * 4 + 2].Color = _cells[y][x].getColor();
-			_vertices[vertexNb * 4 + 3].Color = _cells[y][x].getColor();
-		}
-	}
-}
-
 void GridRenderer::render(ShaderProgram& program, Cell** cells)
 {
 	glBindVertexArray(_vao);
@@ -161,11 +130,78 @@ void GridRenderer::render(ShaderProgram& program, Cell** cells)
 
 	program.setMat4("transform", glm::mat4(1.0f));
 
-	updateVerticesColor(cells);
+	switch (_selectedFilter)
+	{
+	case 0: updateColorFromColor(cells); break;
+	case 1: updateColorFromVelocity(cells); break;
+	default: updateColorFromRandom(cells); break;
+	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * 4 * WIDTH * HEIGHT, _vertices);
 
 
 	glDrawElements(GL_TRIANGLES, 6 * WIDTH * HEIGHT, GL_UNSIGNED_INT, nullptr);
+}
+
+void GridRenderer::updateColorFromRandom(Cell** _cells)
+{
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			int vertexNb = y * WIDTH + x;
+
+			glm::vec3 randomColor = glm::vec3(
+				(float)(rand() % 101) / 100.0f,
+				(float)(rand() % 101) / 100.0f,
+				(float)(rand() % 101) / 100.0f
+			);
+			_vertices[vertexNb * 4].Color = randomColor;
+			_vertices[vertexNb * 4 + 1].Color = randomColor;
+			_vertices[vertexNb * 4 + 2].Color = randomColor;
+			_vertices[vertexNb * 4 + 3].Color = randomColor;
+		}
+	}
+}
+
+void GridRenderer::updateColorFromColor(Cell** _cells)
+{
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			int vertexNb = y * WIDTH + x;
+
+			_vertices[vertexNb * 4].Color = _cells[y][x].getColor();
+			_vertices[vertexNb * 4 + 1].Color = _cells[y][x].getColor();
+			_vertices[vertexNb * 4 + 2].Color = _cells[y][x].getColor();
+			_vertices[vertexNb * 4 + 3].Color = _cells[y][x].getColor();
+		}
+	}
+}
+
+void GridRenderer::updateColorFromVelocity(Cell** _cells)
+{
+	const glm::vec3 VELOCITY(0.0f, 1.0f, 0.0f);
+	const glm::vec3 NO_VELOCITY(1.0f, 0.0f, 0.0f);
+
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			int vertexNb = y * WIDTH + x;
+
+			glm::vec3 color;
+			if (_cells[y][x].getVelocity() == glm::vec2(0.0f))
+				color = NO_VELOCITY / 2.0f;
+			else
+				color = VELOCITY / 2.0f;
+
+			_vertices[vertexNb * 4].Color = color + _cells[y][x].getColor() / 2.0f;
+			_vertices[vertexNb * 4 + 1].Color = color + _cells[y][x].getColor() / 2.0f;
+			_vertices[vertexNb * 4 + 2].Color = color + _cells[y][x].getColor() / 2.0f;
+			_vertices[vertexNb * 4 + 3].Color = color + _cells[y][x].getColor() / 2.0f;
+		}
+	}
 }
