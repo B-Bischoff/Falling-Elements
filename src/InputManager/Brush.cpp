@@ -5,6 +5,7 @@ int Brush::_selectedElement = 0;
 int Brush::CELL_WIDTH = 0;
 int Brush::CELL_HEIGHT = 0;
 int Brush::CELL_SIZE = 0;
+int Brush::brushSize = 5;
 
 Brush::Brush(const CellsArrayData& cellsArrayData)
 {
@@ -21,8 +22,6 @@ void Brush::draw(const int& brushIndex, const glm::vec2& mousePos, const int& se
 		mousePos.y / CELL_SIZE
 	};
 
-	squareBrush(originCell);
-
 	switch (brushIndex)
 	{
 	case 0: squareBrush(originCell); break;
@@ -33,10 +32,9 @@ void Brush::draw(const int& brushIndex, const glm::vec2& mousePos, const int& se
 
 void Brush::squareBrush(const glm::vec2& originCell)
 {
-	const int BRUSH_SIZE = 10;
-	for (int y = originCell.y - BRUSH_SIZE / 2.0f; y <= originCell.y + BRUSH_SIZE / 2.0f - 1; y++)
+	for (int y = originCell.y - brushSize / 2.0f; y <= originCell.y + brushSize / 2.0f - 1; y++)
 	{
-		for (int x = originCell.x - BRUSH_SIZE / 2.0f; x <= originCell.x + BRUSH_SIZE / 2.0f - 1; x++)
+		for (int x = originCell.x - brushSize / 2.0f; x <= originCell.x + brushSize / 2.0f - 1; x++)
 		{
 			if (isInCellBoundaries(x, y))
 			{
@@ -49,8 +47,9 @@ void Brush::squareBrush(const glm::vec2& originCell)
 
 void Brush::circleBrush(const glm::vec2& originCell)
 {
-	const int DIAMETER = 50;
+	const int DIAMETER = brushSize;
 	const float RADIUS = static_cast<float>(DIAMETER) / 2.0f;
+	std::cout << RADIUS << std::endl;
 	for (int y = -RADIUS; y < RADIUS; y++)
 	{
 		for (int x = -RADIUS; x < RADIUS; x++)
@@ -80,7 +79,7 @@ void Brush::updateCursor(const int& brushIndex, GLFWwindow* window)
 
 void Brush::updateSquareBrushCursor(GLFWwindow* window)
 {
-	const int N = 20;
+	const int N = brushSize * CELL_SIZE;
 	unsigned char pixels[N * N * 4];
 
 	for (int y = 0; y < N * 4; y += 4)
@@ -99,7 +98,7 @@ void Brush::updateSquareBrushCursor(GLFWwindow* window)
 
 void Brush::updateCircleBrushCursor(GLFWwindow* window)
 {
-	const int N = 15;
+	const int N = brushSize * CELL_SIZE;
 	unsigned char pixels[N * N * 4];
 
 	for (int y = 0; y < N * 4; y += 4)
@@ -131,7 +130,7 @@ void Brush::applyCursor(const glm::vec2& cursorDimensions, unsigned char* pixels
 	image.height = cursorDimensions.y;
 	image.pixels = pixels;
 
-	GLFWcursor* cursor = glfwCreateCursor(&image, 11, 11);
+	GLFWcursor* cursor = glfwCreateCursor(&image, brushSize * CELL_SIZE / 2, brushSize * CELL_SIZE / 2);
 	if (cursor != nullptr)
 		glfwSetCursor(window, cursor);
 	else

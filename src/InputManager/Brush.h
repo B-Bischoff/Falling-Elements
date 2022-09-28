@@ -29,4 +29,6 @@ public:
 	static void draw(const int& brushIndex, const glm::vec2& mousePos, const int& selectedElement);
 	static void updateCursor(const int& brushIndex, GLFWwindow* window);
 
+	static int brushSize;
+
 };

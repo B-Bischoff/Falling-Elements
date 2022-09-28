@@ -63,6 +63,15 @@ void UserInterface::updateElementSelection()
 void UserInterface::updateBrushSelection()
 {
 	ImGui::Text("\nBrush selection");
+	
+	int newBrushSize = Brush::brushSize;
+	ImGui::SliderInt("Brush size", &newBrushSize, 1, 100);
+	if (newBrushSize != Brush::brushSize)
+	{
+		Brush::brushSize = newBrushSize;
+		Brush::updateCursor(_selectedBrush, &_window);
+	}
+
 	if (ImGui::Selectable("Square brush", _selectedBrush == 0))
 	{
 		_selectedBrush = 0;
