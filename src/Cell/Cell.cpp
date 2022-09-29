@@ -4,7 +4,7 @@
 
 Cell::Cell()
 	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _type(CellType::Gazeous),
-		_velocity(0.0f)
+		_velocity(0.0f), _temperature(20), _thermalConductivity(1), _density(2)
 {
 }
 
@@ -28,18 +28,24 @@ void Cell::swapCell(Cell& rhs)
 	temp._type = _type;
 	temp._movementBehavior = _movementBehavior;
 	temp._velocity = _velocity;
+	temp._temperature = _temperature;
+	temp._density = _density;
 
 	_color = rhs._color;
 	_type = rhs._type;
 	_movementBehavior = rhs._movementBehavior;
 	_movementBehavior->setCell(this);
 	_velocity = rhs._velocity;
+	_temperature = rhs._temperature;
+	_density = rhs._density;
 
 	rhs._color = temp._color;
 	rhs._type = temp._type;
 	rhs._movementBehavior = temp._movementBehavior;
 	rhs._movementBehavior->setCell(&rhs);
 	rhs._velocity = temp._velocity;
+	rhs._temperature = temp._temperature;
+	rhs._density = temp._density;
 }
 
 void Cell::setCells(Cell** cells) { _cells = cells; }

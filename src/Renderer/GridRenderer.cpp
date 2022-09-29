@@ -134,6 +134,7 @@ void GridRenderer::render(ShaderProgram& program, Cell** cells)
 	{
 	case 0: updateColorFromColor(cells); break;
 	case 1: updateColorFromVelocity(cells); break;
+	case 2: updateColorFromTemperature(cells); break;
 	default: updateColorFromRandom(cells); break;
 	}
 
@@ -202,6 +203,34 @@ void GridRenderer::updateColorFromVelocity(Cell** _cells)
 			_vertices[vertexNb * 4 + 1].Color = color + _cells[y][x].getColor() / 2.0f;
 			_vertices[vertexNb * 4 + 2].Color = color + _cells[y][x].getColor() / 2.0f;
 			_vertices[vertexNb * 4 + 3].Color = color + _cells[y][x].getColor() / 2.0f;
+		}
+	}
+}
+
+void GridRenderer::updateColorFromTemperature(Cell** _cells)
+{
+	const glm::vec3 HOT(1.0f, 0.0f, 0.0f);
+	const glm::vec3 COLD(0.0f, 0.0f, 1.0f);
+	const double MIN = -50.0;
+	const double MAX = 100.0;
+
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			int vertexNb = y * WIDTH + x;
+
+			double temperature = _cells[y][x]._temperature;
+			double t = (temperature - MIN) / (MAX - MIN); // inv lerp
+			double r = (HOT.r - COLD.r) * t + COLD.r;
+			double g = (HOT.g - COLD.g) * t + COLD.g;
+			double b = (HOT.b - COLD.b) * t + COLD.b;
+			const glm::vec3 color = glm::vec3(r, g, b);
+
+			_vertices[vertexNb * 4].Color = color;
+			_vertices[vertexNb * 4 + 1].Color = color;
+			_vertices[vertexNb * 4 + 2].Color = color;
+			_vertices[vertexNb * 4 + 3].Color = color;
 		}
 	}
 }

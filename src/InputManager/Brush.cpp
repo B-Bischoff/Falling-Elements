@@ -49,7 +49,6 @@ void Brush::circleBrush(const glm::vec2& originCell)
 {
 	const int DIAMETER = brushSize;
 	const float RADIUS = static_cast<float>(DIAMETER) / 2.0f;
-	std::cout << RADIUS << std::endl;
 	for (int y = -RADIUS; y < RADIUS; y++)
 	{
 		for (int x = -RADIUS; x < RADIUS; x++)

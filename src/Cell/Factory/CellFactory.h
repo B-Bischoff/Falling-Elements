@@ -4,6 +4,7 @@
 #include "../MovementBehavior/SandBehavior.h"
 #include "../MovementBehavior/WaterBehavior.h"
 #include "../MovementBehavior/StaticBehavior.h"
+#include "../MovementBehavior/SmokeBehavior.h"
 
 struct Element {
 	std::string name;
@@ -21,4 +22,5 @@ public:
 	static void configureWaterCell(Cell& cell);
 	static void configureRockCell(Cell& cell);
 	static void configureAirCell(Cell& cell);
+	static void configureSmokeCell(Cell& cell);
 };

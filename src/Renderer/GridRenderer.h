@@ -35,6 +35,7 @@ private:
 	void updateColorFromRandom(Cell** cells); // Test method
 	void updateColorFromColor(Cell** cells);
 	void updateColorFromVelocity(Cell** cells);
+	void updateColorFromTemperature(Cell** cells);
 
 public:
 	GridRenderer(const int& width, const int& height, const int& cellSize, int& selectedFilter);

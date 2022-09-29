@@ -27,6 +27,10 @@ public:
 	Cell();
 	~Cell();
 
+	double _thermalConductivity;
+	double _temperature;
+	double _density;
+
 	void update();
 	void swapCell(Cell& rhs);
 

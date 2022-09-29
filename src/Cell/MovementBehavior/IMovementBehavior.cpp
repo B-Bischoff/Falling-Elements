@@ -1,5 +1,4 @@
 #include "IMovementBehavior.h"
-#include "../Cell.h"
 
 IMovementBehavior::IMovementBehavior(Cell* cell)
 	: _cell(cell), _cells(cell->getCells()), hasMoved(false)

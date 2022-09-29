@@ -73,6 +73,7 @@ add_executable(Falling-Elements
 	src/Cell/MovementBehavior/WaterBehavior.h
 	src/Cell/MovementBehavior/StaticBehavior.h
 	src/Cell/MovementBehavior/ParticleBehavior.h
+	src/Cell/MovementBehavior/SmokeBehavior.h
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp

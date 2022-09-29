@@ -43,7 +43,7 @@ void UserInterface::update()
 
 	updateElementSelection();
 	updateBrushSelection();
-	ImGui::Combo("Filter", &_selectedFilter, "Normal\0Velocity\0");
+	ImGui::Combo("Filter", &_selectedFilter, "Normal\0Velocity\0Temperature\0");
 
 	ImGui::End();
 }
@@ -51,7 +51,7 @@ void UserInterface::update()
 void UserInterface::updateElementSelection()
 {
 	ImGui::Text("Element selection");
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		char text[32];
 		snprintf(text, 32, "Element %d", i);
