@@ -9,11 +9,8 @@ class StaticBehavior : public IMovementBehavior {
 private:
 
 public:
-	StaticBehavior(Cell* cell) : IMovementBehavior(cell) { };
-	~StaticBehavior() {};
+	StaticBehavior(Cell* cell);
+	~StaticBehavior();
 
-	void update()
-	{
-
-	}
+	void update();
 };

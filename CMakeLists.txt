@@ -70,10 +70,15 @@ add_executable(Falling-Elements
 	src/Cell/MovementBehavior/IMovementBehavior.h
 	src/Cell/MovementBehavior/IMovementBehavior.cpp
 	src/Cell/MovementBehavior/SandBehavior.h
+	src/Cell/MovementBehavior/SandBehavior.cpp
 	src/Cell/MovementBehavior/WaterBehavior.h
+	src/Cell/MovementBehavior/WaterBehavior.cpp
 	src/Cell/MovementBehavior/StaticBehavior.h
+	src/Cell/MovementBehavior/StaticBehavior.cpp
 	src/Cell/MovementBehavior/ParticleBehavior.h
+	src/Cell/MovementBehavior/ParticleBehavior.cpp
 	src/Cell/MovementBehavior/SmokeBehavior.h
+	src/Cell/MovementBehavior/SmokeBehavior.cpp
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp

@@ -88,7 +88,7 @@ void Brush::updateSquareBrushCursor(GLFWwindow* window)
 			if (x == 0 || y == 0 || x == N * 4 - 4 || y == N * 4 - 4)
 				setCursorPixelColor(&(pixels[N * y + x]), 0xff, 0xff, 0xff, 0xff);
 			else
-				setCursorPixelColor(&(pixels[N * y + x]), 0x00f, 0x00f, 0x00f, 0x00f);
+				setCursorPixelColor(&(pixels[N * y + x]), 0x00, 0x00, 0x00, 0x00);
 		}
 	}
 
@@ -100,14 +100,17 @@ void Brush::updateCircleBrushCursor(GLFWwindow* window)
 	const int N = brushSize * CELL_SIZE;
 	unsigned char pixels[N * N * 4];
 
+	const int RADIUS = static_cast<float>(N) / 2.0f;
 	for (int y = 0; y < N * 4; y += 4)
 	{
 		for (int x = 0; x < N * 4; x += 4)
 		{
-			if (x == 0 || y == 0 || x == N * 4 - 4 || y == N * 4 - 4)
+			int dx = (x+2) - N * 2;
+			int dy = (y+2) - N * 2;
+			if (abs(dx*dx+dy*dy) >= (N * N * 4) - 10*N && abs(dx*dx+dy*dy) <= N * N * 4 + 10*N)
 				setCursorPixelColor(&(pixels[N * y + x]), 0xff, 0xff, 0xff, 0xff);
 			else
-				setCursorPixelColor(&(pixels[N * y + x]), 0x00f, 0x00f, 0x00f, 0x00f);
+				setCursorPixelColor(&(pixels[N * y + x]), 0xff, 0xff, 0xff, 0x00);
 		}
 	}
 
