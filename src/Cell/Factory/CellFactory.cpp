@@ -9,6 +9,7 @@ void CellFactory::configureCell(Cell& cell, const int& index)
 	case 2: configureWaterCell(cell); break;
 	case 3: configureRockCell(cell); break;
 	case 4: configureSmokeCell(cell); break;
+	case 5: configureLavaCell(cell); break;
 	
 	default: break;
 	}
@@ -26,8 +27,11 @@ void CellFactory::configureSandCell(Cell& cell)
 
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
+	if (cell.getThermicBehavior() != nullptr)
+		delete cell.getThermicBehavior();
 	
 	cell.setMovementBehavior(new SandBehavior(&cell));
+	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
 void CellFactory::configureWaterCell(Cell& cell)
@@ -38,8 +42,11 @@ void CellFactory::configureWaterCell(Cell& cell)
 
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
+	if (cell.getThermicBehavior() != nullptr)
+		delete cell.getThermicBehavior();
 	
 	cell.setMovementBehavior(new WaterBehavior(&cell));
+	cell.SetThermicBehavior(new WaterThermic(&cell));
 }
 
 void CellFactory::configureRockCell(Cell& cell)
@@ -50,8 +57,11 @@ void CellFactory::configureRockCell(Cell& cell)
 	
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
+	if (cell.getThermicBehavior() != nullptr)
+		delete cell.getThermicBehavior();
 
 	cell.setMovementBehavior(new StaticBehavior(&cell));
+	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
 void CellFactory::configureAirCell(Cell& cell)
@@ -63,8 +73,11 @@ void CellFactory::configureAirCell(Cell& cell)
 	
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
+	if (cell.getThermicBehavior() != nullptr)
+		delete cell.getThermicBehavior();
 
 	cell.setMovementBehavior(new IMovementBehavior(&cell));
+	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
 void CellFactory::configureSmokeCell(Cell& cell)
@@ -80,6 +93,29 @@ void CellFactory::configureSmokeCell(Cell& cell)
 	
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
+	if (cell.getThermicBehavior() != nullptr)
+		delete cell.getThermicBehavior();
 
 	cell.setMovementBehavior(new SmokeBehavior(&cell));
+	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+}
+
+void CellFactory::configureLavaCell(Cell& cell)
+{
+	float r = (100 - rand() % 16) / 100.0f;
+	float g = (30 - rand() % 21) / 100.0f;
+	float b = 0.0f;
+
+	cell.setColor(glm::vec3(r, g, b));
+	cell.setType(CellType::Liquid);
+	cell._temperature = 1000;
+	cell._density = 1;
+
+	if (cell.getMovementBehavior() != nullptr)
+		delete cell.getMovementBehavior();
+	if (cell.getThermicBehavior() != nullptr)
+		delete cell.getThermicBehavior();
+
+	cell.setMovementBehavior(new WaterBehavior(&cell));
+	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }

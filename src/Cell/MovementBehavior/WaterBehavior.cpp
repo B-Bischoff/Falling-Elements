@@ -48,22 +48,41 @@ void WaterBehavior::checkBelowCells()
 
 void WaterBehavior::checkAdjacentBelowCells()
 {
+	if (_cell->getVelocity().x != 0.0f)
+	{
+		int direction = _cell->getVelocity().x > 0.0f ? 1 : -1;
+		if (_x + direction >= 0 && _x + direction < _cell->getWidth() && _cells[_y + 1][_x + direction].getType() < CellType::Liquid)
+			_target = &(_cells[_y + 1][_x + direction]);
+		if (targetFound() == true)
+			return;
+	}
 	if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y + 1][_x - _random].getType() < CellType::Liquid)
 		_target = &(_cells[_y + 1][_x - _random]);
 	else if (_x + _random >= 0 && _x + _random < _cell->getWidth() && _cells[_y + 1][_x + _random].getType() < CellType::Liquid)
 		_target = &(_cells[_y + 1][_x + _random]);
+
+	if (targetFound() == true)
+		_cell->setVelocity(_cell->getVelocity() + glm::vec2(_random, 0.0f));
 }
 
 void WaterBehavior::checkAdjacentCells()
 {
-	/*
-	for (int i = 0; i < 5; i++)
+	if (_cell->getVelocity().x != 0.0f)
 	{
-		if (_x + _random >= 0 && _x + _random < _cell->getWidth() && _cells[_y][_x + _random].getType() < CellType::Liquid)
-			_target = &(_cells[_y][_x + _random]);
-		if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y][_x - _random].getType() < CellType::Liquid)
-			_target = &(_cells[_y][_x - _random]);
-	}*/
+		int direction = _cell->getVelocity().x > 0.0f ? 1 : -1;
+		for (int i = 1; i < 5; i++)
+		{
+			int x = _x + i * direction;
+			if (x >= 0 && x < _cell->getWidth() && _cells[_y][x].getType() < CellType::Liquid)
+				_target = &(_cells[_y][x]);
+			else
+				break;
+		}
+	}
+	if (targetFound() == true)
+	{
+		return;
+	}
 
 	for (int i = 1; i < 5; i++)
 	{
@@ -74,14 +93,8 @@ void WaterBehavior::checkAdjacentCells()
 		else
 			break;
 	}
-	for (int i = 1; i < 5; i++)
-	{
-		int x = _x + i * -_random;
-		if (x >= 0 && x < _cell->getWidth() && _cells[_y][x].getType() < CellType::Liquid)
-			_target = &(_cells[_y][x]);
-		else
-			break;
-	}
+	if (targetFound() == true)
+		_cell->setVelocity(_cell->getVelocity() + glm::vec2(_random, 0.0f));
 }
 
 void WaterBehavior::updateVelocity()

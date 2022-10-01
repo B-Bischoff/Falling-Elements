@@ -22,12 +22,6 @@ void SmokeBehavior::update()
 	if (targetFound() == true)
 		_cell->swapCell(*_target);
 
-	if (_test >= 20)
-	{
-		CellFactory::configureWaterCell(*_cell);
-	}
-
-	_test += 1;
 }
 
 void SmokeBehavior::checkUpCell()

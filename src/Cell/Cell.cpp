@@ -1,9 +1,10 @@
 #include "Cell.h"
 #include "MovementBehavior/IMovementBehavior.h"
+#include "ThermicBehavior/IThermicBehavior.h"
 #include "Factory/CellFactory.h"
 
 Cell::Cell()
-	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _type(CellType::Gazeous),
+	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _thermicBehavior(nullptr), _type(CellType::Gazeous),
 		_velocity(0.0f), _temperature(20), _thermalConductivity(1), _density(2)
 {
 }
@@ -18,6 +19,7 @@ void Cell::update()
 	{
 		_movementBehavior->hasMoved = true;
 		_movementBehavior->update();
+		_thermicBehavior->update();
 	}
 }
 
@@ -27,6 +29,7 @@ void Cell::swapCell(Cell& rhs)
 	temp._color = _color;
 	temp._type = _type;
 	temp._movementBehavior = _movementBehavior;
+	temp._thermicBehavior = _thermicBehavior;
 	temp._velocity = _velocity;
 	temp._temperature = _temperature;
 	temp._density = _density;
@@ -35,6 +38,8 @@ void Cell::swapCell(Cell& rhs)
 	_type = rhs._type;
 	_movementBehavior = rhs._movementBehavior;
 	_movementBehavior->setCell(this);
+	_thermicBehavior = rhs._thermicBehavior;
+	_thermicBehavior->setCell(this);
 	_velocity = rhs._velocity;
 	_temperature = rhs._temperature;
 	_density = rhs._density;
@@ -43,6 +48,8 @@ void Cell::swapCell(Cell& rhs)
 	rhs._type = temp._type;
 	rhs._movementBehavior = temp._movementBehavior;
 	rhs._movementBehavior->setCell(&rhs);
+	rhs._thermicBehavior = temp._thermicBehavior;
+	rhs._thermicBehavior->setCell(&rhs);
 	rhs._velocity = temp._velocity;
 	rhs._temperature = temp._temperature;
 	rhs._density = temp._density;
@@ -71,6 +78,10 @@ const glm::vec2& Cell::getPosition() const { return _position; }
 void Cell::setMovementBehavior(IMovementBehavior* behavior) { _movementBehavior = behavior; } 
 
 IMovementBehavior* Cell::getMovementBehavior(void) const { return _movementBehavior; }
+
+void Cell::SetThermicBehavior(IThermicBehavior* behavior) { _thermicBehavior = behavior; }
+
+IThermicBehavior* Cell::getThermicBehavior(void) const { return _thermicBehavior; }
 
 void Cell::setType(const CellType& type) { _type = type; }
 

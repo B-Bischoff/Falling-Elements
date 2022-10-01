@@ -37,6 +37,8 @@ private:
 	void updateColorFromVelocity(Cell** cells);
 	void updateColorFromTemperature(Cell** cells);
 
+	const glm::vec3 rgbToGrayscale(const glm::vec3& color) const;
+
 public:
 	GridRenderer(const int& width, const int& height, const int& cellSize, int& selectedFilter);
 

@@ -1,10 +1,14 @@
 #pragma once
 
 #include "../Cell.h"
+
 #include "../MovementBehavior/SandBehavior.h"
 #include "../MovementBehavior/WaterBehavior.h"
 #include "../MovementBehavior/StaticBehavior.h"
 #include "../MovementBehavior/SmokeBehavior.h"
+
+#include "../ThermicBehavior/IThermicBehavior.h"
+#include "../ThermicBehavior/WaterThermic.h"
 
 struct Element {
 	std::string name;
@@ -23,4 +27,5 @@ public:
 	static void configureRockCell(Cell& cell);
 	static void configureAirCell(Cell& cell);
 	static void configureSmokeCell(Cell& cell);
+	static void configureLavaCell(Cell& cell);
 };

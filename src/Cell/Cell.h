@@ -6,6 +6,7 @@
 #include <iostream>
 
 class IMovementBehavior;
+class IThermicBehavior;
 class CellFactory;
 
 enum CellType { Gazeous, Liquid, Solid};
@@ -20,6 +21,7 @@ protected:
 	int _width, _height;
 
 	IMovementBehavior* _movementBehavior;
+	IThermicBehavior* _thermicBehavior;
 
 	glm::vec2 _velocity;
 
@@ -46,6 +48,8 @@ public:
 	const glm::vec2& getPosition() const;
 	void setMovementBehavior(IMovementBehavior* behavior);
 	IMovementBehavior* getMovementBehavior(void) const;
+	void SetThermicBehavior(IThermicBehavior* behavior);
+	IThermicBehavior* getThermicBehavior(void) const;
 	void setType(const CellType& type);
 	const CellType& getType(void) const;
 	void setVelocity(const glm::vec2 velocity);

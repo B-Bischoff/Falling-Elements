@@ -144,6 +144,7 @@ void Application::loop()
 		int gaz = 0;
 		int liquid = 0;
 		int solid = 0;
+		double averageTemp = 0;
 		for (int y = 0; y < CELL_HEIGHT; y++)
 			for (int x = 0; x < CELL_WIDTH; x++)
 			{
@@ -156,13 +157,15 @@ void Application::loop()
 					liquid++;
 				else if (_cells[y][x].getType() == CellType::Solid)
 					solid++;
+				
+				averageTemp += _cells[y][x]._temperature;
 			}
 
 		if (currentTime - previousTime >= 1.0f)
 		{
 			std::cout << frameCount << std::endl;
 			std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
-			std::cout << "Selected element: " << _selectedElement << std::endl;
+			std::cout << "Average temperature: " << (averageTemp / (CELL_HEIGHT*CELL_WIDTH)) << std::endl;
 
 			frameCount = 0;
 			previousTime = currentTime;

@@ -51,7 +51,7 @@ void UserInterface::update()
 void UserInterface::updateElementSelection()
 {
 	ImGui::Text("Element selection");
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		char text[32];
 		snprintf(text, 32, "Element %d", i);

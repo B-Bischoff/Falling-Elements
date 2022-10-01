@@ -80,6 +80,11 @@ add_executable(Falling-Elements
 	src/Cell/MovementBehavior/SmokeBehavior.h
 	src/Cell/MovementBehavior/SmokeBehavior.cpp
 
+	src/Cell/ThermicBehavior/IThermicBehavior.h
+	src/Cell/ThermicBehavior/IThermicBehavior.cpp
+	src/Cell/ThermicBehavior/WaterThermic.h
+	src/Cell/ThermicBehavior/WaterThermic.cpp
+
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp
 

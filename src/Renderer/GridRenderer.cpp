@@ -174,10 +174,12 @@ void GridRenderer::updateColorFromColor(Cell** _cells)
 		{
 			int vertexNb = y * WIDTH + x;
 
-			_vertices[vertexNb * 4].Color = _cells[y][x].getColor();
-			_vertices[vertexNb * 4 + 1].Color = _cells[y][x].getColor();
-			_vertices[vertexNb * 4 + 2].Color = _cells[y][x].getColor();
-			_vertices[vertexNb * 4 + 3].Color = _cells[y][x].getColor();
+			glm::vec3 color = _cells[y][x].getColor();
+
+			_vertices[vertexNb * 4].Color = color;
+			_vertices[vertexNb * 4 + 1].Color = color;
+			_vertices[vertexNb * 4 + 2].Color = color;
+			_vertices[vertexNb * 4 + 3].Color = color;
 		}
 	}
 }
@@ -185,7 +187,7 @@ void GridRenderer::updateColorFromColor(Cell** _cells)
 void GridRenderer::updateColorFromVelocity(Cell** _cells)
 {
 	const glm::vec3 VELOCITY(0.0f, 1.0f, 0.0f);
-	const glm::vec3 NO_VELOCITY(1.0f, 0.0f, 0.0f);
+	const glm::vec3 NO_VELOCITY(0.0f, 0.0f, 0.0f);
 
 	for (int y = 0; y < HEIGHT; y++)
 	{
@@ -198,11 +200,20 @@ void GridRenderer::updateColorFromVelocity(Cell** _cells)
 				color = NO_VELOCITY / 2.0f;
 			else
 				color = VELOCITY / 2.0f;
+			
+			if (_cells[y][x].getVelocity().x > 0.0f)
+				color = glm::vec3(0.0f, 1.0f, 0.0f);
+			else if (_cells[y][x].getVelocity().x < 0.0f)
+				color = glm::vec3(1.0f, 0.0f, 0.0f);
+			else
+				color = NO_VELOCITY;
 
-			_vertices[vertexNb * 4].Color = color + _cells[y][x].getColor() / 2.0f;
-			_vertices[vertexNb * 4 + 1].Color = color + _cells[y][x].getColor() / 2.0f;
-			_vertices[vertexNb * 4 + 2].Color = color + _cells[y][x].getColor() / 2.0f;
-			_vertices[vertexNb * 4 + 3].Color = color + _cells[y][x].getColor() / 2.0f;
+			color = color * 0.6f + rgbToGrayscale(_cells[y][x].getColor()) * 0.40f;
+
+			_vertices[vertexNb * 4].Color = color;// + _cells[y][x].getColor() / 2.0f;
+			_vertices[vertexNb * 4 + 1].Color = color;// + _cells[y][x].getColor() / 2.0f;
+			_vertices[vertexNb * 4 + 2].Color = color;// + _cells[y][x].getColor() / 2.0f;
+			_vertices[vertexNb * 4 + 3].Color = color;// + _cells[y][x].getColor() / 2.0f;
 		}
 	}
 }
@@ -211,7 +222,7 @@ void GridRenderer::updateColorFromTemperature(Cell** _cells)
 {
 	const glm::vec3 HOT(1.0f, 0.0f, 0.0f);
 	const glm::vec3 COLD(0.0f, 0.0f, 1.0f);
-	const double MIN = -50.0;
+	const double MIN = 0.0;
 	const double MAX = 100.0;
 
 	for (int y = 0; y < HEIGHT; y++)
@@ -225,7 +236,8 @@ void GridRenderer::updateColorFromTemperature(Cell** _cells)
 			double r = (HOT.r - COLD.r) * t + COLD.r;
 			double g = (HOT.g - COLD.g) * t + COLD.g;
 			double b = (HOT.b - COLD.b) * t + COLD.b;
-			const glm::vec3 color = glm::vec3(r, g, b);
+			glm::vec3 color = glm::vec3(r, g, b);
+			color = color * 0.6f + rgbToGrayscale(_cells[y][x].getColor()) * 0.40f;
 
 			_vertices[vertexNb * 4].Color = color;
 			_vertices[vertexNb * 4 + 1].Color = color;
@@ -233,4 +245,10 @@ void GridRenderer::updateColorFromTemperature(Cell** _cells)
 			_vertices[vertexNb * 4 + 3].Color = color;
 		}
 	}
+}
+
+const glm::vec3 GridRenderer::rgbToGrayscale(const glm::vec3& color) const
+{
+	float value = color.r * 0.3f + color.g * 0.59f + color.b * 0.11f;
+	return glm::vec3(value);
 }
