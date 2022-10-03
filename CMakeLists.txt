@@ -84,6 +84,8 @@ add_executable(Falling-Elements
 	src/Cell/ThermicBehavior/IThermicBehavior.cpp
 	src/Cell/ThermicBehavior/WaterThermic.h
 	src/Cell/ThermicBehavior/WaterThermic.cpp
+	src/Cell/ThermicBehavior/LavaThermic.h
+	src/Cell/ThermicBehavior/LavaThermic.cpp
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp

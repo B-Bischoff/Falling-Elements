@@ -1,18 +1,17 @@
 #pragma once
 
-#include <iostream>
 #include "IThermicBehavior.h"
 #include "../Factory/CellFactory.h"
 
 class IThermicBehavior;
 class CellFactory;
 
-class WaterThermic : public IThermicBehavior {
+class LavaThermic : public IThermicBehavior {
 private:
 
 public:
-	WaterThermic(Cell* cell);
-	~WaterThermic();
+	LavaThermic(Cell* cell);
+	~LavaThermic();
 
 	void update();
 };

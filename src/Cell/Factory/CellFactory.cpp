@@ -117,5 +117,5 @@ void CellFactory::configureLavaCell(Cell& cell)
 		delete cell.getThermicBehavior();
 
 	cell.setMovementBehavior(new WaterBehavior(&cell));
-	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+	cell.SetThermicBehavior(new LavaThermic(&cell));
 }

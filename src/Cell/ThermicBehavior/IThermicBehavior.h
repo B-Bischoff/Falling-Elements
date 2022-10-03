@@ -9,6 +9,8 @@ protected:
 	Cell** _cells;
 	Cell* _cell;
 
+	void updateTemperature();
+
 public:
 	IThermicBehavior(Cell* cell);
 	~IThermicBehavior();
