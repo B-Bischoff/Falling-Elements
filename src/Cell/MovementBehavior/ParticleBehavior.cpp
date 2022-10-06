@@ -25,6 +25,8 @@ void ParticleBehavior::update()
 				if (_cell->getVelocity().y < 0.0f)
 					_cell->setVelocity(glm::vec2(_cell->getVelocity().x, 0.0f));
 			}
+			else
+				_cell->setVelocity(glm::vec2(_cell->getVelocity().x, 0.0f));
 		}
 		else
 			_cell->setVelocity(glm::vec2(_cell->getVelocity().x, 0.0f));

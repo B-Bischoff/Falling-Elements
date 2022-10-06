@@ -10,6 +10,8 @@
 #include "../ThermicBehavior/IThermicBehavior.h"
 #include "../ThermicBehavior/WaterThermic.h"
 #include "../ThermicBehavior/LavaThermic.h"
+#include "../ThermicBehavior/RockThermic.h"
+#include "../ThermicBehavior/SteamThermic.h"
 
 struct Element {
 	std::string name;

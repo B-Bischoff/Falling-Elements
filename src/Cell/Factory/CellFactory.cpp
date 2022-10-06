@@ -61,7 +61,7 @@ void CellFactory::configureRockCell(Cell& cell)
 		delete cell.getThermicBehavior();
 
 	cell.setMovementBehavior(new StaticBehavior(&cell));
-	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+	cell.SetThermicBehavior(new RockThermic(&cell));
 }
 
 void CellFactory::configureAirCell(Cell& cell)
@@ -97,7 +97,7 @@ void CellFactory::configureSmokeCell(Cell& cell)
 		delete cell.getThermicBehavior();
 
 	cell.setMovementBehavior(new SmokeBehavior(&cell));
-	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+	cell.SetThermicBehavior(new SteamThermic(&cell));
 }
 
 void CellFactory::configureLavaCell(Cell& cell)

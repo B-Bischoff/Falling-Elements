@@ -5,7 +5,7 @@
 
 Cell::Cell()
 	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _thermicBehavior(nullptr), _type(CellType::Gazeous),
-		_velocity(0.0f), _temperature(20), _thermalConductivity(1), _density(2)
+		_velocity(0.0f), _temperature(20), _nextTemperature(20), _thermalConductivity(1), _density(2)
 {
 }
 

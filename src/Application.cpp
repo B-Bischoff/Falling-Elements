@@ -150,6 +150,7 @@ void Application::loop()
 			{
 				if (_cells[y][x].getMovementBehavior())
 					_cells[y][x].getMovementBehavior()->hasMoved = false;
+				_cells[y][x]._temperature = _cells[y][x]._nextTemperature;
 
 				if (_cells[y][x].getType() == CellType::Gazeous)
 					gaz++;

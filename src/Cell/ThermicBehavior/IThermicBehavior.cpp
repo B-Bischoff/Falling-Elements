@@ -63,8 +63,7 @@ void IThermicBehavior::updateTemperature()
 		total += _cells[y + 1][x - 1]._temperature;
 	}
 
-	_cell->_temperature = total / count;
-
+	_cell->_nextTemperature = total / count;
 }
 
 void IThermicBehavior::setCell(Cell* cell)

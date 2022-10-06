@@ -31,6 +31,7 @@ public:
 
 	double _thermalConductivity;
 	double _temperature;
+	double _nextTemperature;
 	double _density;
 
 	void update();

@@ -205,6 +205,8 @@ void GridRenderer::updateColorFromVelocity(Cell** _cells)
 				color = glm::vec3(0.0f, 1.0f, 0.0f);
 			else if (_cells[y][x].getVelocity().x < 0.0f)
 				color = glm::vec3(1.0f, 0.0f, 0.0f);
+			else if (_cells[y][x].getVelocity().y != 0.0f)
+				color = glm::vec3(1.0f, 1.0f, 1.0f);
 			else
 				color = NO_VELOCITY;
 
