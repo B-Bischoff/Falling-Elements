@@ -86,6 +86,10 @@ add_executable(Falling-Elements
 	src/Cell/ThermicBehavior/WaterThermic.cpp
 	src/Cell/ThermicBehavior/LavaThermic.h
 	src/Cell/ThermicBehavior/LavaThermic.cpp
+	src/Cell/ThermicBehavior/RockThermic.h
+	src/Cell/ThermicBehavior/RockThermic.cpp
+	src/Cell/ThermicBehavior/SteamThermic.h
+	src/Cell/ThermicBehavior/SteamThermic.cpp
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp
