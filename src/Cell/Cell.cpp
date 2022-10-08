@@ -32,6 +32,7 @@ void Cell::swapCell(Cell& rhs)
 	temp._thermicBehavior = _thermicBehavior;
 	temp._velocity = _velocity;
 	temp._temperature = _temperature;
+	temp._nextTemperature = _nextTemperature;
 	temp._density = _density;
 
 	_color = rhs._color;
@@ -42,6 +43,7 @@ void Cell::swapCell(Cell& rhs)
 	_thermicBehavior->setCell(this);
 	_velocity = rhs._velocity;
 	_temperature = rhs._temperature;
+	_nextTemperature = rhs._nextTemperature;
 	_density = rhs._density;
 
 	rhs._color = temp._color;
@@ -52,6 +54,7 @@ void Cell::swapCell(Cell& rhs)
 	rhs._thermicBehavior->setCell(&rhs);
 	rhs._velocity = temp._velocity;
 	rhs._temperature = temp._temperature;
+	rhs._nextTemperature = temp._nextTemperature;
 	rhs._density = temp._density;
 }
 

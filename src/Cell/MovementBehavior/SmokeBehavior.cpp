@@ -15,9 +15,9 @@ void SmokeBehavior::update()
 
 	_random = (rand() % 2) * 2 - 1;
 
-	checkUpCell();
+	checkAdjacentUpCells();
 	if (targetFound() == false)
-		checkAdjacentUpCells();
+		checkUpCell();
 	
 	if (targetFound() == true)
 		_cell->swapCell(*_target);

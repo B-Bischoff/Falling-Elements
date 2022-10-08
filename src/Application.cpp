@@ -148,9 +148,9 @@ void Application::loop()
 		for (int y = 0; y < CELL_HEIGHT; y++)
 			for (int x = 0; x < CELL_WIDTH; x++)
 			{
-				if (_cells[y][x].getMovementBehavior())
-					_cells[y][x].getMovementBehavior()->hasMoved = false;
+				_cells[y][x].getMovementBehavior()->hasMoved = false;
 				_cells[y][x]._temperature = _cells[y][x]._nextTemperature;
+				_cells[y][x]._nextTemperature = _cells[y][x]._temperature;
 
 				if (_cells[y][x].getType() == CellType::Gazeous)
 					gaz++;

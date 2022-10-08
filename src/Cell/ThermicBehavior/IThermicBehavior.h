@@ -10,6 +10,8 @@ protected:
 	Cell* _cell;
 
 	void updateTemperature();
+	void updateTemperature2();
+	void updateTarget(Cell& target, const double& value);
 
 public:
 	IThermicBehavior(Cell* cell);

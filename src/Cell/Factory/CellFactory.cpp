@@ -24,6 +24,8 @@ void CellFactory::configureSandCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);
 	cell._temperature = 50;
+	cell._nextTemperature = 50;
+	cell._thermalConductivity = 1.5;
 
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
@@ -39,6 +41,8 @@ void CellFactory::configureWaterCell(Cell& cell)
 	cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
 	cell.setType(CellType::Liquid);
 	cell._temperature = 10;
+	cell._nextTemperature = 10;
+	cell._thermalConductivity = 0.7;
 
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
@@ -54,6 +58,8 @@ void CellFactory::configureRockCell(Cell& cell)
 	cell.setColor(glm::vec3(0.2f, 0.2f, 0.2f));
 	cell.setType(CellType::Solid);
 	cell._temperature = 0;
+	cell._nextTemperature = 0;
+	cell._thermalConductivity = 1.7;
 	
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
@@ -69,7 +75,9 @@ void CellFactory::configureAirCell(Cell& cell)
 	cell.setColor(glm::vec3(0.2f, 0.0f, 0.2f));
 	cell.setType(CellType::Gazeous);
 	cell._temperature = 20;
+	cell._nextTemperature = 20;
 	cell._density = 2;
+	cell._thermalConductivity = 0.2;
 	
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
@@ -89,7 +97,9 @@ void CellFactory::configureSmokeCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Gazeous);
 	cell._temperature = 20;
+	cell._nextTemperature = 20;
 	cell._density = 1;
+	cell._thermalConductivity = 0.7;
 	
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
@@ -109,7 +119,9 @@ void CellFactory::configureLavaCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Liquid);
 	cell._temperature = 1000;
+	cell._nextTemperature = 1000;
 	cell._density = 1;
+	cell._thermalConductivity = 1.0;
 
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
