@@ -25,42 +25,50 @@ void IThermicBehavior::updateTemperature()
 	if (y > 0)
 	{
 		Cell& target = _cells[y - 1][x];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 	if (y < _cell->getHeight() - 1)
 	{
 		Cell& target = _cells[y + 1][x];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 	if (x > 0)
 	{
 		Cell& target = _cells[y][x - 1];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 	if (x < _cell->getWidth() - 1)
 	{
 		Cell& target = _cells[y][x + 1];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 	if (y > 0 && x < _cell->getWidth() - 1)
 	{
 		Cell& target = _cells[y - 1][x + 1];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 	if (y < _cell->getHeight() - 1 && x < _cell->getWidth() - 1)
 	{
 		Cell& target = _cells[y + 1][x + 1];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 	if (y > 0 && x > 0)
 	{
 		Cell& target = _cells[y - 1][x - 1];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 	if (y < _cell->getHeight() - 1 && x > 0)
 	{
 		Cell& target = _cells[y + 1][x - 1];
-		updateTarget(target, VALUE * target._thermalConductivity);
+		if (target._temperature < _cell->_temperature)
+			updateTarget(target, VALUE * target._thermalConductivity);
 	}
 }
 

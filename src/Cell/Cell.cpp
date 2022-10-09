@@ -34,6 +34,7 @@ void Cell::swapCell(Cell& rhs)
 	temp._temperature = _temperature;
 	temp._nextTemperature = _nextTemperature;
 	temp._density = _density;
+	temp._thermalConductivity = _thermalConductivity;
 
 	_color = rhs._color;
 	_type = rhs._type;
@@ -45,6 +46,7 @@ void Cell::swapCell(Cell& rhs)
 	_temperature = rhs._temperature;
 	_nextTemperature = rhs._nextTemperature;
 	_density = rhs._density;
+	_thermalConductivity = rhs._thermalConductivity;
 
 	rhs._color = temp._color;
 	rhs._type = temp._type;
@@ -56,6 +58,7 @@ void Cell::swapCell(Cell& rhs)
 	rhs._temperature = temp._temperature;
 	rhs._nextTemperature = temp._nextTemperature;
 	rhs._density = temp._density;
+	rhs._thermalConductivity = temp._thermalConductivity;
 }
 
 void Cell::setCells(Cell** cells) { _cells = cells; }

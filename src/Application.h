@@ -42,6 +42,7 @@ private:
 	int _selectedElement;
 	int _selectedBrush;
 	int _selectedFilter;
+	Cell* _hoveredCell;
 
 	std::vector<int>* _randomSets;
 	int _currentRandomSet;

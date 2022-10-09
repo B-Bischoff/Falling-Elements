@@ -24,12 +24,14 @@ private:
 	int& _selectedElement;
 	int& _selectedBrush;
 	int& _selectedFilter;
+	Cell** _hoveredCell;
 
 	void updateElementSelection();
 	void updateBrushSelection();
+	void updateHoveredCellInfo();
 
 public:
-	UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush, int& _selectedFilter);
+	UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush, int& _selectedFilter, Cell** hoveredCell);
 
 	void createNewFrame();
 	void update();

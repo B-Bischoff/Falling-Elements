@@ -11,8 +11,11 @@ void LavaThermic::update()
 
 	if (_cell->_temperature < 200.0f)
 	{
-		float temperature = _cell->_temperature;
+		double temperature = _cell->_temperature;
+		double nextTemperature = _cell->_nextTemperature;
+		
 		CellFactory::configureRockCell(*_cell);
 		_cell->_temperature = temperature;
+		_cell->_nextTemperature = nextTemperature;
 	}
 }

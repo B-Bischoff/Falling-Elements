@@ -12,8 +12,11 @@ void SteamThermic::update()
 
 	if (_cell->_temperature < 100.0f)
 	{
-		float temperature = _cell->_temperature;
+		double temperature = _cell->_temperature;
+		double nextTemperature = _cell->_nextTemperature;
+
 		CellFactory::configureWaterCell(*_cell);
 		_cell->_temperature = temperature;
+		_cell->_nextTemperature = nextTemperature;
 	}
 }

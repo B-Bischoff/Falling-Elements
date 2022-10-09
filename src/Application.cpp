@@ -3,7 +3,7 @@
 #include "Instrumentor.h"
 
 Application::Application(const int& width, const int& height)
-	: WIN_WIDTH(width), WIN_HEIGHT(height)
+	: WIN_WIDTH(width), WIN_HEIGHT(height), _hoveredCell(nullptr)
 {
 	// GLFW init
 	if (!glfwInit())
@@ -102,16 +102,17 @@ void Application::loop()
 		_cells
 	};
 
-	InputManager input(windowData, CellsArrayData, _selectedElement, _selectedBrush);
+	InputManager input(windowData, CellsArrayData, _selectedElement, _selectedBrush, &_hoveredCell);
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE, _selectedFilter);
-	UserInterface ui(windowData, _selectedElement, _selectedBrush, _selectedFilter);
+	UserInterface ui(windowData, _selectedElement, _selectedBrush, _selectedFilter, &_hoveredCell);
 	generateRandomSets();
 
 	double previousTime = glfwGetTime();
 	double cycleTime = glfwGetTime();
 	int frameCount = 0;
 
+	Brush::updateCursor(_selectedBrush, _window);
 
 	while (!glfwWindowShouldClose(_window) && glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{

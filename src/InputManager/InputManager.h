@@ -26,17 +26,20 @@ private:
 	Cell** _cells;
 	int& _selectedElement;
 	int& _selectedBrush;
+	Cell** _hoveredCell;
 
 	double _mouseX, _mouseY;
 
 	void updateMousePosition();
 	void putCells();
+	void updateHoveredCell();
 
 	const bool isInCellsBoundaries(const double& x, const double& y) const;
+	const bool isInScreenBoundaries(const double& x, const double& y) const;
 	const bool isMouseOverUI() const;
 
 public:
-	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement, int& selectedBrush);
+	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement, int& selectedBrush, Cell** hoveredCell);
 
 	void update();
 };
