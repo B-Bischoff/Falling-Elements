@@ -27,10 +27,7 @@ void CellFactory::configureSandCell(Cell& cell)
 	cell._nextTemperature = 50;
 	cell._thermalConductivity = 1.5;
 
-	if (cell.getMovementBehavior() != nullptr)
-		delete cell.getMovementBehavior();
-	if (cell.getThermicBehavior() != nullptr)
-		delete cell.getThermicBehavior();
+	deleteBehaviors(cell);
 	
 	cell.setMovementBehavior(new SandBehavior(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
@@ -44,10 +41,7 @@ void CellFactory::configureWaterCell(Cell& cell)
 	cell._nextTemperature = 10;
 	cell._thermalConductivity = 0.7;
 
-	if (cell.getMovementBehavior() != nullptr)
-		delete cell.getMovementBehavior();
-	if (cell.getThermicBehavior() != nullptr)
-		delete cell.getThermicBehavior();
+	deleteBehaviors(cell);
 	
 	cell.setMovementBehavior(new WaterBehavior(&cell));
 	cell.SetThermicBehavior(new WaterThermic(&cell));
@@ -61,10 +55,7 @@ void CellFactory::configureRockCell(Cell& cell)
 	cell._nextTemperature = 0;
 	cell._thermalConductivity = 1.7;
 	
-	if (cell.getMovementBehavior() != nullptr)
-		delete cell.getMovementBehavior();
-	if (cell.getThermicBehavior() != nullptr)
-		delete cell.getThermicBehavior();
+	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new StaticBehavior(&cell));
 	cell.SetThermicBehavior(new RockThermic(&cell));
@@ -79,10 +70,7 @@ void CellFactory::configureAirCell(Cell& cell)
 	cell._density = 2;
 	cell._thermalConductivity = 0.2;
 	
-	if (cell.getMovementBehavior() != nullptr)
-		delete cell.getMovementBehavior();
-	if (cell.getThermicBehavior() != nullptr)
-		delete cell.getThermicBehavior();
+	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new IMovementBehavior(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
@@ -101,10 +89,7 @@ void CellFactory::configureSmokeCell(Cell& cell)
 	cell._density = 1;
 	cell._thermalConductivity = 0.7;
 	
-	if (cell.getMovementBehavior() != nullptr)
-		delete cell.getMovementBehavior();
-	if (cell.getThermicBehavior() != nullptr)
-		delete cell.getThermicBehavior();
+	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new SmokeBehavior(&cell));
 	cell.SetThermicBehavior(new SteamThermic(&cell));
@@ -123,11 +108,16 @@ void CellFactory::configureLavaCell(Cell& cell)
 	cell._density = 1;
 	cell._thermalConductivity = 1.0;
 
+	deleteBehaviors(cell);
+
+	cell.setMovementBehavior(new WaterBehavior(&cell));
+	cell.SetThermicBehavior(new LavaThermic(&cell));
+}
+
+void CellFactory::deleteBehaviors(Cell& cell)
+{
 	if (cell.getMovementBehavior() != nullptr)
 		delete cell.getMovementBehavior();
 	if (cell.getThermicBehavior() != nullptr)
 		delete cell.getThermicBehavior();
-
-	cell.setMovementBehavior(new WaterBehavior(&cell));
-	cell.SetThermicBehavior(new LavaThermic(&cell));
 }

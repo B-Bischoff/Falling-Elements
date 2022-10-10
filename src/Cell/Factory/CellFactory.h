@@ -21,6 +21,7 @@ struct Element {
 
 class CellFactory {
 private:
+	static void deleteBehaviors(Cell& cell);
 
 public:
 	static void configureCell(Cell& cell, const int& index);

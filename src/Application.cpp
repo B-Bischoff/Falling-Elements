@@ -54,7 +54,7 @@ void Application::generateRandomSets()
 		for (int j = 0; j < RANDOM_SETS_NB; j++)
 			_randomSets[j].push_back(i);
 	
-	// Suffle numbers in sets
+	// Shuffle numbers in sets
 	auto rng = std::default_random_engine {};
 	for (int i = 0; i < RANDOM_SETS_NB; i++)
 		std::shuffle(_randomSets[i].begin(), _randomSets[i].end(), rng);
@@ -106,13 +106,13 @@ void Application::loop()
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE, _selectedFilter);
 	UserInterface ui(windowData, _selectedElement, _selectedBrush, _selectedFilter, &_hoveredCell);
+	Brush::updateCursor(_selectedBrush, _window);
 	generateRandomSets();
 
 	double previousTime = glfwGetTime();
 	double cycleTime = glfwGetTime();
 	int frameCount = 0;
 
-	Brush::updateCursor(_selectedBrush, _window);
 
 	while (!glfwWindowShouldClose(_window) && glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{

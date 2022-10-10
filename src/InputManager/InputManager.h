@@ -9,7 +9,7 @@
 #include "../Cell/Cell.h"
 #include "../Cell/Factory/CellFactory.h"
 #include "../Application.h"
-#include "Brush.h"
+#include "Brush/Brush.h"
 
 struct WindowData;
 struct CellsArrayData;
