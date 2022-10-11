@@ -3,12 +3,10 @@
 SmokeBehavior::SmokeBehavior(Cell* cell)
 	: IMovementBehavior(cell)
 {
-
 }
 
 void SmokeBehavior::update()
 {
-
 	_target = nullptr;
 	_x = _cell->getPosition().x;
 	_y = _cell->getPosition().y;
@@ -21,7 +19,6 @@ void SmokeBehavior::update()
 	
 	if (targetFound() == true)
 		_cell->swapCell(*_target);
-
 }
 
 void SmokeBehavior::checkUpCell()
@@ -39,7 +36,6 @@ void SmokeBehavior::checkAdjacentUpCells()
 			_target = &(_cells[_y - 1][_x - _random]);
 		else if (_x + _random >= 0 && _x + _random < _cell->getWidth() && _cells[_y - 1][_x + _random].getType() <= CellType::Gazeous && _cell->_density < _cells[_y - 1][_x + _random]._density)
 			_target = &(_cells[_y - 1][_x + _random]);
-
 	}
 }
 

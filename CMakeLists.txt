@@ -83,6 +83,8 @@ add_executable(Falling-Elements
 	src/Cell/MovementBehavior/ParticleBehavior.cpp
 	src/Cell/MovementBehavior/SmokeBehavior.h
 	src/Cell/MovementBehavior/SmokeBehavior.cpp
+	src/Cell/MovementBehavior/RockBehavior.h
+	src/Cell/MovementBehavior/RockBehavior.cpp
 
 	src/Cell/ThermicBehavior/IThermicBehavior.h
 	src/Cell/ThermicBehavior/IThermicBehavior.cpp

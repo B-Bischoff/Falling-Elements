@@ -15,8 +15,7 @@ void SteamThermic::update()
 		double temperature = _cell->_temperature;
 		double nextTemperature = _cell->_nextTemperature;
 
+		CellFactory::setTemperatureOnNextConfig(_cell->_temperature, _cell->_nextTemperature);
 		CellFactory::configureWaterCell(*_cell);
-		_cell->_temperature = temperature;
-		_cell->_nextTemperature = nextTemperature;
 	}
 }

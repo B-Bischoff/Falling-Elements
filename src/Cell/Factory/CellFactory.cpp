@@ -1,5 +1,9 @@
 #include "CellFactory.h"
 
+bool CellFactory::_setSpecificTemperature = false;
+double CellFactory::_temperature = 0;
+double CellFactory::_nextTemperature = 0;
+
 void CellFactory::configureCell(Cell& cell, const int& index)
 {
 	switch (index)
@@ -15,6 +19,13 @@ void CellFactory::configureCell(Cell& cell, const int& index)
 	}
 }
 
+void CellFactory::setTemperatureOnNextConfig(const double& temperature, const double& nextTemperature)
+{
+	_setSpecificTemperature = true;
+	_temperature = temperature;
+	_nextTemperature = nextTemperature;
+}
+
 void CellFactory::configureSandCell(Cell& cell)
 {
 	float r = (100 - rand() % 6) / 100.0f;
@@ -23,6 +34,12 @@ void CellFactory::configureSandCell(Cell& cell)
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);
+
+	if (_setSpecificTemperature)
+		setTemperature(cell, _temperature, _nextTemperature);
+	else
+		setTemperature(cell, 50.0, 50.0);
+
 	cell._temperature = 50;
 	cell._nextTemperature = 50;
 	cell._thermalConductivity = 1.5;
@@ -37,8 +54,10 @@ void CellFactory::configureWaterCell(Cell& cell)
 {
 	cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
 	cell.setType(CellType::Liquid);
-	cell._temperature = 10;
-	cell._nextTemperature = 10;
+	if (_setSpecificTemperature)
+		setTemperature(cell, _temperature, _nextTemperature);
+	else
+		setTemperature(cell, 10.0, 10.0);
 	cell._thermalConductivity = 0.7;
 
 	deleteBehaviors(cell);
@@ -51,13 +70,15 @@ void CellFactory::configureRockCell(Cell& cell)
 {
 	cell.setColor(glm::vec3(0.2f, 0.2f, 0.2f));
 	cell.setType(CellType::Solid);
-	cell._temperature = 0;
-	cell._nextTemperature = 0;
+	if (_setSpecificTemperature)
+		setTemperature(cell, _temperature, _nextTemperature);
+	else
+		setTemperature(cell, 0.0, 0.0);
 	cell._thermalConductivity = 1.7;
 	
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new StaticBehavior(&cell));
+	cell.setMovementBehavior(new RockBehavior(&cell));
 	cell.SetThermicBehavior(new RockThermic(&cell));
 }
 
@@ -65,8 +86,10 @@ void CellFactory::configureAirCell(Cell& cell)
 {
 	cell.setColor(glm::vec3(0.2f, 0.0f, 0.2f));
 	cell.setType(CellType::Gazeous);
-	cell._temperature = 20;
-	cell._nextTemperature = 20;
+	if (_setSpecificTemperature)
+		setTemperature(cell, _temperature, _nextTemperature);
+	else
+		setTemperature(cell, 20.0, 20.0);
 	cell._density = 2;
 	cell._thermalConductivity = 0.2;
 	
@@ -84,8 +107,10 @@ void CellFactory::configureSmokeCell(Cell& cell)
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Gazeous);
-	cell._temperature = 20;
-	cell._nextTemperature = 20;
+	if (_setSpecificTemperature)
+		setTemperature(cell, _temperature, _nextTemperature);
+	else
+		setTemperature(cell, 20.0, 20.0);
 	cell._density = 1;
 	cell._thermalConductivity = 0.7;
 	
@@ -103,8 +128,10 @@ void CellFactory::configureLavaCell(Cell& cell)
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Liquid);
-	cell._temperature = 1000;
-	cell._nextTemperature = 1000;
+	if (_setSpecificTemperature)
+		setTemperature(cell, _temperature, _nextTemperature);
+	else
+		setTemperature(cell, 1000.0, 1000.0);
 	cell._density = 1;
 	cell._thermalConductivity = 1.0;
 
@@ -112,6 +139,13 @@ void CellFactory::configureLavaCell(Cell& cell)
 
 	cell.setMovementBehavior(new WaterBehavior(&cell));
 	cell.SetThermicBehavior(new LavaThermic(&cell));
+}
+
+void CellFactory::setTemperature(Cell& cell, const double& temperature, const double& nextTemperature)
+{
+	cell._temperature = temperature;
+	cell._nextTemperature = nextTemperature;
+	_setSpecificTemperature = false;
 }
 
 void CellFactory::deleteBehaviors(Cell& cell)

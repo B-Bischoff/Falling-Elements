@@ -6,6 +6,7 @@
 #include "../MovementBehavior/WaterBehavior.h"
 #include "../MovementBehavior/StaticBehavior.h"
 #include "../MovementBehavior/SmokeBehavior.h"
+#include "../MovementBehavior/RockBehavior.h"
 
 #include "../ThermicBehavior/IThermicBehavior.h"
 #include "../ThermicBehavior/WaterThermic.h"
@@ -13,18 +14,18 @@
 #include "../ThermicBehavior/RockThermic.h"
 #include "../ThermicBehavior/SteamThermic.h"
 
-struct Element {
-	std::string name;
-	int index;
-	static void (CellFactory::*method)(Cell&);
-};
-
 class CellFactory {
 private:
+	static bool _setSpecificTemperature;
+	static double _temperature, _nextTemperature;
+
+	static void setTemperature(Cell& cell, const double& temperature, const double& nextTemperature);
 	static void deleteBehaviors(Cell& cell);
 
 public:
 	static void configureCell(Cell& cell, const int& index);
+
+	static void setTemperatureOnNextConfig(const double& temperature, const double& nextTemperature);
 
 	static void configureSandCell(Cell& cell);
 	static void configureWaterCell(Cell& cell);

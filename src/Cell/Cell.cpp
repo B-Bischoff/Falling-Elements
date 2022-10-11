@@ -18,8 +18,8 @@ void Cell::update()
 	if (!_movementBehavior->hasMoved)
 	{
 		_movementBehavior->hasMoved = true;
-		_movementBehavior->update();
 		_thermicBehavior->update();
+		_movementBehavior->update();
 	}
 }
 

@@ -14,8 +14,7 @@ void WaterThermic::update()
 		double temperature = _cell->_temperature;
 		double nextTemperature = _cell->_nextTemperature;
 
+		CellFactory::setTemperatureOnNextConfig(_cell->_temperature, _cell->_nextTemperature);
 		CellFactory::configureSmokeCell(*_cell);
-		_cell->_temperature = temperature;
-		_cell->_nextTemperature = nextTemperature;
 	}
 }
