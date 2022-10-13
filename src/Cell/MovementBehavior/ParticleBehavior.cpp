@@ -16,7 +16,7 @@ void ParticleBehavior::update()
 		int y = _cell->getPosition().y;
 		if (_cell->getVelocity().y >= 1.0f)
 		{
-			if (y - 1 >= 0)
+			if (y - 1 >= 0 && _cell->getType() > _cells[y - 1][x].getType())
 			{
 				_cell->swapCell(_cells[y - 1][x]);
 				_cell->setVelocity(_cell->getVelocity() - glm::vec2(0.0f, 1.0f));
@@ -37,7 +37,7 @@ void ParticleBehavior::update()
 		int y = _cell->getPosition().y;
 		if (_cell->getVelocity().x >= 1.0f)
 		{
-			if (x + 1 < _cell->getWidth())
+			if (x + 1 < _cell->getWidth() && _cell->getType() > _cells[y][x + 1].getType())
 			{
 				_cell->swapCell(_cells[y][x + 1]);
 				_cell->setVelocity(_cell->getVelocity() - glm::vec2(1.0f, 0.0f));
@@ -58,7 +58,7 @@ void ParticleBehavior::update()
 		int y = _cell->getPosition().y;
 		if (_cell->getVelocity().x <= -1.0f)
 		{
-			if (x - 1 >= 0)
+			if (x - 1 >= 0 && _cell->getType() > _cells[y][x - 1].getType())
 			{
 				_cell->swapCell(_cells[y][x - 1]);
 				_cell->setVelocity(_cell->getVelocity() + glm::vec2(1.0f, 0.0f));
