@@ -26,4 +26,5 @@ private:
 	void releaseRemainingVelocity();
 	const bool targetFound();
 	const bool cellHasVelocity();
+	const bool canSwap(Cell& cell);
 };

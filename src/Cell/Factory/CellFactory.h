@@ -13,6 +13,8 @@
 #include "../ThermicBehavior/LavaThermic.h"
 #include "../ThermicBehavior/RockThermic.h"
 #include "../ThermicBehavior/SteamThermic.h"
+#include "../ThermicBehavior/FlameThermic.h"
+#include "../ThermicBehavior/FlammableThermic.h"
 
 class CellFactory {
 private:
@@ -33,4 +35,6 @@ public:
 	static void configureAirCell(Cell& cell);
 	static void configureSmokeCell(Cell& cell);
 	static void configureLavaCell(Cell& cell);
+	static void configureOilCell(Cell& cell);
+	static void configureFlameCell(Cell& cell);
 };

@@ -39,7 +39,7 @@ void WaterBehavior::checkBelowCells()
 {
 	for (int i = 0; i <= _cell->getVelocity().y; i++)
 	{
-		if ((_y + i + 1) < _cell->getHeight() && _cells[_y + i + 1][_x].getType() < CellType::Liquid)
+		if ((_y + i + 1) < _cell->getHeight() && canSwap(_cells[_y + i + 1][_x]))
 			_target = &(_cells[_y + i + 1][_x]);
 		else
 			break;
@@ -51,14 +51,15 @@ void WaterBehavior::checkAdjacentBelowCells()
 	if (_cell->getVelocity().x != 0.0f)
 	{
 		int direction = _cell->getVelocity().x > 0.0f ? 1 : -1;
-		if (_x + direction >= 0 && _x + direction < _cell->getWidth() && _cells[_y + 1][_x + direction].getType() < CellType::Liquid)
+		if (_x + direction >= 0 && _x + direction < _cell->getWidth() && canSwap(_cells[_y+1][_x+direction]))
+		{
+			_cell->setVelocity(_cell->getVelocity() + glm::vec2(direction, 0.0f));
 			_target = &(_cells[_y + 1][_x + direction]);
-		if (targetFound() == true)
-			return;
+		}
 	}
-	if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y + 1][_x - _random].getType() < CellType::Liquid)
+	if (_x - _random >= 0 && _x - _random < _cell->getWidth() && canSwap(_cells[_y + 1][_x - _random]))
 		_target = &(_cells[_y + 1][_x - _random]);
-	else if (_x + _random >= 0 && _x + _random < _cell->getWidth() && _cells[_y + 1][_x + _random].getType() < CellType::Liquid)
+	else if (_x + _random >= 0 && _x + _random < _cell->getWidth() && canSwap(_cells[_y + 1][_x + _random]))
 		_target = &(_cells[_y + 1][_x + _random]);
 
 	if (targetFound() == true)
@@ -73,22 +74,20 @@ void WaterBehavior::checkAdjacentCells()
 		for (int i = 1; i < 5; i++)
 		{
 			int x = _x + i * direction;
-			if (x >= 0 && x < _cell->getWidth() && _cells[_y][x].getType() < CellType::Liquid)
+			if (x >= 0 && x < _cell->getWidth() && canSwap(_cells[_y][x]))
 				_target = &(_cells[_y][x]);
 			else
 				break;
 		}
 	}
 	if (targetFound() == true)
-	{
 		return;
-	}
 
 	for (int i = 1; i < 5; i++)
 	{
 		int x = _x + i * _random;
 		//std::cout << "x: " << _x << " --> " << x << std::endl;
-		if (x >= 0 && x < _cell->getWidth() && _cells[_y][x].getType() < CellType::Liquid)
+		if (x >= 0 && x < _cell->getWidth() && canSwap(_cells[_y][x]))
 			_target = &(_cells[_y][x]);
 		else
 			break;
@@ -117,4 +116,14 @@ const bool WaterBehavior::targetFound()
 const bool WaterBehavior::cellHasVelocity()
 {
 	return _cell->getVelocity() != glm::vec2(0.0f);
+}
+
+const bool WaterBehavior::canSwap(Cell& cell)
+{
+	if (cell.getType() == CellType::Gazeous)
+		return true;
+	else if (cell.getType() == CellType::Solid)
+		return false;
+	else
+		return (_cell->_density > cell._density);
 }

@@ -14,6 +14,8 @@ void CellFactory::configureCell(Cell& cell, const int& index)
 	case 3: configureRockCell(cell); break;
 	case 4: configureSmokeCell(cell); break;
 	case 5: configureLavaCell(cell); break;
+	case 6: configureOilCell(cell); break;
+	case 7: configureFlameCell(cell); break;
 	
 	default: break;
 	}
@@ -35,10 +37,7 @@ void CellFactory::configureSandCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);
 
-	if (_setSpecificTemperature)
-		setTemperature(cell, _temperature, _nextTemperature);
-	else
-		setTemperature(cell, 50.0, 50.0);
+	setTemperature(cell, 50.0, 50.0);
 
 	cell._temperature = 50;
 	cell._nextTemperature = 50;
@@ -54,11 +53,9 @@ void CellFactory::configureWaterCell(Cell& cell)
 {
 	cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
 	cell.setType(CellType::Liquid);
-	if (_setSpecificTemperature)
-		setTemperature(cell, _temperature, _nextTemperature);
-	else
-		setTemperature(cell, 10.0, 10.0);
+	setTemperature(cell, 10.0, 10.0);
 	cell._thermalConductivity = 0.7;
+	cell._density = 1;
 
 	deleteBehaviors(cell);
 	
@@ -68,12 +65,14 @@ void CellFactory::configureWaterCell(Cell& cell)
 
 void CellFactory::configureRockCell(Cell& cell)
 {
-	cell.setColor(glm::vec3(0.2f, 0.2f, 0.2f));
+	float random = rand() % 7;
+	float r = (25 - random) / 100.0f;
+	float g = (25 - random) / 100.0f;
+	float b = (25 - random) / 100.0f;
+
+	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);
-	if (_setSpecificTemperature)
-		setTemperature(cell, _temperature, _nextTemperature);
-	else
-		setTemperature(cell, 0.0, 0.0);
+	setTemperature(cell, 0.0, 0.0);
 	cell._thermalConductivity = 1.7;
 	
 	deleteBehaviors(cell);
@@ -86,10 +85,7 @@ void CellFactory::configureAirCell(Cell& cell)
 {
 	cell.setColor(glm::vec3(0.2f, 0.0f, 0.2f));
 	cell.setType(CellType::Gazeous);
-	if (_setSpecificTemperature)
-		setTemperature(cell, _temperature, _nextTemperature);
-	else
-		setTemperature(cell, 20.0, 20.0);
+	setTemperature(cell, 20.0, 20.0);
 	cell._density = 2;
 	cell._thermalConductivity = 0.2;
 	
@@ -107,10 +103,7 @@ void CellFactory::configureSmokeCell(Cell& cell)
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Gazeous);
-	if (_setSpecificTemperature)
-		setTemperature(cell, _temperature, _nextTemperature);
-	else
-		setTemperature(cell, 20.0, 20.0);
+	setTemperature(cell, 20.0, 20.0);
 	cell._density = 1;
 	cell._thermalConductivity = 0.7;
 	
@@ -128,10 +121,7 @@ void CellFactory::configureLavaCell(Cell& cell)
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Liquid);
-	if (_setSpecificTemperature)
-		setTemperature(cell, _temperature, _nextTemperature);
-	else
-		setTemperature(cell, 1000.0, 1000.0);
+	setTemperature(cell, 1000.0, 1000.0);
 	cell._density = 1;
 	cell._thermalConductivity = 1.0;
 
@@ -141,10 +131,50 @@ void CellFactory::configureLavaCell(Cell& cell)
 	cell.SetThermicBehavior(new LavaThermic(&cell));
 }
 
+void CellFactory::configureOilCell(Cell& cell)
+{
+	cell.setColor(glm::vec3(0.06f));
+	cell.setType(CellType::Liquid);
+	setTemperature(cell, 50.0, 5.0);
+	cell._density = 0.7;
+	cell._thermalConductivity = 1.0;
+
+	deleteBehaviors(cell);
+
+	cell.setMovementBehavior(new WaterBehavior(&cell));
+	cell.SetThermicBehavior(new FlammableThermic(&cell));
+}
+
+void CellFactory::configureFlameCell(Cell& cell)
+{
+	float r = (100 - rand() % 16) / 100.0f;
+	float g = (50 - rand() % 21) / 100.0f;
+	float b = 0.0f;
+
+	cell.setColor(glm::vec3(r, g, b));
+	cell.setType(CellType::Gazeous);
+	setTemperature(cell, 1000, 1000);
+	cell._density = 1;
+	cell._thermalConductivity = 1.0;
+
+	deleteBehaviors(cell);
+
+	cell.setMovementBehavior(new SmokeBehavior(&cell));
+	cell.SetThermicBehavior(new FlameThermic(&cell));
+}
+
 void CellFactory::setTemperature(Cell& cell, const double& temperature, const double& nextTemperature)
 {
-	cell._temperature = temperature;
-	cell._nextTemperature = nextTemperature;
+	if (_setSpecificTemperature)
+	{
+		cell._temperature = _temperature;
+		cell._nextTemperature = _nextTemperature;
+	}
+	else
+	{
+		cell._temperature = temperature;
+		cell._nextTemperature = nextTemperature;
+	}
 	_setSpecificTemperature = false;
 }
 
