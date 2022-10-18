@@ -18,7 +18,7 @@ void RockBehavior::update()
 
 		checkBelowCell();
 		if (targetFound() == false && cellHasVelocity() == true)
-			CheckAdjacentBelowCells();
+			checkAdjacentBelowCells();
 		
 		if (targetFound() == true)
 		{
@@ -45,7 +45,7 @@ void RockBehavior::checkBelowCell()
 	}
 }
 
-void RockBehavior::CheckAdjacentBelowCells()
+void RockBehavior::checkAdjacentBelowCells()
 {
 	if (_cell->getVelocity().x != 0.0f)
 	{

@@ -7,6 +7,7 @@
 #include "../MovementBehavior/StaticBehavior.h"
 #include "../MovementBehavior/SmokeBehavior.h"
 #include "../MovementBehavior/RockBehavior.h"
+#include "../MovementBehavior/GazBehavior.h"
 
 #include "../ThermicBehavior/IThermicBehavior.h"
 #include "../ThermicBehavior/WaterThermic.h"

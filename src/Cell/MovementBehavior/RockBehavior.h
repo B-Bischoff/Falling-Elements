@@ -20,7 +20,7 @@ public:
 
 private:
 	void checkBelowCell();
-	void CheckAdjacentBelowCells();
+	void checkAdjacentBelowCells();
 	void updateVelocity();
 	void transmitVelocity();
 	void transmitVelocityToCell(const int& x, const int& y, const glm::vec2& friction);

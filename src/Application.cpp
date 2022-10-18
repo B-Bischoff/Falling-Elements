@@ -128,7 +128,7 @@ void Application::loop()
 
 		if (currentTime - cycleTime >= 0.015f)
 		{
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				for (int y = 0; y < CELL_HEIGHT; y++)
 				{

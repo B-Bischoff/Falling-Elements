@@ -91,7 +91,7 @@ void CellFactory::configureAirCell(Cell& cell)
 	
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new IMovementBehavior(&cell));
+	cell.setMovementBehavior(new GazBehavior(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
