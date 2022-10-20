@@ -8,8 +8,12 @@
 #include <iostream>
 #include <stdlib.h>
 
+#include "../Application.h"
 #include "../ShaderProgram.h"
 #include "../Cell/Cell.h"
+
+struct WindowData;
+struct CellsArrayData;
 
 struct Vertex {
 	glm::vec3 Position;
@@ -18,7 +22,8 @@ struct Vertex {
 
 class GridRenderer {
 private:
-	const int WIDTH, HEIGHT, CELL_SIZE;
+	const int CELL_WIDTH, CELL_HEIGHT, CELL_SIZE;
+	const int WIN_WIDTH, WIN_HEIGHT;
 
 	int& _selectedFilter;
 
@@ -40,7 +45,7 @@ private:
 	const glm::vec3 rgbToGrayscale(const glm::vec3& color) const;
 
 public:
-	GridRenderer(const int& width, const int& height, const int& cellSize, int& selectedFilter);
+	GridRenderer(const CellsArrayData& CellsArrayData, const WindowData& windowData, int& selectedFilter);
 
 	~GridRenderer();
 

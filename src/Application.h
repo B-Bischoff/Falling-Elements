@@ -22,6 +22,7 @@ struct WindowData {
 	GLFWwindow& window;
 	const int WIN_WIDTH;
 	const int WIN_HEIGHT;
+	const int UI_WIDTH;
 };
 
 struct CellsArrayData {
@@ -33,9 +34,10 @@ struct CellsArrayData {
 
 class Application {
 private:
-	const int WIN_WIDTH, WIN_HEIGHT;
 	const int CELL_SIZE = 4;
-	const int CELL_WIDTH = WIN_WIDTH / CELL_SIZE;
+	const int UI_WIDTH = 300;
+	const int WIN_WIDTH, WIN_HEIGHT;
+	const int CELL_WIDTH = (WIN_WIDTH - UI_WIDTH) / CELL_SIZE;
 	const int CELL_HEIGHT = WIN_HEIGHT / CELL_SIZE;
 	const int RANDOM_SETS_NB = 100;
 

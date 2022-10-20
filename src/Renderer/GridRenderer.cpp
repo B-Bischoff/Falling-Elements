@@ -6,8 +6,11 @@ GridRenderer::~GridRenderer()
 	delete [] _vertices;
 }
 
-GridRenderer::GridRenderer(const int& width, const int& height, const int& cellSize, int& selectedFilter)
-	: WIDTH(width), HEIGHT(height), CELL_SIZE(cellSize), _selectedFilter(selectedFilter), _indices(nullptr), _vertices(nullptr)
+GridRenderer::GridRenderer(const CellsArrayData& cellsArrayData, const WindowData& windowData, int& selectedFilter)
+	: CELL_WIDTH(cellsArrayData.CELL_WIDTH), CELL_HEIGHT(cellsArrayData.CELL_HEIGHT),
+	CELL_SIZE(cellsArrayData.CELL_SIZE), WIN_HEIGHT(windowData.WIN_HEIGHT),
+	WIN_WIDTH(windowData.WIN_WIDTH), _selectedFilter(selectedFilter),
+	_indices(nullptr), _vertices(nullptr)
 {
 	initializeMemory();
 	generateIndices();
@@ -17,7 +20,7 @@ GridRenderer::GridRenderer(const int& width, const int& height, const int& cellS
 
 void GridRenderer::initializeMemory()
 {
-	_indices = new uint32_t [WIDTH * HEIGHT * 6];
+	_indices = new uint32_t [CELL_WIDTH * CELL_HEIGHT * 6];
 	if (_indices == nullptr)
 	{
 		std::cerr << "[GridRenderer] Initialization failed." << std::endl;
@@ -25,7 +28,7 @@ void GridRenderer::initializeMemory()
 		exit (1);
 	}
 
-	_vertices = new Vertex [WIDTH * HEIGHT * 4];
+	_vertices = new Vertex [CELL_WIDTH * CELL_HEIGHT * 4];
 	if (_vertices == nullptr)
 	{
 		std::cerr << "[GridRenderer] Initialization failed." << std::endl;
@@ -36,7 +39,7 @@ void GridRenderer::initializeMemory()
 
 void GridRenderer::generateIndices()
 {
-	const int VERT_NB = WIDTH * HEIGHT * 6;
+	const int VERT_NB = CELL_WIDTH * CELL_HEIGHT * 6;
 
 	int indiceOffset = 0;
 
@@ -67,7 +70,7 @@ void GridRenderer::initializeOpenglObjects()
 
 	glGenBuffers(1, &_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4 * WIDTH * HEIGHT, nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4 * CELL_WIDTH * CELL_HEIGHT, nullptr, GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Position));
@@ -77,20 +80,20 @@ void GridRenderer::initializeOpenglObjects()
 
 	glGenBuffers(1, &_ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * WIDTH * HEIGHT * 6, _indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * CELL_WIDTH * CELL_HEIGHT * 6, _indices, GL_STATIC_DRAW);
 }
 
 void GridRenderer::initializeVertexPositions()
 {
 	const glm::vec3 defaultColor = glm::vec3(0.2f, 0.0f, 0.2f);
 	
-	for (int y = 0; y < HEIGHT; y++)
+	for (int y = 0; y < CELL_HEIGHT; y++)
 	{
-		for (int x = 0; x < WIDTH; x++)
+		for (int x = 0; x < CELL_WIDTH; x++)
 		{
 			// "(HEIGHT - 1 - y)" is used to reverse the y axis
 			// So that cells[0][0] is diplayed at the screen top left instead of screen bottom left
-			int vertexNb = (HEIGHT - 1 - y) * WIDTH + x;
+			int vertexNb = (CELL_HEIGHT - 1 - y) * CELL_WIDTH + x;
 
 			Vertex v1 = {
 				glm::vec3((float)(CELL_SIZE * x), (float)(CELL_SIZE * y), 0.0f),
@@ -123,7 +126,7 @@ void GridRenderer::render(ShaderProgram& program, Cell** cells)
 
 	program.useProgram();
 
-	glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WIN_WIDTH), 0.0f, static_cast<float>(WIN_HEIGHT), -1.0f, 1.0f);
 	program.setMat4("projection", projection);
 
 	program.setMat4("view", glm::mat4(1.0f));
@@ -139,19 +142,19 @@ void GridRenderer::render(ShaderProgram& program, Cell** cells)
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * 4 * WIDTH * HEIGHT, _vertices);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * 4 * CELL_WIDTH * CELL_HEIGHT, _vertices);
 
 
-	glDrawElements(GL_TRIANGLES, 6 * WIDTH * HEIGHT, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, 6 * CELL_WIDTH * CELL_HEIGHT, GL_UNSIGNED_INT, nullptr);
 }
 
 void GridRenderer::updateColorFromRandom(Cell** _cells)
 {
-	for (int y = 0; y < HEIGHT; y++)
+	for (int y = 0; y < CELL_HEIGHT; y++)
 	{
-		for (int x = 0; x < WIDTH; x++)
+		for (int x = 0; x < CELL_WIDTH; x++)
 		{
-			int vertexNb = y * WIDTH + x;
+			int vertexNb = y * CELL_WIDTH + x;
 
 			glm::vec3 randomColor = glm::vec3(
 				(float)(rand() % 101) / 100.0f,
@@ -168,11 +171,11 @@ void GridRenderer::updateColorFromRandom(Cell** _cells)
 
 void GridRenderer::updateColorFromColor(Cell** _cells)
 {
-	for (int y = 0; y < HEIGHT; y++)
+	for (int y = 0; y < CELL_HEIGHT; y++)
 	{
-		for (int x = 0; x < WIDTH; x++)
+		for (int x = 0; x < CELL_WIDTH; x++)
 		{
-			int vertexNb = y * WIDTH + x;
+			int vertexNb = y * CELL_WIDTH + x;
 
 			glm::vec3 color = _cells[y][x].getColor();
 
@@ -189,11 +192,11 @@ void GridRenderer::updateColorFromVelocity(Cell** _cells)
 	const glm::vec3 VELOCITY(0.0f, 1.0f, 0.0f);
 	const glm::vec3 NO_VELOCITY(0.0f, 0.0f, 0.0f);
 
-	for (int y = 0; y < HEIGHT; y++)
+	for (int y = 0; y < CELL_HEIGHT; y++)
 	{
-		for (int x = 0; x < WIDTH; x++)
+		for (int x = 0; x < CELL_WIDTH; x++)
 		{
-			int vertexNb = y * WIDTH + x;
+			int vertexNb = y * CELL_WIDTH + x;
 
 			glm::vec3 color;
 			if (_cells[y][x].getVelocity() == glm::vec2(0.0f))
@@ -227,11 +230,11 @@ void GridRenderer::updateColorFromTemperature(Cell** _cells)
 	const double MIN = 0.0;
 	const double MAX = 200.0;
 
-	for (int y = 0; y < HEIGHT; y++)
+	for (int y = 0; y < CELL_HEIGHT; y++)
 	{
-		for (int x = 0; x < WIDTH; x++)
+		for (int x = 0; x < CELL_WIDTH; x++)
 		{
-			int vertexNb = y * WIDTH + x;
+			int vertexNb = y * CELL_WIDTH + x;
 
 			double temperature = _cells[y][x]._temperature;
 			double t = (temperature - MIN) / (MAX - MIN); // inv lerp

@@ -19,7 +19,7 @@ struct WindowData;
 class UserInterface {
 private:
 	GLFWwindow& _window;
-	const int WIN_WIDTH, WIN_HEIGHT;
+	const int WIN_WIDTH, WIN_HEIGHT, UI_WIDTH;
 
 	int& _selectedElement;
 	int& _selectedBrush;

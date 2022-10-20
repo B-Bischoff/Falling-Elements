@@ -93,7 +93,8 @@ void Application::loop()
 	WindowData windowData {
 		*_window,
 		WIN_WIDTH,
-		WIN_HEIGHT
+		WIN_HEIGHT,
+		UI_WIDTH
 	};
 	CellsArrayData CellsArrayData {
 		CELL_SIZE,
@@ -104,7 +105,7 @@ void Application::loop()
 
 	InputManager input(windowData, CellsArrayData, _selectedElement, _selectedBrush, &_hoveredCell);
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
-	GridRenderer renderer(CELL_WIDTH, CELL_HEIGHT, CELL_SIZE, _selectedFilter);
+	GridRenderer renderer(CellsArrayData, windowData, _selectedFilter);
 	UserInterface ui(windowData, _selectedElement, _selectedBrush, _selectedFilter, &_hoveredCell);
 	Brush::updateCursor(_selectedBrush, _window);
 	generateRandomSets();

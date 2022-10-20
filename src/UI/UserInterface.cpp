@@ -1,7 +1,7 @@
 #include "UserInterface.h"
 
 UserInterface::UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush, int& selectedFilter, Cell** hoveredCell)
-	: _window(windowData.window), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT),
+	: _window(windowData.window), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT), UI_WIDTH(windowData.UI_WIDTH),
 		_selectedElement(selectedElement), _selectedBrush(selectedBrush), _selectedFilter(selectedFilter),
 		_hoveredCell(hoveredCell)
 {
@@ -29,7 +29,7 @@ void UserInterface::createNewFrame()
 
 void UserInterface::update()
 {
-	const int PANNEL_WIDTH = WIN_WIDTH * 0.2f; // 20% of window width
+	const int PANNEL_WIDTH = UI_WIDTH; 
 	const int PANNEL_HEIGHT = WIN_HEIGHT;
 
 	ImGui::SetNextWindowPos(ImVec2(WIN_WIDTH - PANNEL_WIDTH, 0.0f));
