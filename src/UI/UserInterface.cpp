@@ -18,6 +18,10 @@ UserInterface::UserInterface(const WindowData& windowData, int& selectedElement,
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(&_window, true);
 	ImGui_ImplOpenGL3_Init(glsl_version);
+
+	// Textures init
+	_textures.push_back(TextureLoader("textures/test.png"));
+	_textures.push_back(TextureLoader("textures/test1.png"));
 }
 
 void UserInterface::createNewFrame()
@@ -32,6 +36,9 @@ void UserInterface::update()
 	const int PANNEL_WIDTH = UI_WIDTH; 
 	const int PANNEL_HEIGHT = WIN_HEIGHT;
 
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.WindowBorderSize = 0;
+
 	ImGui::SetNextWindowPos(ImVec2(WIN_WIDTH - PANNEL_WIDTH, 0.0f));
 	ImGui::SetNextWindowSize(ImVec2(PANNEL_WIDTH, PANNEL_HEIGHT));
 
@@ -39,19 +46,30 @@ void UserInterface::update()
 	windowFlag |= ImGuiWindowFlags_NoMove;
 	windowFlag |= ImGuiWindowFlags_NoResize;
 	windowFlag |= ImGuiWindowFlags_NoCollapse;
+	windowFlag |= ImGuiWindowFlags_NoTitleBar;
 
-	ImGui::Begin("Main Tab");
+	ImGui::Begin("Menu", NULL, windowFlag);
 
+	updateFiltersSelection();
 	updateElementSelection();
 	updateBrushSelection();
-	ImGui::Combo("Filter", &_selectedFilter, "Normal\0Velocity\0Temperature\0");
+	//ImGui::Combo("Filter", &_selectedFilter, "Normal\0Velocity\0Temperature\0");
 	updateHoveredCellInfo();
 
 	ImGui::End();
 }
 
+void UserInterface::updateFiltersSelection()
+{
+	ImGui::BeginChild("Filters", ImVec2(UI_WIDTH, 50));
+	ImGui::Text("Filters section");
+	ImGui::EndChild();
+	ImGui::Separator();
+}
+
 void UserInterface::updateElementSelection()
 {
+	ImGui::BeginChild("Elements", ImVec2(UI_WIDTH, 200));
 	ImGui::Text("Element selection");
 	for (int i = 0; i < 8; i++)
 	{
@@ -60,10 +78,15 @@ void UserInterface::updateElementSelection()
 		if (ImGui::Selectable(text, _selectedElement == i))
 			_selectedElement = i;
 	}
+	ImGui::EndChild();
+	ImGui::Separator();
 }
 
 void UserInterface::updateBrushSelection()
 {
+	ImGuiIO& io = ImGui::GetIO();
+
+	ImGui::BeginChild("Brushes", ImVec2(UI_WIDTH, 150));
 	ImGui::Text("\nBrush selection");
 	
 	int newBrushSize = Brush::brushSize;
@@ -74,16 +97,22 @@ void UserInterface::updateBrushSelection()
 		Brush::updateCursor(_selectedBrush, &_window);
 	}
 
-	if (ImGui::Selectable("Square brush", _selectedBrush == 0))
+	//if (ImGui::Selectable("Square brush", _selectedBrush == 0))
+	if (ImGui::ImageButton((void*)(intptr_t)_textures[0].getTexture(), ImVec2(32.0f, 32.0f)) == 0);
 	{
+		std::cout << "SQUARE" << std::endl;
 		_selectedBrush = 0;
 		Brush::updateCursor(0, &_window);
 	}
-	if (ImGui::Selectable("Circle brush", _selectedBrush == 1))
+	ImGui::SameLine();
+	if (ImGui::ImageButton((void*)(intptr_t)_textures[1].getTexture(), ImVec2(32.0f, 32.0f)) == 0);
 	{
+		std::cout << "CIRCLE" << std::endl;
 		_selectedBrush = 1;
 		Brush::updateCursor(1, &_window);
 	}
+	ImGui::EndChild();
+	ImGui::Separator();
 }
 
 void UserInterface::updateHoveredCellInfo()

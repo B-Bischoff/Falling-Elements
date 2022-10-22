@@ -1,3 +1,7 @@
+#ifndef STB_IMAGE_IMPLEMENTATION
+# define STB_IMAGE_IMPLEMENTATION
+#endif
+
 #include "Application.h"
 
 int main(void)

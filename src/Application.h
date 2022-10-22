@@ -13,6 +13,7 @@
 
 #include "ShaderProgram.h"
 #include "UI/UserInterface.h"
+#include "UI/TextureLoader/TextureLoader.hpp"
 #include "Renderer/GridRenderer.h"
 #include "InputManager/InputManager.h"
 #include "Cell/Cell.h"

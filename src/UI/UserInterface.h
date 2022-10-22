@@ -10,11 +10,14 @@
 #include "../vendor/imgui/imgui_impl_opengl3.h"
 
 #include <cstdio>
+#include <vector>
 
 #include "../Application.h"
 #include "../Cell/Factory/CellFactory.h"
+#include "TextureLoader/TextureLoader.hpp"
 
 struct WindowData;
+class TextureLoader;
 
 class UserInterface {
 private:
@@ -26,6 +29,9 @@ private:
 	int& _selectedFilter;
 	Cell** _hoveredCell;
 
+	std::vector<TextureLoader> _textures;
+
+	void updateFiltersSelection();
 	void updateElementSelection();
 	void updateBrushSelection();
 	void updateHoveredCellInfo();

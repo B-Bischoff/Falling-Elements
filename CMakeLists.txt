@@ -59,6 +59,8 @@ add_executable(Falling-Elements
 
 	src/UI/UserInterface.h
 	src/UI/UserInterface.cpp
+	src/UI/TextureLoader/TextureLoader.hpp
+	src/UI/TextureLoader/TextureLoader.cpp
 
 	src/InputManager/InputManager.h
 	src/InputManager/InputManager.cpp
@@ -105,6 +107,9 @@ add_executable(Falling-Elements
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp
+
+	# STB IMAGE
+	src/vendor/stb/stb_image.h
 
 	# IMGUI
 	src/vendor/imgui/imconfig.h
