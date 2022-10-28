@@ -14,11 +14,13 @@ void RockBehavior::update()
 
 	if (_y < _cell->getHeight() - 1)
 	{
-		_random = (rand() % 2) * 2 - 1; // 'random' can be -1 or 1
+		_random = (rand() % 2) * 2 - 1; // '_random' can be -1 or 1
 
 		checkBelowCell();
 		if (targetFound() == false && cellHasVelocity() == true)
+        {
 			checkAdjacentBelowCells();
+        }
 		
 		if (targetFound() == true)
 		{
@@ -29,7 +31,7 @@ void RockBehavior::update()
 
 	if (targetFound() == false && cellHasVelocity() == true)
 	{
-		transmitVelocity();
+        transmitVelocity();
 		_cell->setMovementBehavior(new ParticleBehavior(_cell, *this));
 	}
 }
@@ -77,24 +79,31 @@ void RockBehavior::updateVelocity()
 
 void RockBehavior::transmitVelocity()
 {
-	const float X_FRI = 0.2f;
-	const float Y_FRI = 0.05f;
+	const float X_FRI = 1.0f;
+	const float Y_FRI = 1.0f;
 	const glm::vec2 friction(X_FRI, Y_FRI);
+
+    const float CELLfriction = _cell->_friction; // To add in Cell class
+
+    const glm::vec2& velocity = _cell->getVelocity();
+    float xVel = velocity.x + velocity.y * CELLfriction;
+        if (xVel > 1.0f || xVel < -1.0f)
+        xVel = rand() % (int)xVel * _random;
+    
+    _cell->setVelocity(glm::vec2(xVel, 0.0f));
 	
 	if (_y + 1 < _cell->getHeight())
 	{
-		if (_cells[_y + 1][_x].getType() == CellType::Solid)// && _cells[_y+1][_x].getVelocity()==glm::vec2(0.0f))
-			transmitVelocityToCell(_x, _y+1, friction);
-		if (_cells[_y + 1][_x - 1].getType() == CellType::Solid)// && _cells[_y+1][_x-1].getVelocity()==glm::vec2(0.0f))
-			transmitVelocityToCell(_x-1, _y+1, friction);
-		if (_cells[_y + 1][_x + 1].getType() == CellType::Solid)// && _cells[_y+1][_x+1].getVelocity()==glm::vec2(0.0f))
-			transmitVelocityToCell(_x+1, _y+1, friction);
+		transmitVelocityToCell(_x, _y+1, friction);
+		transmitVelocityToCell(_x-1, _y+1, friction);
+		transmitVelocityToCell(_x+1, _y+1, friction);
 	}
-
-	float yVel = _cell->getVelocity().y;
-	float xVel = _cell->getVelocity().x;
-	_cell->setVelocity(glm::vec2(xVel * (1.0f - X_FRI), yVel * (1.0f - Y_FRI)));
+//
+//	float yVel = _cell->getVelocity().y;
+//	float xVel = _cell->getVelocity().x;
+//	_cell->setVelocity(glm::vec2(xVel * (1.0f - X_FRI), yVel * (1.0f - Y_FRI)));
 	//std::cout << "x: " << _cell->getVelocity().x << " y: " << _cell->getVelocity().y << std::endl;
+
 }
 
 void RockBehavior::transmitVelocityToCell(const int& x, const int& y, const glm::vec2& friction)
@@ -103,6 +112,8 @@ void RockBehavior::transmitVelocityToCell(const int& x, const int& y, const glm:
 		return;
 	if (y >= _cell->getHeight() || y < 0)
 		return;
+    if (_cells[y][x].getType() != CellType::Solid)
+        return;
 
 	glm::vec2 velocity = _cell->getVelocity();
 	glm::vec2 targetVelocity = _cells[y][x].getVelocity();

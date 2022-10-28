@@ -33,6 +33,14 @@ struct CellsArrayData {
 	Cell** cells;
 };
 
+struct SimulationData {
+	int& selectedElement;
+	int& selectedBrush;
+	int& selectedFilter;
+	float& simulationSpeed;
+	Cell** hoveredCell;
+};
+
 class Application {
 private:
 	const int CELL_SIZE = 4;
@@ -45,6 +53,7 @@ private:
 	int _selectedElement;
 	int _selectedBrush;
 	int _selectedFilter;
+	float _simulationSpeed;
 	Cell* _hoveredCell;
 
 	std::vector<int>* _randomSets;

@@ -27,3 +27,4 @@ private:
 	const bool targetFound();
 	const bool cellHasVelocity();
 };
+

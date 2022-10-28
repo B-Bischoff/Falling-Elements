@@ -104,6 +104,8 @@ add_executable(Falling-Elements
 	src/Cell/ThermicBehavior/FlameThermic.cpp
 	src/Cell/ThermicBehavior/FlammableThermic.h
 	src/Cell/ThermicBehavior/FlammableThermic.cpp
+    src/Cell/ThermicBehavior/IceThermic.h
+    src/Cell/ThermicBehavior/IceThermic.cpp
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp

@@ -6,12 +6,12 @@
 class IThermicBehavior;
 class CellFactory;
 
-class RockThermic : public IThermicBehavior {
+class IceThermic : public IThermicBehavior {
 private:
 
 public:
-	RockThermic(Cell* cell);
-	~RockThermic();
+	IceThermic(Cell* cell);
+	~IceThermic();
 
 	void update();
 };

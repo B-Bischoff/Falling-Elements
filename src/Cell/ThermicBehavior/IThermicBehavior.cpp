@@ -20,60 +20,34 @@ void IThermicBehavior::updateTemperature()
 	int x = _cell->getPosition().x;
 
 	//_cell->_nextTemperature = _cell->_temperature;
-	const double VALUE = _cell->_temperature * 0.015f;
+	const double VALUE = _cell->_temperature * 0.05f;
 
 	if (y > 0)
-	{
-		Cell& target = _cells[y - 1][x];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y - 1][x]);
 	if (y < _cell->getHeight() - 1)
-	{
-		Cell& target = _cells[y + 1][x];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y + 1][x]);
 	if (x > 0)
-	{
-		Cell& target = _cells[y][x - 1];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y][x - 1]);
 	if (x < _cell->getWidth() - 1)
-	{
-		Cell& target = _cells[y][x + 1];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y][x + 1]);
 	if (y > 0 && x < _cell->getWidth() - 1)
-	{
-		Cell& target = _cells[y - 1][x + 1];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y - 1][x + 1]);
 	if (y < _cell->getHeight() - 1 && x < _cell->getWidth() - 1)
-	{
-		Cell& target = _cells[y + 1][x + 1];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y + 1][x + 1]);
 	if (y > 0 && x > 0)
-	{
-		Cell& target = _cells[y - 1][x - 1];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y - 1][x - 1]);
 	if (y < _cell->getHeight() - 1 && x > 0)
-	{
-		Cell& target = _cells[y + 1][x - 1];
-		if (target._temperature < _cell->_temperature)
-			updateTarget(target, VALUE * target._thermalConductivity);
-	}
+        updateTarget(_cells[y + 1][x - 1]);
 }
 
-void IThermicBehavior::updateTarget(Cell& target, const double& value)
+void IThermicBehavior::updateTarget(Cell& target)
 {
+    if (target._temperature >= _cell->_temperature)
+        return;
+
+    double value = (_cell->_temperature - target._temperature) * 0.05;
+    if (value < 0) value = -value;
+
 	target._nextTemperature += value;
 	_cell->_nextTemperature -= value;
 }

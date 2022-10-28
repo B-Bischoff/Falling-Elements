@@ -18,7 +18,8 @@ void GazBehavior::update()
 
 		checkUpCell();
 		checkAdjacentUpCells();
-		
+        checkAdjacentCells();
+
 		if (targetFound() == true)
 			_cell->swapCell(*_target);
 	}
@@ -35,7 +36,7 @@ void GazBehavior::checkUpCell()
 void GazBehavior::checkAdjacentUpCells()
 {
 	if (_x + _random >= 0 && _x + _random < _cell->getWidth())
-	{
+{
 		Cell& cell = _cells[_y - 1][_x + _random];
 		if (canSwap(cell))
 		{
@@ -46,6 +47,25 @@ void GazBehavior::checkAdjacentUpCells()
 	if (_x - _random >= 0 && _x - _random < _cell->getWidth())
 	{
 		Cell& cell = _cells[_y - 1][_x - _random];
+		if (canSwap(cell))
+			_target = &cell;
+	}
+}
+
+void GazBehavior::checkAdjacentCells()
+{
+	if (_x + _random >= 0 && _x + _random < _cell->getWidth())
+    {
+		Cell& cell = _cells[_y][_x + _random];
+		if (canSwap(cell))
+		{
+			_target = &cell;
+			return;
+		}
+    }
+	if (_x - _random >= 0 && _x - _random < _cell->getWidth())
+	{
+		Cell& cell = _cells[_y][_x - _random];
 		if (canSwap(cell))
 			_target = &cell;
 	}

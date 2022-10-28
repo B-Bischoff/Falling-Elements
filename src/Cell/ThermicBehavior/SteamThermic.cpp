@@ -10,7 +10,7 @@ void SteamThermic::update()
 {
 	updateTemperature();
 
-	if (_cell->_temperature < 100.0f)
+	if (_cell->_temperature < 95.0f)
 	{
 		double temperature = _cell->_temperature;
 		double nextTemperature = _cell->_nextTemperature;

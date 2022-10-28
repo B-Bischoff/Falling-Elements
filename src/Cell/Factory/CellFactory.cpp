@@ -16,6 +16,7 @@ void CellFactory::configureCell(Cell& cell, const int& index)
 	case 5: configureLavaCell(cell); break;
 	case 6: configureOilCell(cell); break;
 	case 7: configureFlameCell(cell); break;
+    case 8: configureIceCell(cell); break;
 	
 	default: break;
 	}
@@ -97,9 +98,10 @@ void CellFactory::configureAirCell(Cell& cell)
 
 void CellFactory::configureSmokeCell(Cell& cell)
 {
-	float r = (80 - rand() % 6) / 100.0f;
-	float g = (80 - rand() % 6) / 100.0f;
-	float b = (80 - rand() % 6) / 100.0f;
+	const float random = (80 - rand() % 15) / 100.0f;
+	float r = random;
+	float g = random;
+	float b = random;
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Gazeous);
@@ -121,7 +123,7 @@ void CellFactory::configureLavaCell(Cell& cell)
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Liquid);
-	setTemperature(cell, 1000.0, 1000.0);
+	setTemperature(cell, 1500.0, 1500.0);
 	cell._density = 1;
 	cell._thermalConductivity = 1.0;
 
@@ -161,6 +163,25 @@ void CellFactory::configureFlameCell(Cell& cell)
 
 	cell.setMovementBehavior(new SmokeBehavior(&cell));
 	cell.SetThermicBehavior(new FlameThermic(&cell));
+}
+
+void CellFactory::configureIceCell(Cell& cell)
+{
+	float r = 0.0f;
+	float g = (40 - rand() % 11) / 100.0f;
+	float b = (80 - rand() % 21) / 100.0f;
+
+	cell.setColor(glm::vec3(r, g, b));
+	cell.setType(CellType::Solid);
+	setTemperature(cell, -50, -50);
+	cell._density = 1;
+	cell._thermalConductivity = 1.0;
+    cell._friction = 4;
+
+	deleteBehaviors(cell);
+
+	cell.setMovementBehavior(new RockBehavior(&cell));
+	cell.SetThermicBehavior(new IceThermic(&cell));
 }
 
 void CellFactory::setTemperature(Cell& cell, const double& temperature, const double& nextTemperature)

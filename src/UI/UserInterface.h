@@ -17,6 +17,7 @@
 #include "TextureLoader/TextureLoader.hpp"
 
 struct WindowData;
+struct SimulationData;
 class TextureLoader;
 
 class UserInterface {
@@ -27,6 +28,7 @@ private:
 	int& _selectedElement;
 	int& _selectedBrush;
 	int& _selectedFilter;
+	float& _simulationSpeed;
 	Cell** _hoveredCell;
 
 	std::vector<TextureLoader> _textures;
@@ -37,7 +39,7 @@ private:
 	void updateHoveredCellInfo();
 
 public:
-	UserInterface(const WindowData& windowData, int& selectedElement, int& selectedBrush, int& _selectedFilter, Cell** hoveredCell);
+	UserInterface(const WindowData& widowData, const SimulationData& simulationData);
 
 	void createNewFrame();
 	void update();

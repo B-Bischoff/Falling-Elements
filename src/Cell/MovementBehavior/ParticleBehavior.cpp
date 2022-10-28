@@ -31,6 +31,17 @@ void ParticleBehavior::update()
 		else
 			_cell->setVelocity(glm::vec2(_cell->getVelocity().x, 0.0f));
 	}
+    else
+    {
+		int x = _cell->getPosition().x;
+		int y = _cell->getPosition().y;
+        if (y < _cell->getHeight() - 1)
+        {
+			if (y + 1 >= 0 && _cell->getType() > _cells[y + 1][x].getType())
+				_cell->swapCell(_cells[y + 1][x]);
+        }
+    }
+
 	if (_cell->getVelocity().x > 0.0f) // Move to right
 	{
 		int x = _cell->getPosition().x;

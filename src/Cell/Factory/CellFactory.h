@@ -16,6 +16,7 @@
 #include "../ThermicBehavior/SteamThermic.h"
 #include "../ThermicBehavior/FlameThermic.h"
 #include "../ThermicBehavior/FlammableThermic.h"
+#include "../ThermicBehavior/IceThermic.h"
 
 class CellFactory {
 private:
@@ -38,4 +39,5 @@ public:
 	static void configureLavaCell(Cell& cell);
 	static void configureOilCell(Cell& cell);
 	static void configureFlameCell(Cell& cell);
+    static void configureIceCell(Cell& cell);
 };

@@ -33,8 +33,9 @@ public:
 	double _temperature;
 	double _nextTemperature;
 	double _density;
+    double _friction;
 
-	void update();
+	bool update();
 	void swapCell(Cell& rhs);
 
 	void setCells(Cell** cells);

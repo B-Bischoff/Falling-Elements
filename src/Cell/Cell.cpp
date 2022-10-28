@@ -5,7 +5,7 @@
 
 Cell::Cell()
 	: _color(glm::vec3(0.2f, 0.0f, 0.2f)), _position(glm::vec2(0.0f)), _movementBehavior(nullptr), _thermicBehavior(nullptr), _type(CellType::Gazeous),
-		_velocity(0.0f), _temperature(20), _nextTemperature(20), _thermalConductivity(1), _density(2)
+		_velocity(0.0f), _temperature(20), _nextTemperature(20), _thermalConductivity(1), _density(2), _friction(1)
 {
 }
 
@@ -13,14 +13,16 @@ Cell::~Cell()
 {
 }
 
-void Cell::update()
+bool Cell::update()
 {
 	if (!_movementBehavior->hasMoved)
 	{
 		_movementBehavior->hasMoved = true;
 		_thermicBehavior->update();
 		_movementBehavior->update();
+        return true;
 	}
+    return false;
 }
 
 void Cell::swapCell(Cell& rhs)

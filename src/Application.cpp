@@ -1,5 +1,4 @@
 #include "Application.h"
-
 #include "Instrumentor.h"
 
 Application::Application(const int& width, const int& height)
@@ -70,15 +69,20 @@ void Application::generateRandomSets()
 
 void Application::loop()
 {
+	_simulationSpeed = 0.01666; // ~ 60 Fps
 	_selectedElement = 1; // Sand by default
 	_selectedBrush = 0; // Square brush by default
 	_selectedFilter = 0;
 	_currentRandomSet = 0;
 
 	_cells = new Cell* [CELL_HEIGHT];
+	if (_cells == nullptr)
+		exit (1);
 	for (int y = 0; y < CELL_HEIGHT; y++)
 	{
 		_cells[y] = new Cell [CELL_WIDTH];
+		if (_cells[y] == nullptr)
+			exit (1);
 		for (int x = 0; x < CELL_WIDTH; x++)
 		{
 			Cell& cell = _cells[y][x];
@@ -102,18 +106,24 @@ void Application::loop()
 		CELL_HEIGHT,
 		_cells
 	};
+	SimulationData simulationData {
+		_selectedElement,
+		_selectedBrush,
+		_selectedFilter,
+		_simulationSpeed,
+		&_hoveredCell
+	};
 
 	InputManager input(windowData, CellsArrayData, _selectedElement, _selectedBrush, &_hoveredCell);
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	GridRenderer renderer(CellsArrayData, windowData, _selectedFilter);
-	UserInterface ui(windowData, _selectedElement, _selectedBrush, _selectedFilter, &_hoveredCell);
+	UserInterface ui(windowData, simulationData);
 	Brush::updateCursor(_selectedBrush, _window);
 	generateRandomSets();
 
 	double previousTime = glfwGetTime();
 	double cycleTime = glfwGetTime();
 	int frameCount = 0;
-
 
 	while (!glfwWindowShouldClose(_window) && glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	{
@@ -127,15 +137,18 @@ void Application::loop()
 
 		input.update();
 
-		if (currentTime - cycleTime >= 0.015f)
+        size_t cellsUpdated = 0;
+        const size_t totalCells = CELL_HEIGHT * CELL_WIDTH;
+		if (currentTime - cycleTime >= _simulationSpeed)
 		{
-			for (int i = 0; i < 5; i++)
+			while (cellsUpdated < totalCells)
 			{
 				for (int y = 0; y < CELL_HEIGHT; y++)
 				{
 					for (int x = 0; x < CELL_WIDTH; x++)
 					{
-						_cells[y][_randomSets[_currentRandomSet][x]].update();
+						if (_cells[y][_randomSets[_currentRandomSet][x]].update())
+							cellsUpdated += 1;
 					}
 					_currentRandomSet = (_currentRandomSet + 1) % RANDOM_SETS_NB;
 				}
