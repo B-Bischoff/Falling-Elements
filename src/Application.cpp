@@ -114,7 +114,7 @@ void Application::loop()
 		&_hoveredCell
 	};
 
-	InputManager input(windowData, CellsArrayData, _selectedElement, _selectedBrush, &_hoveredCell);
+	InputManager input(windowData, CellsArrayData, simulationData);
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
 	GridRenderer renderer(CellsArrayData, windowData, _selectedFilter);
 	UserInterface ui(windowData, simulationData);

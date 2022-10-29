@@ -7,6 +7,13 @@ InputManager::InputManager(const WindowData& windowData, const CellsArrayData& c
 	static Brush brush(cellsArrayData);
 }
 
+InputManager::InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, const SimulationData& simulationData)
+	: _cells(cellsArrayData.cells), CELL_SIZE(cellsArrayData.CELL_SIZE), WIN_WIDTH(windowData.WIN_WIDTH - windowData.UI_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT), 
+		_window(windowData.window), _selectedElement(simulationData.selectedElement), _selectedBrush(simulationData.selectedBrush), _hoveredCell(simulationData.hoveredCell)
+{
+	static Brush brush(cellsArrayData);
+}
+
 void InputManager::update()
 {
 	updateMousePosition();
@@ -29,13 +36,10 @@ void InputManager::putCells()
 
 void InputManager::updateHoveredCell()
 {
-	if (isInScreenBoundaries(_mouseX, _mouseY))
-	{
-		int x = _mouseX / CELL_SIZE;
-		int y = _mouseY / CELL_SIZE;
-
+	int x = _mouseX / CELL_SIZE;
+	int y = _mouseY / CELL_SIZE;
+	if (isInCellsBoundaries(x, y))
 		*_hoveredCell = &_cells[y][x];
-	}
 	else
 		*_hoveredCell = nullptr;
 }

@@ -23,7 +23,7 @@ void IThermicBehavior::updateTemperature()
 	const double VALUE = _cell->_temperature * 0.05f;
 
 	if (y > 0)
-        updateTarget(_cells[y - 1][x]);
+		updateTarget(_cells[y - 1][x]);
 	if (y < _cell->getHeight() - 1)
         updateTarget(_cells[y + 1][x]);
 	if (x > 0)
@@ -47,6 +47,7 @@ void IThermicBehavior::updateTarget(Cell& target)
 
     double value = (_cell->_temperature - target._temperature) * 0.05;
     if (value < 0) value = -value;
+	value *= (_cell->_thermalConductivity + target._thermalConductivity) / 2.0f;
 
 	target._nextTemperature += value;
 	_cell->_nextTemperature -= value;

@@ -13,6 +13,7 @@
 
 struct WindowData;
 struct CellsArrayData;
+struct SimulationData;
 
 class InputManager {
 private:
@@ -40,6 +41,7 @@ private:
 
 public:
 	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, int& selectedElement, int& selectedBrush, Cell** hoveredCell);
+	InputManager(const WindowData& windowData, const CellsArrayData& cellsArrayData, const SimulationData& simulationData);
 
 	void update();
 };

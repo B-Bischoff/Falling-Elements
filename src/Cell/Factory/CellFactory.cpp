@@ -55,7 +55,7 @@ void CellFactory::configureWaterCell(Cell& cell)
 	cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
 	cell.setType(CellType::Liquid);
 	setTemperature(cell, 10.0, 10.0);
-	cell._thermalConductivity = 0.7;
+	cell._thermalConductivity = 1.0;
 	cell._density = 1;
 
 	deleteBehaviors(cell);
@@ -74,7 +74,7 @@ void CellFactory::configureRockCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);
 	setTemperature(cell, 0.0, 0.0);
-	cell._thermalConductivity = 1.7;
+	cell._thermalConductivity = 1.4;
 	
 	deleteBehaviors(cell);
 
@@ -84,11 +84,11 @@ void CellFactory::configureRockCell(Cell& cell)
 
 void CellFactory::configureAirCell(Cell& cell)
 {
-	cell.setColor(glm::vec3(0.2f, 0.0f, 0.2f));
+	cell.setColor(glm::vec3(0.2f, 0.25f, 0.65f));
 	cell.setType(CellType::Gazeous);
 	setTemperature(cell, 20.0, 20.0);
 	cell._density = 2;
-	cell._thermalConductivity = 0.2;
+	cell._thermalConductivity = 0.4;
 	
 	deleteBehaviors(cell);
 
@@ -125,7 +125,7 @@ void CellFactory::configureLavaCell(Cell& cell)
 	cell.setType(CellType::Liquid);
 	setTemperature(cell, 1500.0, 1500.0);
 	cell._density = 1;
-	cell._thermalConductivity = 1.0;
+	cell._thermalConductivity = 0.4;
 
 	deleteBehaviors(cell);
 
@@ -167,9 +167,9 @@ void CellFactory::configureFlameCell(Cell& cell)
 
 void CellFactory::configureIceCell(Cell& cell)
 {
-	float r = 0.0f;
-	float g = (40 - rand() % 11) / 100.0f;
-	float b = (80 - rand() % 21) / 100.0f;
+	float r = 0.2f;
+	float g = (50 - rand() % 11) / 100.0f;
+	float b = (100 - rand() % 16) / 100.0f;
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);

@@ -22,17 +22,15 @@ UserInterface::UserInterface(const WindowData& windowData, const SimulationData&
 	// Textures init
 	_textures.push_back(TextureLoader("textures/square.png"));
 	_textures.push_back(TextureLoader("textures/circle.png"));
+	_textures.push_back(TextureLoader("textures/air.png"));
 	_textures.push_back(TextureLoader("textures/sand.png"));
+	_textures.push_back(TextureLoader("textures/water.png"));
 	_textures.push_back(TextureLoader("textures/stone.png"));
+	_textures.push_back(TextureLoader("textures/steam.png"));
 	_textures.push_back(TextureLoader("textures/lava.png"));
-	_textures.push_back(TextureLoader("textures/sand.png"));
-	_textures.push_back(TextureLoader("textures/stone.png"));
-	_textures.push_back(TextureLoader("textures/lava.png"));
-	_textures.push_back(TextureLoader("textures/sand.png"));
-	_textures.push_back(TextureLoader("textures/sand.png"));
-	_textures.push_back(TextureLoader("textures/sand.png"));
-	_textures.push_back(TextureLoader("textures/sand.png"));
-	_textures.push_back(TextureLoader("textures/sand.png"));
+	_textures.push_back(TextureLoader("textures/oil.png"));
+	_textures.push_back(TextureLoader("textures/fire.png"));
+	_textures.push_back(TextureLoader("textures/ice.png"));
 }
 
 void UserInterface::createNewFrame()
@@ -175,7 +173,7 @@ void UserInterface::updateHoveredCellInfo()
 
 	int frameRateTarget = (int)(1.0f / _simulationSpeed);
 	int sliderValue = frameRateTarget;
-	ImGui::SliderInt("ups", &sliderValue, 1, 60);
+	ImGui::SliderInt("ups", &sliderValue, 1, 120);
 	if (sliderValue != frameRateTarget)
 		_simulationSpeed = 1.0f / (float)sliderValue;
 }

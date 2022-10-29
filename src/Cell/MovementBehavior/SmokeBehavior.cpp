@@ -13,9 +13,9 @@ void SmokeBehavior::update()
 
 	_random = (rand() % 2) * 2 - 1;
 
-	checkUpCell();
-	if (targetFound() == false || _target->_density == _cell->_density)
 		checkAdjacentUpCells();
+	if (targetFound() == false || _target->_density == _cell->_density)
+		checkUpCell();
 	if (targetFound() == false || _target->_density == _cell->_density)
 		checkAdjacentCells();
 	
