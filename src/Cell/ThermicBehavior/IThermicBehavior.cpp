@@ -20,7 +20,7 @@ void IThermicBehavior::updateTemperature()
 	int x = _cell->getPosition().x;
 
 	//_cell->_nextTemperature = _cell->_temperature;
-	const double VALUE = _cell->_temperature * 0.05f;
+	const double VALUE = _cell->_temperature * 0.03f;
 
 	if (y > 0)
 		updateTarget(_cells[y - 1][x]);

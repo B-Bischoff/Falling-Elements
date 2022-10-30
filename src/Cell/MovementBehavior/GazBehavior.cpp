@@ -73,8 +73,13 @@ void GazBehavior::checkAdjacentCells()
 
 const bool GazBehavior::canSwap(const Cell& cell) const
 {
-	if (cell.getType() == CellType::Gazeous && cell._nextTemperature < _cell->_nextTemperature && cell._density >= _cell->_density)
+	if (cell.getType() == CellType::Gazeous)
 	{
+		if (cell._density > _cell->_density)
+			return true;
+		else if (cell._density < _cell->_density)
+			return false;
+
 		if (targetFound() == false)
 			return true;
 		else

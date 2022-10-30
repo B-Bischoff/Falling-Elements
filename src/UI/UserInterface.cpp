@@ -31,6 +31,7 @@ UserInterface::UserInterface(const WindowData& windowData, const SimulationData&
 	_textures.push_back(TextureLoader("textures/oil.png"));
 	_textures.push_back(TextureLoader("textures/fire.png"));
 	_textures.push_back(TextureLoader("textures/ice.png"));
+	_textures.push_back(TextureLoader("textures/temp.png"));
 }
 
 void UserInterface::createNewFrame()
@@ -78,14 +79,15 @@ void UserInterface::updateFiltersSelection()
 
 void UserInterface::updateElementSelection()
 {
+	const int ELEMENTS_NUMBER = 11;
 	const int ELEMENTS_PER_LINE = 6;
 	const char* ELEMENTS_NAMES[] {
-		"Air", "Sand", "Water", "Stone", "Steam", "Lava", "Oil", "Fire", "Ice"
+		"Air", "Sand", "Water", "Stone", "Steam", "Lava", "Oil", "Fire", "Ice", "Steel", "Co2"
 	};
 
 	ImGui::BeginChild("Elements", ImVec2(UI_WIDTH, 200));
 	ImGui::Text("Element selection");
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < ELEMENTS_NUMBER; i++)
 	{
 		ImVec2 size = ImVec2(32.0f, 32.0f);
 		ImVec2 uv0 = ImVec2(0.0f, 0.0f);

@@ -8,6 +8,7 @@ class CellFactory;
 
 class FlameThermic : public IThermicBehavior {
 private:
+	int _cycleToLive;
 
 public:
 	FlameThermic(Cell* cell);

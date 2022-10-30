@@ -8,6 +8,7 @@
 #include "../MovementBehavior/SmokeBehavior.h"
 #include "../MovementBehavior/RockBehavior.h"
 #include "../MovementBehavior/GazBehavior.h"
+#include "../MovementBehavior/SteelBehavior.h"
 
 #include "../ThermicBehavior/IThermicBehavior.h"
 #include "../ThermicBehavior/WaterThermic.h"
@@ -40,4 +41,6 @@ public:
 	static void configureOilCell(Cell& cell);
 	static void configureFlameCell(Cell& cell);
     static void configureIceCell(Cell& cell);
+	static void configureSteelCell(Cell& cell);
+	static void configureDioxygenCell(Cell& cell);
 };

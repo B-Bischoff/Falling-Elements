@@ -25,3 +25,4 @@ private:
 	const bool canSwap(const Cell& cell) const;
 	const bool targetFound() const;
 };
+

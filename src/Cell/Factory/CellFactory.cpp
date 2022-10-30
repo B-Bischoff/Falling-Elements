@@ -17,6 +17,8 @@ void CellFactory::configureCell(Cell& cell, const int& index)
 	case 6: configureOilCell(cell); break;
 	case 7: configureFlameCell(cell); break;
     case 8: configureIceCell(cell); break;
+    case 9: configureSteelCell(cell); break;
+	case 10:configureDioxygenCell(cell); break;
 	
 	default: break;
 	}
@@ -182,6 +184,37 @@ void CellFactory::configureIceCell(Cell& cell)
 
 	cell.setMovementBehavior(new RockBehavior(&cell));
 	cell.SetThermicBehavior(new IceThermic(&cell));
+}
+
+void CellFactory::configureSteelCell(Cell& cell)
+{
+	cell.setColor(glm::vec3(0.5f));
+	cell.setType(CellType::Solid);
+	setTemperature(cell, 20, 20);
+	cell._density = 1;
+	cell._thermalConductivity = 3.0f;
+	cell._friction = 1;
+
+	deleteBehaviors(cell);
+
+	cell.setMovementBehavior(new SteelBehavior(&cell));
+	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+}
+
+void CellFactory::configureDioxygenCell(Cell& cell)
+{
+	const float random = (20.0f - rand() % 11) / 100.0f;
+
+	cell.setColor(glm::vec3(random));
+	cell.setType(CellType::Gazeous);
+	setTemperature(cell, 50.0, 50.0);
+	cell._density = 2.5;
+	cell._thermalConductivity = 0.2;
+
+	deleteBehaviors(cell);
+
+	cell.setMovementBehavior(new GazBehavior(&cell));
+	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
 void CellFactory::setTemperature(Cell& cell, const double& temperature, const double& nextTemperature)
