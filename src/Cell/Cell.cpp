@@ -27,40 +27,9 @@ bool Cell::update()
 
 void Cell::swapCell(Cell& rhs)
 {
-	Cell temp;
-	temp._color = _color;
-	temp._type = _type;
-	temp._movementBehavior = _movementBehavior;
-	temp._thermicBehavior = _thermicBehavior;
-	temp._velocity = _velocity;
-	temp._temperature = _temperature;
-	temp._nextTemperature = _nextTemperature;
-	temp._density = _density;
-	temp._thermalConductivity = _thermalConductivity;
-
-	_color = rhs._color;
-	_type = rhs._type;
-	_movementBehavior = rhs._movementBehavior;
-	_movementBehavior->setCell(this);
-	_thermicBehavior = rhs._thermicBehavior;
-	_thermicBehavior->setCell(this);
-	_velocity = rhs._velocity;
-	_temperature = rhs._temperature;
-	_nextTemperature = rhs._nextTemperature;
-	_density = rhs._density;
-	_thermalConductivity = rhs._thermalConductivity;
-
-	rhs._color = temp._color;
-	rhs._type = temp._type;
-	rhs._movementBehavior = temp._movementBehavior;
-	rhs._movementBehavior->setCell(&rhs);
-	rhs._thermicBehavior = temp._thermicBehavior;
-	rhs._thermicBehavior->setCell(&rhs);
-	rhs._velocity = temp._velocity;
-	rhs._temperature = temp._temperature;
-	rhs._nextTemperature = temp._nextTemperature;
-	rhs._density = temp._density;
-	rhs._thermalConductivity = temp._thermalConductivity;
+	Cell temp(*this);
+	*this = rhs;
+	rhs = temp;
 }
 
 void Cell::setCells(Cell** cells) { _cells = cells; }
@@ -105,9 +74,16 @@ Cell& Cell::operator=(const Cell& rhs)
 		return *this;
 
 	_color = rhs._color;
-	_position = rhs._position;
 	_type = rhs._type;
 	_movementBehavior = rhs._movementBehavior;
+	_movementBehavior->setCell(this);
+	_thermicBehavior = rhs._thermicBehavior;
+	_thermicBehavior->setCell(this);
+	_velocity = rhs._velocity;
+	_temperature = rhs._temperature;
+	_nextTemperature = rhs._nextTemperature;
+	_density = rhs._density;
+	_thermalConductivity = rhs._thermalConductivity;
 
 	return *this;
 }

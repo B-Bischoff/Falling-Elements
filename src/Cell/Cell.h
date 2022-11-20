@@ -12,7 +12,7 @@ class CellFactory;
 enum CellType { Gazeous, Liquid, Solid};
 
 class Cell {
-protected:
+private:
 	glm::vec3 _color;
 	glm::vec2 _position;
 	CellType _type;
