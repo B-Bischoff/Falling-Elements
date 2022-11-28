@@ -21,15 +21,9 @@ GridRenderer::GridRenderer(const CellsArrayData& cellsArrayData, const WindowDat
 void GridRenderer::initializeMemory()
 {
 	_indices = new uint32_t [CELL_WIDTH * CELL_HEIGHT * 6];
-	if (_indices == nullptr)
-	{
-		std::cerr << "[GridRenderer] Initialization failed." << std::endl;
-		std::cin.get();
-		exit (1);
-	}
-
 	_vertices = new Vertex [CELL_WIDTH * CELL_HEIGHT * 4];
-	if (_vertices == nullptr)
+
+	if (_vertices == nullptr || _indices == nullptr)
 	{
 		std::cerr << "[GridRenderer] Initialization failed." << std::endl;
 		std::cin.get();
@@ -69,14 +63,14 @@ void GridRenderer::initializeOpenglObjects()
 	glBindVertexArray(_vao);
 
 	glGenBuffers(1, &_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4 * CELL_WIDTH * CELL_HEIGHT, nullptr, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 4 * CELL_WIDTH * CELL_HEIGHT, nullptr, GL_DYNAMIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Position));
 
 	glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Color));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Color));
 
 	glGenBuffers(1, &_ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
@@ -86,7 +80,7 @@ void GridRenderer::initializeOpenglObjects()
 void GridRenderer::initializeVertexPositions()
 {
 	const glm::vec3 defaultColor = glm::vec3(0.2f, 0.0f, 0.2f);
-	
+
 	for (int y = 0; y < CELL_HEIGHT; y++)
 	{
 		for (int x = 0; x < CELL_WIDTH; x++)
@@ -112,10 +106,10 @@ void GridRenderer::initializeVertexPositions()
 				defaultColor
 			};
 
-			_vertices[vertexNb * 4] = v1;
-			_vertices[vertexNb * 4 + 1] = v2;
-			_vertices[vertexNb * 4 + 2] = v3;
-			_vertices[vertexNb * 4 + 3] = v4;
+			_vertices[vertexNb * 4] = v1; // Top left 
+			_vertices[vertexNb * 4 + 1] = v2; // Top right 
+			_vertices[vertexNb * 4 + 2] = v3; // Bottom right 
+			_vertices[vertexNb * 4 + 3] = v4; // Bottom left 
 		}
 	}
 }
@@ -203,7 +197,7 @@ void GridRenderer::updateColorFromVelocity(Cell** _cells)
 				color = NO_VELOCITY / 2.0f;
 			else
 				color = VELOCITY / 2.0f;
-			
+
 			if (_cells[y][x].getVelocity().x > 0.0f)
 				color = glm::vec3(0.0f, 1.0f, 0.0f);
 			else if (_cells[y][x].getVelocity().x < 0.0f)

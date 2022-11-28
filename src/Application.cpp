@@ -47,12 +47,20 @@ Application::Application(const int& width, const int& height)
 
 void Application::generateRandomSets()
 {
+	_randomSets = nullptr;
 	_randomSets = new std::vector<int>[RANDOM_SETS_NB];
+	if (_randomSets == nullptr)
+	{
+		std::cerr << "Failed to random sets." << std::endl;
+		std::cin.get();
+		exit(1);
+	}
+
 	// Fill all random sets with numbers from 0 to cell_width - 1
 	for (int i = 0; i < CELL_WIDTH; i++)
 		for (int j = 0; j < RANDOM_SETS_NB; j++)
 			_randomSets[j].push_back(i);
-	
+
 	// Shuffle numbers in sets
 	auto rng = std::default_random_engine {};
 	for (int i = 0; i < RANDOM_SETS_NB; i++)
@@ -137,10 +145,10 @@ void Application::loop()
 
 		input.update();
 
-        size_t cellsUpdated = 0;
-        const size_t totalCells = CELL_HEIGHT * CELL_WIDTH;
+		const size_t totalCells = CELL_HEIGHT * CELL_WIDTH;
 		if (currentTime - cycleTime >= _simulationSpeed)
 		{
+			size_t cellsUpdated = 0;
 			while (cellsUpdated < totalCells)
 			{
 				for (int y = 0; y < CELL_HEIGHT; y++)
@@ -173,7 +181,6 @@ void Application::loop()
 					liquid++;
 				else if (_cells[y][x].getType() == CellType::Solid)
 					solid++;
-				
 				averageTemp += _cells[y][x]._temperature;
 			}
 

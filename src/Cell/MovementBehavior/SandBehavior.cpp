@@ -18,9 +18,9 @@ void SandBehavior::update()
 
 		checkBelowCell();
 		if (targetFound() == false)
-			CheckAdjacentBelowCells();
-		
-		if (targetFound() == false && cellHasVelocity() == true) 
+			checkAdjacentBelowCells();
+
+		if (targetFound() == false && cellHasVelocity() == true)
 			transmitVelocity();
 		else if (targetFound() == true)
 		{
@@ -44,7 +44,7 @@ void SandBehavior::checkBelowCell()
 	}
 }
 
-void SandBehavior::CheckAdjacentBelowCells()
+void SandBehavior::checkAdjacentBelowCells()
 {
 	if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y + 1][_x - _random].getType() < CellType::Solid)
 		_target = &(_cells[_y + 1][_x - _random]);
@@ -83,7 +83,7 @@ void SandBehavior::transmitVelocity()
 
 void SandBehavior::transmitVelocityToCell(const int& x, const int& y, const glm::vec2& friction)
 {
-	if (x >= _cell->getWidth() || x < 0) 
+	if (x >= _cell->getWidth() || x < 0)
 		return;
 	if (y >= _cell->getHeight() || y < 0)
 		return;

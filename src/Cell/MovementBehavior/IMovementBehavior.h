@@ -12,7 +12,7 @@ protected:
 public:
 	IMovementBehavior(Cell* cell);
 	~IMovementBehavior();
-	virtual void update();
+	virtual void update() = 0;
 
 	void setCell(Cell* cell);
 	Cell* getCell(void) const;
