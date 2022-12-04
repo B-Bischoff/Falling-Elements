@@ -56,7 +56,7 @@ void SandBehavior::updateVelocity()
 {
 	if (_target->getType() == CellType::Gazeous) // Accelerate in free falling
 		_cell->setVelocity(_cell->getVelocity() + glm::vec2(0.0f, 0.20f));
-	else if (_target->getType() == CellType::Liquid && _cell->getVelocity().y > 0.8f) // Get slow done by liquid
+	else if (_target->getType() == CellType::Liquid && _cell->getVelocity().y >= 0.8f) // Get slow done by liquid
 		_cell->setVelocity(_cell->getVelocity() + glm::vec2(0.0f, -0.8f));
 }
 

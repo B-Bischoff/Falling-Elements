@@ -16,10 +16,10 @@ void CellFactory::configureCell(Cell& cell, const int& index)
 	case 5: configureLavaCell(cell); break;
 	case 6: configureOilCell(cell); break;
 	case 7: configureFlameCell(cell); break;
-    case 8: configureIceCell(cell); break;
-    case 9: configureSteelCell(cell); break;
+	case 8: configureIceCell(cell); break;
+	case 9: configureSteelCell(cell); break;
 	case 10:configureDioxygenCell(cell); break;
-	
+
 	default: break;
 	}
 }
@@ -41,13 +41,14 @@ void CellFactory::configureSandCell(Cell& cell)
 	cell.setType(CellType::Solid);
 
 	setTemperature(cell, 50.0, 50.0);
+	cell.setVelocity(glm::vec2(0.0f));
 
 	cell._temperature = 50;
 	cell._nextTemperature = 50;
 	cell._thermalConductivity = 1.5;
 
 	deleteBehaviors(cell);
-	
+
 	cell.setMovementBehavior(new SandBehavior(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
@@ -57,11 +58,12 @@ void CellFactory::configureWaterCell(Cell& cell)
 	cell.setColor(glm::vec3(0.2f, 0.6f, 1.0f));
 	cell.setType(CellType::Liquid);
 	setTemperature(cell, 10.0, 10.0);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._thermalConductivity = 1.0;
 	cell._density = 1;
 
 	deleteBehaviors(cell);
-	
+
 	cell.setMovementBehavior(new WaterBehavior(&cell));
 	cell.SetThermicBehavior(new WaterThermic(&cell));
 }
@@ -76,8 +78,9 @@ void CellFactory::configureRockCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);
 	setTemperature(cell, 0.0, 0.0);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._thermalConductivity = 1.4;
-	
+
 	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new RockBehavior(&cell));
@@ -89,9 +92,10 @@ void CellFactory::configureAirCell(Cell& cell)
 	cell.setColor(glm::vec3(0.2f, 0.25f, 0.65f));
 	cell.setType(CellType::Gazeous);
 	setTemperature(cell, 20.0, 20.0);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._density = 2;
 	cell._thermalConductivity = 0.4;
-	
+
 	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new GazBehavior(&cell));
@@ -107,10 +111,11 @@ void CellFactory::configureSmokeCell(Cell& cell)
 
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Gazeous);
+	cell.setVelocity(glm::vec2(0.0f));
 	setTemperature(cell, 20.0, 20.0);
 	cell._density = 1;
 	cell._thermalConductivity = 0.7;
-	
+
 	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new SmokeBehavior(&cell));
@@ -126,6 +131,7 @@ void CellFactory::configureLavaCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Liquid);
 	setTemperature(cell, 1500.0, 1500.0);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._density = 1;
 	cell._thermalConductivity = 0.4;
 
@@ -140,6 +146,7 @@ void CellFactory::configureOilCell(Cell& cell)
 	cell.setColor(glm::vec3(0.06f));
 	cell.setType(CellType::Liquid);
 	setTemperature(cell, 50.0, 5.0);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._density = 0.7;
 	cell._thermalConductivity = 1.0;
 
@@ -158,6 +165,7 @@ void CellFactory::configureFlameCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Gazeous);
 	setTemperature(cell, 1000, 1000);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._density = 1;
 	cell._thermalConductivity = 1.0;
 
@@ -176,9 +184,10 @@ void CellFactory::configureIceCell(Cell& cell)
 	cell.setColor(glm::vec3(r, g, b));
 	cell.setType(CellType::Solid);
 	setTemperature(cell, -50, -50);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._density = 1;
 	cell._thermalConductivity = 1.0;
-    cell._friction = 4;
+	cell._friction = 4;
 
 	deleteBehaviors(cell);
 
@@ -191,6 +200,7 @@ void CellFactory::configureSteelCell(Cell& cell)
 	cell.setColor(glm::vec3(0.5f));
 	cell.setType(CellType::Solid);
 	setTemperature(cell, 20, 20);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._density = 1;
 	cell._thermalConductivity = 3.0f;
 	cell._friction = 1;
@@ -208,6 +218,7 @@ void CellFactory::configureDioxygenCell(Cell& cell)
 	cell.setColor(glm::vec3(random));
 	cell.setType(CellType::Gazeous);
 	setTemperature(cell, 50.0, 50.0);
+	cell.setVelocity(glm::vec2(0.0f));
 	cell._density = 2.5;
 	cell._thermalConductivity = 0.2;
 

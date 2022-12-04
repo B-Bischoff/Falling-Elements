@@ -16,7 +16,7 @@ protected:
 public:
 	IThermicBehavior(Cell* cell);
 	~IThermicBehavior();
-	virtual void update();
+	virtual void update(); // Convert this method to pure virtual
 
 	void setCell(Cell* cell);
 	Cell* getCell(void) const;
