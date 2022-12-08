@@ -15,6 +15,8 @@ private:
 	void moveRight();
 	void setOriginalBehavior();
 
+	const bool cellHasVelocity() const;
+
 public:
 	ParticleBehavior(Cell* cell, IMovementBehavior& originBehavior);
 	~ParticleBehavior() {};

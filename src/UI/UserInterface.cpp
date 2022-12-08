@@ -1,9 +1,10 @@
 #include "UserInterface.h"
 
-UserInterface::UserInterface(const WindowData& windowData, const SimulationData& simulationData)
+UserInterface::UserInterface(const WindowData& windowData, const SimulationData& simulationData, const CellsArrayData& cellsArrayData)
 	: _window(windowData.window), WIN_WIDTH(windowData.WIN_WIDTH), WIN_HEIGHT(windowData.WIN_HEIGHT), UI_WIDTH(windowData.UI_WIDTH),
 		_selectedElement(simulationData.selectedElement), _selectedBrush(simulationData.selectedBrush), _selectedFilter(simulationData.selectedFilter),
-		_hoveredCell(simulationData.hoveredCell), _simulationSpeed(simulationData.simulationSpeed)
+		_hoveredCell(simulationData.hoveredCell), _simulationSpeed(simulationData.simulationSpeed), _cells(cellsArrayData.cells),
+		CELL_HEIGHT(cellsArrayData.CELL_HEIGHT), CELL_WIDTH(cellsArrayData.CELL_WIDTH)
 {
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 	const char* glsl_version = "#version 100";
@@ -43,7 +44,7 @@ void UserInterface::createNewFrame()
 
 void UserInterface::update()
 {
-	const int PANNEL_WIDTH = UI_WIDTH; 
+	const int PANNEL_WIDTH = UI_WIDTH;
 	const int PANNEL_HEIGHT = WIN_HEIGHT;
 
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -125,7 +126,7 @@ void UserInterface::updateBrushSelection()
 
 	ImGui::BeginChild("Brushes", ImVec2(UI_WIDTH, 150));
 	ImGui::Text("\nBrush selection");
-	
+
 	int newBrushSize = Brush::brushSize;
 	ImGui::SliderInt("Brush size", &newBrushSize, 1, 64);
 	if (newBrushSize != Brush::brushSize)
@@ -178,6 +179,13 @@ void UserInterface::updateHoveredCellInfo()
 	ImGui::SliderInt("ups", &sliderValue, 1, 120);
 	if (sliderValue != frameRateTarget)
 		_simulationSpeed = 1.0f / (float)sliderValue;
+
+	double sum = 0;
+	for (int y = 0; y < CELL_HEIGHT; y++)
+		for (int x = 0; x < CELL_WIDTH; x++)
+			sum += _cells[y][x]._temperature;
+	sum /= (CELL_HEIGHT * CELL_WIDTH);
+	ImGui::Text("Mean temperature: %f", sum);
 }
 
 void UserInterface::render()

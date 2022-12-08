@@ -18,18 +18,21 @@
 
 struct WindowData;
 struct SimulationData;
+struct CellsArrayData;
 class TextureLoader;
 
 class UserInterface {
 private:
 	GLFWwindow& _window;
 	const int WIN_WIDTH, WIN_HEIGHT, UI_WIDTH;
+	const int CELL_HEIGHT, CELL_WIDTH;
 
 	int& _selectedElement;
 	int& _selectedBrush;
 	int& _selectedFilter;
 	float& _simulationSpeed;
 	Cell** _hoveredCell;
+	Cell** _cells;
 
 	std::vector<TextureLoader> _textures;
 
@@ -39,7 +42,7 @@ private:
 	void updateHoveredCellInfo();
 
 public:
-	UserInterface(const WindowData& widowData, const SimulationData& simulationData);
+	UserInterface(const WindowData& widowData, const SimulationData& simulationData, const CellsArrayData& cellArrayData);
 
 	void createNewFrame();
 	void update();

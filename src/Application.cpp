@@ -108,7 +108,7 @@ void Application::loop()
 		WIN_HEIGHT,
 		UI_WIDTH
 	};
-	CellsArrayData CellsArrayData {
+	CellsArrayData cellsArrayData {
 		CELL_SIZE,
 		CELL_WIDTH,
 		CELL_HEIGHT,
@@ -122,10 +122,10 @@ void Application::loop()
 		&_hoveredCell
 	};
 
-	InputManager input(windowData, CellsArrayData, simulationData);
+	InputManager input(windowData, cellsArrayData, simulationData);
 	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
-	GridRenderer renderer(CellsArrayData, windowData, _selectedFilter);
-	UserInterface ui(windowData, simulationData);
+	GridRenderer renderer(cellsArrayData, windowData, _selectedFilter);
+	UserInterface ui(windowData, simulationData, cellsArrayData);
 	Brush::updateCursor(_selectedBrush, _window);
 	generateRandomSets();
 
@@ -173,7 +173,6 @@ void Application::loop()
 			{
 				_cells[y][x].getMovementBehavior()->hasMoved = false;
 				_cells[y][x]._temperature = _cells[y][x]._nextTemperature;
-				_cells[y][x]._nextTemperature = _cells[y][x]._temperature;
 
 				if (_cells[y][x].getType() == CellType::Gazeous)
 					gaz++;

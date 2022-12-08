@@ -19,7 +19,7 @@ void ParticleBehavior::update()
 	if (_cell->getVelocity().y < 0.0f)
 		_cell->setVelocity(glm::vec2(0.0f, _cell->getVelocity().x));
 
-	if (_cell->getVelocity() == glm::vec2(0.0f)) // If no velocity left, set originalBehavior on the cell
+	if (cellHasVelocity() == false)
 		setOriginalBehavior();
 }
 
@@ -86,4 +86,9 @@ void ParticleBehavior::setOriginalBehavior()
 	_cell->setMovementBehavior(&_originBehavior);
 	_cell->getMovementBehavior()->setCell(_cell);
 	delete this;
+}
+
+const bool ParticleBehavior::cellHasVelocity() const
+{
+	return _cell->getVelocity() != glm::vec2(0.0f);
 }
