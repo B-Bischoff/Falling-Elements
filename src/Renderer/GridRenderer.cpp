@@ -106,10 +106,10 @@ void GridRenderer::initializeVertexPositions()
 				defaultColor
 			};
 
-			_vertices[vertexNb * 4] = v1; // Top left 
-			_vertices[vertexNb * 4 + 1] = v2; // Top right 
-			_vertices[vertexNb * 4 + 2] = v3; // Bottom right 
-			_vertices[vertexNb * 4 + 3] = v4; // Bottom left 
+			_vertices[vertexNb * 4] = v1; // Top left
+			_vertices[vertexNb * 4 + 1] = v2; // Top right
+			_vertices[vertexNb * 4 + 2] = v3; // Bottom right
+			_vertices[vertexNb * 4 + 3] = v4; // Bottom left
 		}
 	}
 }
@@ -209,10 +209,10 @@ void GridRenderer::updateColorFromVelocity(Cell** _cells)
 
 			color = color * 0.6f + rgbToGrayscale(_cells[y][x].getColor()) * 0.40f;
 
-			_vertices[vertexNb * 4].Color = color;// + _cells[y][x].getColor() / 2.0f;
-			_vertices[vertexNb * 4 + 1].Color = color;// + _cells[y][x].getColor() / 2.0f;
-			_vertices[vertexNb * 4 + 2].Color = color;// + _cells[y][x].getColor() / 2.0f;
-			_vertices[vertexNb * 4 + 3].Color = color;// + _cells[y][x].getColor() / 2.0f;
+			_vertices[vertexNb * 4].Color = color;
+			_vertices[vertexNb * 4 + 1].Color = color;
+			_vertices[vertexNb * 4 + 2].Color = color;
+			_vertices[vertexNb * 4 + 3].Color = color;
 		}
 	}
 }
@@ -221,8 +221,8 @@ void GridRenderer::updateColorFromTemperature(Cell** _cells)
 {
 	const glm::vec3 HOT(1.0f, 0.0f, 0.0f);
 	const glm::vec3 COLD(0.0f, 0.0f, 1.0f);
-	const double MIN = -100.0;
-	const double MAX = 200.0;
+	const double MIN = 20.0;
+	const double MAX = 25.0;
 
 	for (int y = 0; y < CELL_HEIGHT; y++)
 	{

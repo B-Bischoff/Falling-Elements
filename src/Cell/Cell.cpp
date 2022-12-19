@@ -20,9 +20,9 @@ bool Cell::update()
 		_movementBehavior->hasMoved = true;
 		_thermicBehavior->update();
 		_movementBehavior->update();
-        return true;
+		return true;
 	}
-    return false;
+	return false;
 }
 
 void Cell::swapCell(Cell& rhs)
@@ -52,7 +52,7 @@ void Cell::setPosition(const glm::vec2& position) { _position = position; }
 
 const glm::vec2& Cell::getPosition() const { return _position; }
 
-void Cell::setMovementBehavior(IMovementBehavior* behavior) { _movementBehavior = behavior; } 
+void Cell::setMovementBehavior(IMovementBehavior* behavior) { _movementBehavior = behavior; }
 
 IMovementBehavior* Cell::getMovementBehavior(void) const { return _movementBehavior; }
 

@@ -5,7 +5,7 @@ find_package(OpenGL REQUIRED)
 
 set (CMAKE_CXX_STANDARD 11)
 
-# Compile external dependencies 
+# Compile external dependencies
 add_subdirectory (external)
 
 # On Visual 2005 and above, this module can set the debug working directory

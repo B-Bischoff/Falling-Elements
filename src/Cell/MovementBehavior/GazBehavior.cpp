@@ -18,7 +18,7 @@ void GazBehavior::update()
 
 		checkUpCell();
 		checkAdjacentUpCells();
-        checkAdjacentCells();
+		checkAdjacentCells();
 
 		if (targetFound() == true)
 			_cell->swapCell(*_target);
@@ -28,7 +28,7 @@ void GazBehavior::update()
 void GazBehavior::checkUpCell()
 {
 	Cell& upCell = _cells[_y - 1][_x];
-	
+
 	if (canSwap(upCell))
 		_target = &upCell;
 }
