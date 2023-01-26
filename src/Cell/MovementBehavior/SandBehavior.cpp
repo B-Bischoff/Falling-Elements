@@ -68,14 +68,20 @@ void SandBehavior::transmitVelocity()
 
 	if (_cells[_y + 1][_x].getType() == CellType::Solid && _cells[_y+1][_x].getVelocity()==glm::vec2(0.0f))
 		transmitVelocityToCell(_x+1, _y, friction);
-	if (_cells[_y + 1][_x - 1].getType() == CellType::Solid && _cells[_y+1][_x-1].getVelocity()==glm::vec2(0.0f))
-		transmitVelocityToCell(_x+1, _y-1, friction);
-	if (_cells[_y + 1][_x + 1].getType() == CellType::Solid && _cells[_y+1][_x+1].getVelocity()==glm::vec2(0.0f))
-		transmitVelocityToCell(_x+1, _y+1, friction);
-	if (_cells[_y][_x - 1].getType() == CellType::Solid && _cells[_y][_x-1].getVelocity()==glm::vec2(0.0f))
-		transmitVelocityToCell(_x, _y-1, friction);
-	if (_cells[_y][_x + 1].getType() == CellType::Solid && _cells[_y][_x+1].getVelocity()==glm::vec2(0.0f))
-		transmitVelocityToCell(_x, _y+1, friction);
+	if (_x - 1 >= 0)
+	{
+		if (_cells[_y + 1][_x - 1].getType() == CellType::Solid && _cells[_y + 1][_x - 1].getVelocity() == glm::vec2(0.0f))
+			transmitVelocityToCell(_x + 1, _y - 1, friction);
+		if (_cells[_y][_x - 1].getType() == CellType::Solid && _cells[_y][_x - 1].getVelocity() == glm::vec2(0.0f))
+			transmitVelocityToCell(_x, _y - 1, friction);
+	}
+	if (_x + 1 < _cell->getWidth())
+	{
+		if (_cells[_y][_x + 1].getType() == CellType::Solid && _cells[_y][_x+1].getVelocity()==glm::vec2(0.0f))
+			transmitVelocityToCell(_x, _y+1, friction);
+		if (_cells[_y + 1][_x + 1].getType() == CellType::Solid && _cells[_y+1][_x+1].getVelocity()==glm::vec2(0.0f))
+			transmitVelocityToCell(_x+1, _y+1, friction);
+	}
 
 	float yVel = _cell->getVelocity().y;
 	_cell->setVelocity(glm::vec2(yVel * 0.50f * _random, yVel * 0.25f));

@@ -1,5 +1,4 @@
 #include "Application.h"
-#include "Instrumentor.h"
 
 Application::Application(const int& width, const int& height)
 	: WIN_WIDTH(width), WIN_HEIGHT(height), _hoveredCell(nullptr)
@@ -11,7 +10,6 @@ Application::Application(const int& width, const int& height)
 		std::cin.get();
 		exit(1);
 	}
-
 	// Window init
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -123,7 +121,23 @@ void Application::loop()
 	};
 
 	InputManager input(windowData, cellsArrayData, simulationData);
-	ShaderProgram program("src/shaders/shader.vert", "src/shaders/shader.frag");
+
+	// Testing file opening depending on the OS
+	std::string path = "./"; // Linux and MacOs path
+	std::ifstream ifs;
+	ifs.open(path + "src/shaders/shader.vert");
+	if (!ifs.is_open())
+	{
+		path = "../../../";
+		ifs.open(path + "src/shaders/shader.vert");
+		if (!ifs.is_open())
+		{
+			std::cerr << "Cannot find shaders" << std::endl;
+			exit(1);
+		}
+	}
+
+	ShaderProgram program(path + "src/shaders/shader.vert", path + "src/shaders/shader.frag");
 	GridRenderer renderer(cellsArrayData, windowData, _selectedFilter);
 	UserInterface ui(windowData, simulationData, cellsArrayData);
 	Brush::updateCursor(_selectedBrush, _window);

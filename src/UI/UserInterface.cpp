@@ -21,18 +21,35 @@ UserInterface::UserInterface(const WindowData& windowData, const SimulationData&
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
 	// Textures init
-	_textures.push_back(TextureLoader("textures/square.png"));
-	_textures.push_back(TextureLoader("textures/circle.png"));
-	_textures.push_back(TextureLoader("textures/air.png"));
-	_textures.push_back(TextureLoader("textures/sand.png"));
-	_textures.push_back(TextureLoader("textures/water.png"));
-	_textures.push_back(TextureLoader("textures/stone.png"));
-	_textures.push_back(TextureLoader("textures/steam.png"));
-	_textures.push_back(TextureLoader("textures/lava.png"));
-	_textures.push_back(TextureLoader("textures/oil.png"));
-	_textures.push_back(TextureLoader("textures/fire.png"));
-	_textures.push_back(TextureLoader("textures/ice.png"));
-	_textures.push_back(TextureLoader("textures/temp.png"));
+	std::string path = "./"; // Linux and MacOs path
+
+	try {
+		_textures.push_back(TextureLoader(path + "textures/square.png"));
+	}
+	catch (std::invalid_argument&) {
+		path = "../../../"; // Windows path
+	}
+
+	try {
+		if (_textures.size() == 0)
+			_textures.push_back(TextureLoader(path + "textures/square.png"));
+		_textures.push_back(TextureLoader(path + "textures/circle.png"));
+		_textures.push_back(TextureLoader(path + "textures/air.png"));
+		_textures.push_back(TextureLoader(path + "textures/sand.png"));
+		_textures.push_back(TextureLoader(path + "textures/water.png"));
+		_textures.push_back(TextureLoader(path + "textures/stone.png"));
+		_textures.push_back(TextureLoader(path + "textures/steam.png"));
+		_textures.push_back(TextureLoader(path + "textures/lava.png"));
+		_textures.push_back(TextureLoader(path + "textures/oil.png"));
+		_textures.push_back(TextureLoader(path + "textures/fire.png"));
+		_textures.push_back(TextureLoader(path + "textures/ice.png"));
+		_textures.push_back(TextureLoader(path + "textures/temp.png"));
+		_textures.push_back(TextureLoader(path + "textures/temp.png"));
+	}
+	catch (std::invalid_argument&) {
+		std::cerr << "Cannot open ui textures" << std::endl;
+		exit(1);
+	}
 }
 
 void UserInterface::createNewFrame()
@@ -153,7 +170,6 @@ void UserInterface::updateBrushSelection()
 			_selectedBrush = i;
 			Brush::updateCursor(i, &_window);
 		}
-
 
 		if (i < 2)
 			ImGui::SameLine();
