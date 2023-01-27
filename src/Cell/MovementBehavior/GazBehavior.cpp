@@ -11,6 +11,7 @@ void GazBehavior::update()
 	_target = nullptr;
 	_x = _cell->getPosition().x;
 	_y = _cell->getPosition().y;
+	_cell->setVelocity(glm::vec2(0.0f));
 
 	if (_y > 0)
 	{

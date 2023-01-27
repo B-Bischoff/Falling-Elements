@@ -221,8 +221,8 @@ void GridRenderer::updateColorFromTemperature(Cell** _cells)
 {
 	const glm::vec3 HOT(1.0f, 0.0f, 0.0f);
 	const glm::vec3 COLD(0.0f, 0.0f, 1.0f);
-	const double MIN = 20.0;
-	const double MAX = 25.0;
+	const double MIN = -50.0;
+	const double MAX = 300.0;
 
 	for (int y = 0; y < CELL_HEIGHT; y++)
 	{

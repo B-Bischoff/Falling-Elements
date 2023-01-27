@@ -43,8 +43,8 @@ UserInterface::UserInterface(const WindowData& windowData, const SimulationData&
 		_textures.push_back(TextureLoader(path + "textures/oil.png"));
 		_textures.push_back(TextureLoader(path + "textures/fire.png"));
 		_textures.push_back(TextureLoader(path + "textures/ice.png"));
-		_textures.push_back(TextureLoader(path + "textures/temp.png"));
-		_textures.push_back(TextureLoader(path + "textures/temp.png"));
+		_textures.push_back(TextureLoader(path + "textures/steel.png"));
+		_textures.push_back(TextureLoader(path + "textures/co2.png"));
 	}
 	catch (std::invalid_argument&) {
 		std::cerr << "Cannot open ui textures" << std::endl;

@@ -23,7 +23,7 @@ void SquareBrush::draw(const glm::vec2& originCell)
 void SquareBrush::updateCursor(GLFWwindow* window)
 {
 	const int N = brushSize * CELL_SIZE;
-	unsigned char pixels[N * N * 4];
+	unsigned char* pixels = new unsigned char[N * N * 4];
 
 	for (int y = 0; y < N * 4; y += 4)
 	{
@@ -38,4 +38,6 @@ void SquareBrush::updateCursor(GLFWwindow* window)
 
 	setCursorCross(N, pixels);
 	applyCursor(glm::vec2(N, N), pixels, window);
+
+	delete[] pixels;
 }

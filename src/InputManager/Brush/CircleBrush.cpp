@@ -30,7 +30,7 @@ void CircleBrush::draw(const glm::vec2& originCell)
 void CircleBrush::updateCursor(GLFWwindow* window)
 {
 	const int N = brushSize * CELL_SIZE;
-	unsigned char pixels[N * N * 4];
+	unsigned char* pixels = new unsigned char[N * N * 4];
 
 	const int RADIUS = static_cast<float>(N) / 2.0f;
 	for (int y = 0; y < N * 4; y += 4)
@@ -48,4 +48,6 @@ void CircleBrush::updateCursor(GLFWwindow* window)
 
 	setCursorCross(N, pixels);
 	applyCursor(glm::vec2(N, N), pixels, window);
+
+	delete[] pixels;
 }
