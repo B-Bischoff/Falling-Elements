@@ -97,6 +97,8 @@ add_executable(Falling-Elements
 
 	src/Cell/ThermicBehavior/IThermicBehavior.h
 	src/Cell/ThermicBehavior/IThermicBehavior.cpp
+	src/Cell/ThermicBehavior/DefaultThermic.h
+	src/Cell/ThermicBehavior/DefaultThermic.cpp
 	src/Cell/ThermicBehavior/WaterThermic.h
 	src/Cell/ThermicBehavior/WaterThermic.cpp
 	src/Cell/ThermicBehavior/LavaThermic.h
@@ -131,8 +133,8 @@ add_executable(Falling-Elements
 	src/vendor/imgui/imgui_internal.h
 	src/vendor/imgui/imgui_tables.cpp
 	src/vendor/imgui/imgui_widgets.cpp
-
 )
+
 target_link_libraries(Falling-Elements
 	${ALL_LIBS}
 )

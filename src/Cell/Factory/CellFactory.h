@@ -11,6 +11,7 @@
 #include "../MovementBehavior/SteelMovement.h"
 
 #include "../ThermicBehavior/IThermicBehavior.h"
+#include "../ThermicBehavior/DefaultThermic.h"
 #include "../ThermicBehavior/WaterThermic.h"
 #include "../ThermicBehavior/LavaThermic.h"
 #include "../ThermicBehavior/RockThermic.h"

@@ -50,7 +50,7 @@ void CellFactory::configureSandCell(Cell& cell)
 	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new SandMovement(&cell));
-	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+	cell.SetThermicBehavior(new DefaultThermic(&cell));
 }
 
 void CellFactory::configureWaterCell(Cell& cell)
@@ -99,7 +99,7 @@ void CellFactory::configureAirCell(Cell& cell)
 	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new GazMovement(&cell));
-	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+	cell.SetThermicBehavior(new DefaultThermic(&cell));
 }
 
 void CellFactory::configureSmokeCell(Cell& cell)
@@ -208,7 +208,7 @@ void CellFactory::configureSteelCell(Cell& cell)
 	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new SteelMovement(&cell));
-	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+	cell.SetThermicBehavior(new DefaultThermic(&cell));
 }
 
 void CellFactory::configureDioxygenCell(Cell& cell)
@@ -225,7 +225,7 @@ void CellFactory::configureDioxygenCell(Cell& cell)
 	deleteBehaviors(cell);
 
 	cell.setMovementBehavior(new GazMovement(&cell));
-	cell.SetThermicBehavior(new IThermicBehavior(&cell));
+	cell.SetThermicBehavior(new DefaultThermic(&cell));
 }
 
 void CellFactory::setTemperature(Cell& cell, const double& temperature, const double& nextTemperature)
