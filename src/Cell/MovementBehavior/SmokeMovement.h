@@ -2,27 +2,26 @@
 
 #include <iostream>
 #include "IMovementBehavior.h"
-#include "ParticleBehavior.h"
+#include "../Factory/CellFactory.h"
 
-class IMovementBehavior;
+class Cell;
 
-class GazBehavior : public IMovementBehavior {
+class SmokeMovement : public IMovementBehavior {
 private:
 	int _x, _y;
 	int _random;
 	Cell* _target;
+	int _test = 0;
 
-public:
-	GazBehavior(Cell* cell);
-	~GazBehavior();
-
-	void update();
-
-private:
 	void checkUpCell();
 	void checkAdjacentUpCells();
 	void checkAdjacentCells();
+	const bool targetFound();
 	const bool canSwap(const Cell& cell) const;
-	const bool targetFound() const;
-};
 
+public:
+	SmokeMovement(Cell* cell);
+	~SmokeMovement();
+
+	void update();
+};

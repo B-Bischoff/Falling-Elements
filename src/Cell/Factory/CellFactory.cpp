@@ -49,7 +49,7 @@ void CellFactory::configureSandCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new SandBehavior(&cell));
+	cell.setMovementBehavior(new SandMovement(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
@@ -64,7 +64,7 @@ void CellFactory::configureWaterCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new WaterBehavior(&cell));
+	cell.setMovementBehavior(new WaterMovement(&cell));
 	cell.SetThermicBehavior(new WaterThermic(&cell));
 }
 
@@ -83,7 +83,7 @@ void CellFactory::configureRockCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new RockBehavior(&cell));
+	cell.setMovementBehavior(new RockMovement(&cell));
 	cell.SetThermicBehavior(new RockThermic(&cell));
 }
 
@@ -98,7 +98,7 @@ void CellFactory::configureAirCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new GazBehavior(&cell));
+	cell.setMovementBehavior(new GazMovement(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
@@ -118,7 +118,7 @@ void CellFactory::configureSmokeCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new SmokeBehavior(&cell));
+	cell.setMovementBehavior(new SmokeMovement(&cell));
 	cell.SetThermicBehavior(new SteamThermic(&cell));
 }
 
@@ -137,7 +137,7 @@ void CellFactory::configureLavaCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new WaterBehavior(&cell));
+	cell.setMovementBehavior(new WaterMovement(&cell));
 	cell.SetThermicBehavior(new LavaThermic(&cell));
 }
 
@@ -152,7 +152,7 @@ void CellFactory::configureOilCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new WaterBehavior(&cell));
+	cell.setMovementBehavior(new WaterMovement(&cell));
 	cell.SetThermicBehavior(new FlammableThermic(&cell));
 }
 
@@ -171,7 +171,7 @@ void CellFactory::configureFlameCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new SmokeBehavior(&cell));
+	cell.setMovementBehavior(new SmokeMovement(&cell));
 	cell.SetThermicBehavior(new FlameThermic(&cell));
 }
 
@@ -191,7 +191,7 @@ void CellFactory::configureIceCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new RockBehavior(&cell));
+	cell.setMovementBehavior(new RockMovement(&cell));
 	cell.SetThermicBehavior(new IceThermic(&cell));
 }
 
@@ -207,7 +207,7 @@ void CellFactory::configureSteelCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new SteelBehavior(&cell));
+	cell.setMovementBehavior(new SteelMovement(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 
@@ -224,7 +224,7 @@ void CellFactory::configureDioxygenCell(Cell& cell)
 
 	deleteBehaviors(cell);
 
-	cell.setMovementBehavior(new GazBehavior(&cell));
+	cell.setMovementBehavior(new GazMovement(&cell));
 	cell.SetThermicBehavior(new IThermicBehavior(&cell));
 }
 

@@ -1,12 +1,12 @@
-#include "WaterBehavior.h"
+#include "WaterMovement.h"
 
-WaterBehavior::WaterBehavior(Cell* cell)
+WaterMovement::WaterMovement(Cell* cell)
 	: IMovementBehavior(cell)
 {
 
 }
 
-void WaterBehavior::update()
+void WaterMovement::update()
 {
 	_target = nullptr;
 	_x = _cell->getPosition().x;
@@ -35,7 +35,7 @@ void WaterBehavior::update()
 		releaseRemainingVelocity();
 }
 
-void WaterBehavior::checkBelowCells()
+void WaterMovement::checkBelowCells()
 {
 	for (int i = 0; i <= _cell->getVelocity().y; i++)
 	{
@@ -46,7 +46,7 @@ void WaterBehavior::checkBelowCells()
 	}
 }
 
-void WaterBehavior::checkAdjacentBelowCells()
+void WaterMovement::checkAdjacentBelowCells()
 {
 	if (_cell->getVelocity().x != 0.0f)
 	{
@@ -66,7 +66,7 @@ void WaterBehavior::checkAdjacentBelowCells()
 		_cell->setVelocity(_cell->getVelocity() + glm::vec2(_random, 0.0f));
 }
 
-void WaterBehavior::checkAdjacentCells()
+void WaterMovement::checkAdjacentCells()
 {
 	if (_cell->getVelocity().x != 0.0f)
 	{
@@ -96,29 +96,29 @@ void WaterBehavior::checkAdjacentCells()
 		_cell->setVelocity(_cell->getVelocity() + glm::vec2(_random, 0.0f));
 }
 
-void WaterBehavior::updateVelocity()
+void WaterMovement::updateVelocity()
 {
 	_cell->setVelocity(_cell->getVelocity() + glm::vec2(0.0f, 0.2f));
 }
 
-void WaterBehavior::releaseRemainingVelocity()
+void WaterMovement::releaseRemainingVelocity()
 {
 	float yVelocity = _cell->getVelocity().y;
 	_cell->setVelocity(glm::vec2(yVelocity * _random / 1.0f, yVelocity / 1.0f));
-	_cell->setMovementBehavior(new ParticleBehavior(_cell, *this));
+	_cell->setMovementBehavior(new ParticleMovement(_cell, *this));
 }
 
-const bool WaterBehavior::targetFound()
+const bool WaterMovement::targetFound()
 {
 	return _target;
 }
 
-const bool WaterBehavior::cellHasVelocity()
+const bool WaterMovement::cellHasVelocity()
 {
 	return _cell->getVelocity() != glm::vec2(0.0f);
 }
 
-const bool WaterBehavior::canSwap(Cell& cell)
+const bool WaterMovement::canSwap(Cell& cell)
 {
 	if (cell.getType() == CellType::Gazeous)
 		return true;

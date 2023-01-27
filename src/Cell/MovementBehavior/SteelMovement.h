@@ -5,15 +5,15 @@
 
 class IMovementBehavior;
 
-class SteelBehavior : public IMovementBehavior {
+class SteelMovement : public IMovementBehavior {
 private:
 	int _x, _y;
 	int _random;
 	Cell* _target;
 
 public:
-	SteelBehavior(Cell* cell);
-	~SteelBehavior();
+	SteelMovement(Cell* cell);
+	~SteelMovement();
 
 	void update();
 

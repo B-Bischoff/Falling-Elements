@@ -78,22 +78,22 @@ add_executable(Falling-Elements
 	src/Cell/Cell.cpp
 	src/Cell/MovementBehavior/IMovementBehavior.h
 	src/Cell/MovementBehavior/IMovementBehavior.cpp
-	src/Cell/MovementBehavior/SandBehavior.h
-	src/Cell/MovementBehavior/SandBehavior.cpp
-	src/Cell/MovementBehavior/WaterBehavior.h
-	src/Cell/MovementBehavior/WaterBehavior.cpp
-	src/Cell/MovementBehavior/StaticBehavior.h
-	src/Cell/MovementBehavior/StaticBehavior.cpp
-	src/Cell/MovementBehavior/ParticleBehavior.h
-	src/Cell/MovementBehavior/ParticleBehavior.cpp
-	src/Cell/MovementBehavior/SmokeBehavior.h
-	src/Cell/MovementBehavior/SmokeBehavior.cpp
-	src/Cell/MovementBehavior/RockBehavior.h
-	src/Cell/MovementBehavior/RockBehavior.cpp
-	src/Cell/MovementBehavior/GazBehavior.h
-	src/Cell/MovementBehavior/GazBehavior.cpp
-	src/Cell/MovementBehavior/SteelBehavior.h
-	src/Cell/MovementBehavior/SteelBehavior.cpp
+	src/Cell/MovementBehavior/SandMovement.h
+	src/Cell/MovementBehavior/SandMovement.cpp
+	src/Cell/MovementBehavior/WaterMovement.h
+	src/Cell/MovementBehavior/WaterMovement.cpp
+	src/Cell/MovementBehavior/StaticMovement.h
+	src/Cell/MovementBehavior/StaticMovement.cpp
+	src/Cell/MovementBehavior/ParticleMovement.h
+	src/Cell/MovementBehavior/ParticleMovement.cpp
+	src/Cell/MovementBehavior/SmokeMovement.h
+	src/Cell/MovementBehavior/SmokeMovement.cpp
+	src/Cell/MovementBehavior/RockMovement.h
+	src/Cell/MovementBehavior/RockMovement.cpp
+	src/Cell/MovementBehavior/GazMovement.h
+	src/Cell/MovementBehavior/GazMovement.cpp
+	src/Cell/MovementBehavior/SteelMovement.h
+	src/Cell/MovementBehavior/SteelMovement.cpp
 
 	src/Cell/ThermicBehavior/IThermicBehavior.h
 	src/Cell/ThermicBehavior/IThermicBehavior.cpp
@@ -109,8 +109,8 @@ add_executable(Falling-Elements
 	src/Cell/ThermicBehavior/FlameThermic.cpp
 	src/Cell/ThermicBehavior/FlammableThermic.h
 	src/Cell/ThermicBehavior/FlammableThermic.cpp
-    src/Cell/ThermicBehavior/IceThermic.h
-    src/Cell/ThermicBehavior/IceThermic.cpp
+	src/Cell/ThermicBehavior/IceThermic.h
+	src/Cell/ThermicBehavior/IceThermic.cpp
 
 	src/Cell/Factory/CellFactory.h
 	src/Cell/Factory/CellFactory.cpp

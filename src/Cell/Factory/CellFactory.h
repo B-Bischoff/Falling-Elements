@@ -2,13 +2,13 @@
 
 #include "../Cell.h"
 
-#include "../MovementBehavior/SandBehavior.h"
-#include "../MovementBehavior/WaterBehavior.h"
-#include "../MovementBehavior/StaticBehavior.h"
-#include "../MovementBehavior/SmokeBehavior.h"
-#include "../MovementBehavior/RockBehavior.h"
-#include "../MovementBehavior/GazBehavior.h"
-#include "../MovementBehavior/SteelBehavior.h"
+#include "../MovementBehavior/SandMovement.h"
+#include "../MovementBehavior/WaterMovement.h"
+#include "../MovementBehavior/StaticMovement.h"
+#include "../MovementBehavior/SmokeMovement.h"
+#include "../MovementBehavior/RockMovement.h"
+#include "../MovementBehavior/GazMovement.h"
+#include "../MovementBehavior/SteelMovement.h"
 
 #include "../ThermicBehavior/IThermicBehavior.h"
 #include "../ThermicBehavior/WaterThermic.h"

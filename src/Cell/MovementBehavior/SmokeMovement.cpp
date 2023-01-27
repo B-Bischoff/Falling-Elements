@@ -1,11 +1,11 @@
-#include "SmokeBehavior.h"
+#include "SmokeMovement.h"
 
-SmokeBehavior::SmokeBehavior(Cell* cell)
+SmokeMovement::SmokeMovement(Cell* cell)
 	: IMovementBehavior(cell)
 {
 }
 
-void SmokeBehavior::update()
+void SmokeMovement::update()
 {
 	_target = nullptr;
 	_x = _cell->getPosition().x;
@@ -18,20 +18,20 @@ void SmokeBehavior::update()
 		checkUpCell();
 	if (targetFound() == false || _target->_density == _cell->_density)
 		checkAdjacentCells();
-	
+
 	if (targetFound() == true)
 		_cell->swapCell(*_target);
-    _cell->setVelocity(glm::vec2(0.0f));
+	_cell->setVelocity(glm::vec2(0.0f));
 }
 
-void SmokeBehavior::checkUpCell()
+void SmokeMovement::checkUpCell()
 {
 
 	if (_y > 0 && _cells[_y - 1][_x].getType() <= CellType::Liquid && canSwap(_cells[_y - 1][_x]))
 		_target = &(_cells[_y - 1][_x]);
 }
 
-void SmokeBehavior::checkAdjacentUpCells()
+void SmokeMovement::checkAdjacentUpCells()
 {
 	if (_y > 0)
 	{
@@ -42,7 +42,7 @@ void SmokeBehavior::checkAdjacentUpCells()
 	}
 }
 
-void SmokeBehavior::checkAdjacentCells()
+void SmokeMovement::checkAdjacentCells()
 {
 	if (_x - _random >= 0 && _x - _random < _cell->getWidth() && canSwap(_cells[_y][_x - _random]))
 		_target = &(_cells[_y][_x - _random]);
@@ -50,12 +50,12 @@ void SmokeBehavior::checkAdjacentCells()
 		_target = &(_cells[_y][_x + _random]);
 }
 
-const bool SmokeBehavior::targetFound()
+const bool SmokeMovement::targetFound()
 {
 	return _target;
 }
 
-const bool SmokeBehavior::canSwap(const Cell& cell) const
+const bool SmokeMovement::canSwap(const Cell& cell) const
 {
 	if (cell.getType() == CellType::Liquid)
 		return true;

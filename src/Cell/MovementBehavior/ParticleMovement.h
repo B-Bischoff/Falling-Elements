@@ -5,7 +5,7 @@
 
 class IMovementBehavior;
 
-class ParticleBehavior : public IMovementBehavior {
+class ParticleMovement : public IMovementBehavior {
 private:
 	IMovementBehavior& _originBehavior;
 
@@ -18,8 +18,8 @@ private:
 	const bool cellHasVelocity() const;
 
 public:
-	ParticleBehavior(Cell* cell, IMovementBehavior& originBehavior);
-	~ParticleBehavior() {};
+	ParticleMovement(Cell* cell, IMovementBehavior& originBehavior);
+	~ParticleMovement() {};
 	
 	void update();
 };

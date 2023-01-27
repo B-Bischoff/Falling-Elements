@@ -2,19 +2,19 @@
 
 #include <iostream>
 #include "IMovementBehavior.h"
-#include "ParticleBehavior.h"
+#include "ParticleMovement.h"
 
 class IMovementBehavior;
 
-class RockBehavior : public IMovementBehavior {
+class RockMovement : public IMovementBehavior {
 private:
 	int _x, _y;
 	int _random;
 	Cell* _target;
 
 public:
-	RockBehavior(Cell* cell);
-	~RockBehavior();
+	RockMovement(Cell* cell);
+	~RockMovement();
 
 	void update();
 

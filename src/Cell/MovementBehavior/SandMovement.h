@@ -2,19 +2,12 @@
 
 #include <iostream>
 #include "IMovementBehavior.h"
-#include "ParticleBehavior.h"
+#include "ParticleMovement.h"
 
 class IMovementBehavior;
-
-class SandBehavior : public IMovementBehavior {
-private:
-	int _x, _y;
-	int _random;
-	Cell* _target;
-
-public:
-	SandBehavior(Cell* cell);
-	~SandBehavior();
+class SandMovement : public IMovementBehavior { private: int _x, _y; int _random; Cell* _target; public:
+	SandMovement(Cell* cell);
+	~SandMovement();
 
 	void update();
 

@@ -2,19 +2,19 @@
 
 #include <iostream>
 #include "IMovementBehavior.h"
-#include "ParticleBehavior.h"
+#include "ParticleMovement.h"
 
 class IMovementBehavior;
 
-class WaterBehavior : public IMovementBehavior {
+class WaterMovement : public IMovementBehavior {
 private:
 	int _x, _y;
 	int _random;
 	Cell *_target;
 
 public:
-	WaterBehavior(Cell* cell);
-	~WaterBehavior();
+	WaterMovement(Cell* cell);
+	~WaterMovement();
 
 	void update();
 

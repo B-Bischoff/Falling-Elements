@@ -1,10 +1,10 @@
-#include "ParticleBehavior.h"
+#include "ParticleMovement.h"
 
-ParticleBehavior::ParticleBehavior(Cell* cell, IMovementBehavior& originBehavior)
-	: IMovementBehavior(cell), _originBehavior(originBehavior)
+ParticleMovement::ParticleMovement(Cell* cell, IMovementBehavior& originMovement)
+	: IMovementBehavior(cell), _originBehavior(originMovement)
 {}
 
-void ParticleBehavior::update()
+void ParticleMovement::update()
 {
 	if (_cell->getVelocity().y > 0.0f)
 		moveUpward();
@@ -23,7 +23,7 @@ void ParticleBehavior::update()
 		setOriginalBehavior();
 }
 
-void ParticleBehavior::moveUpward()
+void ParticleMovement::moveUpward()
 {
 	int x = _cell->getPosition().x;
 	int y = _cell->getPosition().y;
@@ -39,7 +39,7 @@ void ParticleBehavior::moveUpward()
 		_cell->setVelocity(glm::vec2(_cell->getVelocity().x, 0.0f));
 }
 
-void ParticleBehavior::moveDownward()
+void ParticleMovement::moveDownward()
 {
 	int x = _cell->getPosition().x;
 	int y = _cell->getPosition().y;
@@ -47,7 +47,7 @@ void ParticleBehavior::moveDownward()
 		_cell->swapCell(_cells[y + 1][x]);
 }
 
-void ParticleBehavior::moveLeft()
+void ParticleMovement::moveLeft()
 {
 	int x = _cell->getPosition().x;
 	int y = _cell->getPosition().y;
@@ -64,7 +64,7 @@ void ParticleBehavior::moveLeft()
 
 }
 
-void ParticleBehavior::moveRight()
+void ParticleMovement::moveRight()
 {
 	int x = _cell->getPosition().x;
 	int y = _cell->getPosition().y;
@@ -81,14 +81,14 @@ void ParticleBehavior::moveRight()
 		_cell->setVelocity(glm::vec2(0.0f, _cell->getVelocity().y));
 }
 
-void ParticleBehavior::setOriginalBehavior()
+void ParticleMovement::setOriginalBehavior()
 {
 	_cell->setMovementBehavior(&_originBehavior);
 	_cell->getMovementBehavior()->setCell(_cell);
 	delete this;
 }
 
-const bool ParticleBehavior::cellHasVelocity() const
+const bool ParticleMovement::cellHasVelocity() const
 {
 	return _cell->getVelocity() != glm::vec2(0.0f);
 }

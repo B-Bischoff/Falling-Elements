@@ -1,12 +1,12 @@
-#include "GazBehavior.h"
+#include "GazMovement.h"
 
-GazBehavior::GazBehavior(Cell* cell)
+GazMovement::GazMovement(Cell* cell)
 	: IMovementBehavior(cell)
 {
 
 }
 
-void GazBehavior::update()
+void GazMovement::update()
 {
 	_target = nullptr;
 	_x = _cell->getPosition().x;
@@ -26,7 +26,7 @@ void GazBehavior::update()
 	}
 }
 
-void GazBehavior::checkUpCell()
+void GazMovement::checkUpCell()
 {
 	Cell& upCell = _cells[_y - 1][_x];
 
@@ -34,7 +34,7 @@ void GazBehavior::checkUpCell()
 		_target = &upCell;
 }
 
-void GazBehavior::checkAdjacentUpCells()
+void GazMovement::checkAdjacentUpCells()
 {
 	if (_x + _random >= 0 && _x + _random < _cell->getWidth())
 {
@@ -53,17 +53,17 @@ void GazBehavior::checkAdjacentUpCells()
 	}
 }
 
-void GazBehavior::checkAdjacentCells()
+void GazMovement::checkAdjacentCells()
 {
 	if (_x + _random >= 0 && _x + _random < _cell->getWidth())
-    {
+	{
 		Cell& cell = _cells[_y][_x + _random];
 		if (canSwap(cell))
 		{
 			_target = &cell;
 			return;
 		}
-    }
+	}
 	if (_x - _random >= 0 && _x - _random < _cell->getWidth())
 	{
 		Cell& cell = _cells[_y][_x - _random];
@@ -72,7 +72,7 @@ void GazBehavior::checkAdjacentCells()
 	}
 }
 
-const bool GazBehavior::canSwap(const Cell& cell) const
+const bool GazMovement::canSwap(const Cell& cell) const
 {
 	if (cell.getType() == CellType::Gazeous)
 	{
@@ -96,7 +96,7 @@ const bool GazBehavior::canSwap(const Cell& cell) const
 		return false;
 }
 
-const bool GazBehavior::targetFound() const
+const bool GazMovement::targetFound() const
 {
 	return _target;
 }

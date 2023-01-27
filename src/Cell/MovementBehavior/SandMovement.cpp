@@ -1,12 +1,12 @@
-#include "SandBehavior.h"
+#include "SandMovement.h"
 
-SandBehavior::SandBehavior(Cell* cell)
+SandMovement::SandMovement(Cell* cell)
 	: IMovementBehavior(cell)
 {
 
 }
 
-void SandBehavior::update()
+void SandMovement::update()
 {
 	_target = nullptr;
 	_x = _cell->getPosition().x;
@@ -30,10 +30,10 @@ void SandBehavior::update()
 	}
 
 	if (targetFound() == false && cellHasVelocity() == true)
-		_cell->setMovementBehavior(new ParticleBehavior(_cell, *this));
+		_cell->setMovementBehavior(new ParticleMovement(_cell, *this));
 }
 
-void SandBehavior::checkBelowCell()
+void SandMovement::checkBelowCell()
 {
 	for (int i = 0; i <= _cell->getVelocity().y; i++)
 	{
@@ -44,7 +44,7 @@ void SandBehavior::checkBelowCell()
 	}
 }
 
-void SandBehavior::checkAdjacentBelowCells()
+void SandMovement::checkAdjacentBelowCells()
 {
 	if (_x - _random >= 0 && _x - _random < _cell->getWidth() && _cells[_y + 1][_x - _random].getType() < CellType::Solid)
 		_target = &(_cells[_y + 1][_x - _random]);
@@ -52,7 +52,7 @@ void SandBehavior::checkAdjacentBelowCells()
 		_target = &(_cells[_y + 1][_x + _random]);
 }
 
-void SandBehavior::updateVelocity()
+void SandMovement::updateVelocity()
 {
 	if (_target->getType() == CellType::Gazeous) // Accelerate in free falling
 		_cell->setVelocity(_cell->getVelocity() + glm::vec2(0.0f, 0.20f));
@@ -60,7 +60,7 @@ void SandBehavior::updateVelocity()
 		_cell->setVelocity(_cell->getVelocity() + glm::vec2(0.0f, -0.8f));
 }
 
-void SandBehavior::transmitVelocity()
+void SandMovement::transmitVelocity()
 {
 	const float X_FRI = 0.50f;
 	const float Y_FRI = 0.25f;
@@ -87,7 +87,7 @@ void SandBehavior::transmitVelocity()
 	_cell->setVelocity(glm::vec2(yVel * 0.50f * _random, yVel * 0.25f));
 }
 
-void SandBehavior::transmitVelocityToCell(const int& x, const int& y, const glm::vec2& friction)
+void SandMovement::transmitVelocityToCell(const int& x, const int& y, const glm::vec2& friction)
 {
 	if (x >= _cell->getWidth() || x < 0)
 		return;
@@ -100,12 +100,12 @@ void SandBehavior::transmitVelocityToCell(const int& x, const int& y, const glm:
 	_cells[y][x].setVelocity(finalVelocity);
 }
 
-const bool SandBehavior::targetFound()
+const bool SandMovement::targetFound()
 {
 	return _target;
 }
 
-const bool SandBehavior::cellHasVelocity()
+const bool SandMovement::cellHasVelocity()
 {
 	return _cell->getVelocity() != glm::vec2(0.0f);
 }

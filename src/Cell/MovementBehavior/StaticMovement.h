@@ -5,12 +5,12 @@
 
 class IMovementBehavior;
 
-class StaticBehavior : public IMovementBehavior {
+class StaticMovement : public IMovementBehavior {
 private:
 
 public:
-	StaticBehavior(Cell* cell);
-	~StaticBehavior();
+	StaticMovement(Cell* cell);
+	~StaticMovement();
 
 	void update();
 };
