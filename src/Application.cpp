@@ -63,14 +63,6 @@ void Application::generateRandomSets()
 	auto rng = std::default_random_engine {};
 	for (int i = 0; i < RANDOM_SETS_NB; i++)
 		std::shuffle(_randomSets[i].begin(), _randomSets[i].end(), rng);
-
-	// Print random numbers
-	/*for (int j = 0; j < RANDOM_SETS_NB; j++)
-	{
-		std::cout << std::endl;
-		for (int i = 0; i < CELL_WIDTH; i++)
-			std::cout << _randomSets[j][i] << " ";
-	}*/
 }
 
 void Application::loop()
@@ -136,6 +128,7 @@ void Application::loop()
 			exit(1);
 		}
 	}
+	ifs.close();
 
 	ShaderProgram program(path + "src/shaders/shader.vert", path + "src/shaders/shader.frag");
 	GridRenderer renderer(cellsArrayData, windowData, _selectedFilter);
@@ -159,6 +152,7 @@ void Application::loop()
 
 		input.update();
 
+		// Update cells
 		const size_t totalCells = CELL_HEIGHT * CELL_WIDTH;
 		if (currentTime - cycleTime >= _simulationSpeed)
 		{
@@ -178,31 +172,17 @@ void Application::loop()
 			cycleTime = currentTime;
 		}
 
-		int gaz = 0;
-		int liquid = 0;
-		int solid = 0;
-		double averageTemp = 0;
+		// Reset cell hasMoved & apply next temperature
 		for (int y = 0; y < CELL_HEIGHT; y++)
 			for (int x = 0; x < CELL_WIDTH; x++)
 			{
 				_cells[y][x].getMovementBehavior()->hasMoved = false;
 				_cells[y][x]._temperature = _cells[y][x]._nextTemperature;
-
-				if (_cells[y][x].getType() == CellType::Gazeous)
-					gaz++;
-				else if (_cells[y][x].getType() == CellType::Liquid)
-					liquid++;
-				else if (_cells[y][x].getType() == CellType::Solid)
-					solid++;
-				averageTemp += _cells[y][x]._temperature;
 			}
 
 		if (currentTime - previousTime >= 1.0f)
 		{
-			std::cout << frameCount << std::endl;
-			std::cout << "GAZ: " << gaz << " | LIQUID: " << liquid << " | SOLID: " << solid << std::endl;
-			std::cout << "Average temperature: " << (averageTemp / (CELL_HEIGHT*CELL_WIDTH)) << std::endl;
-
+			std::cout << "frames per second: " << frameCount << std::endl;
 			frameCount = 0;
 			previousTime = currentTime;
 		}
